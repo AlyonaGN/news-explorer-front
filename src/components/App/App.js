@@ -1,21 +1,24 @@
 import './App.css';
-import { ROUTES_MAP } from '../utils/routesMap.js';
-import Header from './Header.js';
-import Main from './Main.js';
-import SavedNews from './SavedNews.js';
+import '../../index.css';
+import { ROUTES_MAP } from '../../utils/routesMap.js';
+import AppHeader from '../AppHeader/AppHeader.js';
+import Main from '../Main/Main.js';
+import SavedNews from '../SavedNews/SavedNews.js';
 import React, { useCallback } from 'react';
 import { Route, Switch, useHistory } from 'react-router-dom';
 
 function App() {
   return (
-    <>
-      <Header />
+     <>
+     <div className="page__header">
+       <AppHeader/>
+     </div>
       <Switch>
-        <Route path={ROUTES_MAP.MAIN}>
-          <Main />
-        </Route>
         <Route path={ROUTES_MAP.SAVED_NEWS}>
-          <SavedNews />
+          <div>SavedNews</div>
+        </Route>
+        <Route path={ROUTES_MAP.MAIN}>
+          <div>main</div>
         </Route>
       </Switch>
     </>
