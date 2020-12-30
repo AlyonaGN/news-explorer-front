@@ -5,6 +5,8 @@ import { ROUTES_MAP } from '../../utils/routesMap';
 
 function Navigation({ name, onSignout, onAuth, isDarkMode }) {
     return (
+        <>
+        <input type="checkbox" id="burger"></input>
         <nav className="nav__list">
             <NavLink className="nav__list-item" to={ROUTES_MAP.MAIN} activeClassName="nav__list-item_active">Главная</NavLink>
             {
@@ -17,6 +19,9 @@ function Navigation({ name, onSignout, onAuth, isDarkMode }) {
                 <button className="nav__auth-button" onClick={onAuth}>Авторизоваться</button>
             }
         </nav>
+        <label for="burger"><button className="nav__burger"></button></label>
+        
+        </>    
     );
 }
 

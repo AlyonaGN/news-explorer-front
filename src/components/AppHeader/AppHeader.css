@@ -1,5 +1,7 @@
 .app-header {
     display: flex;
+    width: 85.555%;
+    margin: 0 auto;
     justify-content: space-between;
     border-bottom: 1px solid rgba(196, 196, 196, 0.1);
 }
@@ -10,7 +12,30 @@
     font-weight: 700;
     font-size: 20px;
     line-height: 1.2;
-    margin-left: 104px;
+    margin-left: 0px;
     margin-top: 30px;
+    margin-bottom: 26px;
     color: #FFF;
+}
+
+@media screen and (max-width: 770px) {
+    .app-header {
+      width: 89.583%;
+    }
+
+    .app-header__logo {
+        margin-top: 22.73px;
+        margin-bottom: 18.47px;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .app-header {
+      width: 90%;
+    }
+
+    .app-header__logo {
+        margin-top: 16px;
+        margin-bottom: 16px;
+    }
 }
