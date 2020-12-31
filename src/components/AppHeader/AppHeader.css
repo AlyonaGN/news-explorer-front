@@ -18,6 +18,36 @@
     color: #FFF;
 }
 
+.app-header__menu-button {
+    margin-top: 16px;
+    width: 24px;
+    height: 24px;
+    font: inherit;
+    color: inherit;
+    background-image: url('../../images/menu.svg');
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    box-shadow: none;
+    cursor: pointer;
+    background-position: center;
+}
+
+.app-header__close-menu-button {
+    margin-top: 16px;
+    width: 24px;
+    height: 24px;
+    font: inherit;
+    color: inherit;
+    background-image: url('../../images/close.svg');
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    box-shadow: none;
+    cursor: pointer;
+    background-position: center;
+}
+
 @media screen and (max-width: 770px) {
     .app-header {
       width: 89.583%;

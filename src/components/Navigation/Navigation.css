@@ -20,29 +20,6 @@
     cursor: pointer;
 }
 
-.nav__burger {
-    margin-top: 16px;
-    width: 16px;
-    height: 16px;
-    font: inherit;
-    color: inherit;
-    background-image: url('../../images/menu.svg');
-    background-color: transparent;
-    border: none;
-    padding: 0;
-    box-shadow: none;
-    cursor: pointer;
-    background-position: center;
-}
-
-#burger {
-    display: none;
-}
-
-#burger:checked+.nav__list {
-    display: block;
-}
-
 .nav__list-item {
     margin-right: 34px;
     margin-top: 11px;

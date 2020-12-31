@@ -8,10 +8,16 @@ import React, { useCallback } from 'react';
 import { Route, Switch, useHistory } from 'react-router-dom';
 
 function App() {
+  const [isMenuOpen, setMenuOpen] = React.useState(false);
+
+  const toggleMenu = useCallback(() => {
+    setMenuOpen(!isMenuOpen);
+  }, [isMenuOpen]);
+
   return (
      <>
      <div className="page__header">
-       <AppHeader/>
+       <AppHeader onMenuClick={toggleMenu} isMenuShown={isMenuOpen}/>
      </div>
       <Switch>
         <Route path={ROUTES_MAP.SAVED_NEWS}>
