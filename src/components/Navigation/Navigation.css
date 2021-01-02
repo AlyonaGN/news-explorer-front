@@ -2,6 +2,22 @@
     margin-right: 0px;
     margin-top: 19px;
     margin-bottom: 13px;
+    display: flex;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s linear 500ms, opacity 500ms;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.nav__list_visible {
+    visibility: visible;
+    opacity: 1;
+    transition: visibility 0s, opacity 500ms linear;
 }
 
 .nav__auth-button {
@@ -69,6 +85,8 @@
 
 @media screen and (max-width: 500px) {
     .nav__list {
-        display: none;
+        z-index: 1;
+        margin-top: 72px;
+        width: 100%;
     }
 }

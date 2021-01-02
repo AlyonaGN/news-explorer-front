@@ -4,6 +4,26 @@
     margin: 0 auto;
     justify-content: space-between;
     border-bottom: 1px solid rgba(196, 196, 196, 0.1);
+    z-index: 1;
+}
+
+.app-header__transperent-layer {
+    display: flex;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s linear 500ms, opacity 500ms;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.app-header__transperent-layer_visible {
+    visibility: visible;
+    opacity: 1;
+    transition: visibility 0s, opacity 500ms linear;
 }
 
 .app-header__logo {
@@ -16,6 +36,7 @@
     margin-top: 30px;
     margin-bottom: 26px;
     color: #FFF;
+    z-index: 1;
 }
 
 .app-header__menu-button {
@@ -46,6 +67,7 @@
     box-shadow: none;
     cursor: pointer;
     background-position: center;
+    z-index: 1;
 }
 
 @media screen and (max-width: 770px) {
@@ -62,6 +84,13 @@
 @media screen and (max-width: 500px) {
     .app-header {
       width: 90%;
+    }
+
+    .app-header_with-background {
+        background-color: #1A1B22;
+        border-bottom-right-radius: 16px;
+        border-bottom-left-radius: 16px;
+        flex-direction: column;
     }
 
     .app-header__logo {
