@@ -18,6 +18,7 @@ function App() {
      <>
      <div className="page__header">
        <AppHeader onMenuClick={toggleMenu} isMenuShown={isMenuOpen}/>
+       <span>search</span>
      </div>
       <Switch>
         <Route path={ROUTES_MAP.SAVED_NEWS}>
