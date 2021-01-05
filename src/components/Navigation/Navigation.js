@@ -5,7 +5,7 @@ import { ROUTES_MAP } from '../../utils/routesMap';
 
 function Navigation({ handleMenuClick, isMenuOpened, name, onSignout, onAuth, isDarkMode }) {
     return (
-            <nav className={isMenuOpened ? "nav__list nav__list_visible" : "nav__list"}>
+            <nav className="nav__list">
                 <NavLink className="nav__list-item" to={ROUTES_MAP.MAIN} activeClassName="nav__list-item_active">Главная</NavLink>
                 {
                     name && <NavLink className="nav__list-item" to={ROUTES_MAP.SAVED_NEWS} activeClassName="nav-list__item_active">Сохранённые статьи</NavLink>  

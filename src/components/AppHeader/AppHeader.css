@@ -7,6 +7,10 @@
     border-bottom: 1px solid rgba(196, 196, 196, 0.1);
 }
 
+.app-header_with-background {
+    background-color: #1A1B22;
+}
+
 .app-header__overlay {
     display: flex;
     visibility: hidden;
@@ -40,6 +44,7 @@
 }
 
 .app-header__menu-button {
+    display: none;
     margin-top: 16px;
     width: 24px;
     height: 24px;
@@ -52,6 +57,24 @@
     box-shadow: none;
     cursor: pointer;
     background-position: center;
+}
+
+.app-header__menu {
+    margin-right: 0px;
+    margin-top: 19px;
+}
+
+.app-header__menu_mobile {
+    display: none;
+}
+
+.app-header__menu_visible {
+    display: flex;
+    flex-direction: column;
+    padding-left: 5%;
+    border-bottom-right-radius: 16px;
+    border-bottom-left-radius: 16px;
+    background-color: #1A1B22;
 }
 
 .app-header__close-menu-button {
@@ -69,31 +92,47 @@
     background-position: center;
 }
 
+.app-header__menu_mobile_invisible {
+    display: none;
+}
+
 @media screen and (max-width: 770px) {
     .app-header {
-        width: 89.583%;
+        padding-left: 5%;
+        padding-right: 5%;
     }
 
     .app-header__logo {
         margin-top: 22.73px;
         margin-bottom: 18.47px;
     }
+
 }
 
 @media screen and (max-width: 500px) {
     .app-header {
-        width: 90%;
-    }
-
-    .app-header_with-background {
-        background-color: #1A1B22;
-        border-bottom-right-radius: 16px;
-        border-bottom-left-radius: 16px;
-        width: 100%;
+        
     }
 
     .app-header__logo {
         margin-top: 16px;
         margin-bottom: 16px;
     }
+
+    .app-header__menu {
+        display: none;
+    }
+
+    .app-header__menu_mobile {
+        display: flex;
+        padding-left: 5%;
+        border-bottom-right-radius: 16px;
+        border-bottom-left-radius: 16px;
+        background-color: #1A1B22;
+    }
+
+    .app-header__menu-button {
+        display: block;
+    }
+
 }

@@ -1,7 +1,5 @@
 .nav__list {
-    margin-right: 0px;
-    margin-top: 19px;
-    margin-bottom: 13px;
+    margin: 0;
     display: flex;
 }
 
@@ -25,6 +23,7 @@
     border-radius: 100px;
     box-shadow: none;
     cursor: pointer;
+    margin-bottom: 13px;
 }
 
 .nav__list-item {
@@ -53,7 +52,6 @@
     .nav__list {
         margin-right: 0px;
         margin-top: 14px;
-        margin-bottom: 12px;
     }
 
     .nav__auth-button {
@@ -70,14 +68,23 @@
     }
     
     .nav__list-item_active {
-        padding-bottom: 22px;
+        padding-bottom: 24px;
     }
 }
 
 @media screen and (max-width: 500px) {
     .nav__list {
-        margin-top: 72px;
-        width: 100%;
-        display: none;
+        flex-direction: column;
+        width: 90%;
+        margin-bottom: 24px;
     }
+
+    .nav__list-item_active {
+        border-bottom: none;
+    }
+
+    .nav__auth-button {
+        width: 100%;
+    }
+
 }
