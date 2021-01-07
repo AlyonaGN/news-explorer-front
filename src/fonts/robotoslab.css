@@ -5,3 +5,11 @@
      font-display: swap;
      src: url('./robotoslab-regular.woff') format('woff');
 }
+
+@font-face {
+     font-family: 'Roboto Slab';
+     font-style: normal;
+     font-weight: 700;
+     font-display: swap;
+     src: url('./robotoslab-bold.woff') format('woff');
+}

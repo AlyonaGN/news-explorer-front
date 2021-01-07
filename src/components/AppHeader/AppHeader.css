@@ -1,3 +1,11 @@
+@font-face {
+    font-family: 'Roboto Slab';
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url('../../fonts/robotoslab-bold.woff') format('woff');
+}
+
 .app-header {
     display: flex;
     padding-left: 7.225%;
@@ -110,9 +118,6 @@
 }
 
 @media screen and (max-width: 500px) {
-    .app-header {
-        
-    }
 
     .app-header__logo {
         margin-top: 16px;

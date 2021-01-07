@@ -1,15 +1,15 @@
-.nav__list {
+.nav-list {
     margin: 0;
     display: flex;
 }
 
-.nav__list_visible {
+.nav-list_visible {
     visibility: visible;
     opacity: 1;
     transition: visibility 0s, opacity 500ms linear;
 }
 
-.nav__auth-button {
+.nav-list__auth-button {
     font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 500;
@@ -26,7 +26,7 @@
     margin-bottom: 13px;
 }
 
-.nav__list-item {
+.nav-list__item {
     margin-right: 34px;
     margin-top: 11px;
     font-family: 'Roboto', sans-serif;
@@ -38,52 +38,52 @@
     text-decoration: none;
 }
 
-.nav__list-item_active {
+.nav-list__item_active {
     color: #FFF;
     border-bottom: 3px solid #FFF;
     padding-bottom: 28px;
 }
 
-.nav__list-item:last-of-type {
+.nav-list__item:last-of-type {
     margin-right: 32px;
 }
 
 @media screen and (max-width: 770px) {
-    .nav__list {
+    .nav-list {
         margin-right: 0px;
         margin-top: 14px;
     }
 
-    .nav__auth-button {
+    .nav-list__auth-button {
         font-size: 16px;
         line-height: 1.5;
         padding: 8px 14px;
     }
 
-    .nav__list-item {
+    .nav-list__item {
         margin-right: 16px;
         margin-top: 8px;
         font-size: 16px;
         line-height: 1.5;
     }
     
-    .nav__list-item_active {
+    .nav-list__item_active {
         padding-bottom: 24px;
     }
 }
 
 @media screen and (max-width: 500px) {
-    .nav__list {
+    .nav-list {
         flex-direction: column;
         width: 90%;
         margin-bottom: 24px;
     }
 
-    .nav__list-item_active {
+    .nav-list__item_active {
         border-bottom: none;
     }
 
-    .nav__auth-button {
+    .nav-list__auth-button {
         width: 100%;
     }
 
