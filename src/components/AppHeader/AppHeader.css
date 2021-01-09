@@ -6,37 +6,40 @@
     src: url('../../fonts/robotoslab-bold.woff') format('woff');
 }
 
+.app-header__container {
+    position: relative;
+}
+
 .app-header {
     display: flex;
     padding-left: 7.225%;
     padding-right: 7.225%;
     justify-content: space-between;
     position: relative;
-    border-bottom: 1px solid rgba(196, 196, 196, 0.1);
+    box-shadow: inset 0px -1px 0px rgba(255, 255, 255, 0.2);
+    
 }
 
 .app-header_with-background {
     background-color: #1A1B22;
+    z-index: 2;
 }
 
-.app-header__overlay {
-    display: flex;
-    visibility: hidden;
-    opacity: 0;
-    transition: visibility 0s linear 500ms, opacity 500ms;
+.app-header__overlay:before {
+    content: "";
+    background-color: #000;
     position: fixed;
+    opacity: 0.5;
+    width: 100%;
+    height: 100%;
     top: 0;
     left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    z-index: 1;
 }
 
-.app-header__overlay_visible {
-    visibility: visible;
-    opacity: 1;
-    z-index: -1;
-    transition: visibility 0s, opacity 500ms linear;
+.app-header__overlay_invisible {
+    display: none;
 }
 
 .app-header__logo {
@@ -69,20 +72,20 @@
 
 .app-header__menu {
     margin-right: 0px;
-    margin-top: 19px;
+    
 }
 
 .app-header__menu_mobile {
-    display: none;
-}
-
-.app-header__menu_visible {
     display: flex;
+    position: absolute;
     flex-direction: column;
     padding-left: 5%;
     border-bottom-right-radius: 16px;
     border-bottom-left-radius: 16px;
     background-color: #1A1B22;
+    box-sizing: border-box;
+    width: 100%;
+    z-index: 2;
 }
 
 .app-header__close-menu-button {
@@ -98,10 +101,6 @@
     box-shadow: none;
     cursor: pointer;
     background-position: center;
-}
-
-.app-header__menu_mobile_invisible {
-    display: none;
 }
 
 @media screen and (max-width: 770px) {
@@ -126,14 +125,6 @@
 
     .app-header__menu {
         display: none;
-    }
-
-    .app-header__menu_mobile {
-        display: flex;
-        padding-left: 5%;
-        border-bottom-right-radius: 16px;
-        border-bottom-left-radius: 16px;
-        background-color: #1A1B22;
     }
 
     .app-header__menu-button {

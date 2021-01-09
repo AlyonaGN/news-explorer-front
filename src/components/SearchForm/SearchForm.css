@@ -6,9 +6,23 @@
     src: url('../../fonts/robotoslab-regular.woff') format('woff');
 }
 
+@font-face {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('../../fonts/roboto-regular.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+    src: url('../../fonts/roboto-medium.woff') format('woff');
+}
+
 .search-form {
-    display: flex;
-    flex-direction: column;
     padding-top: 80px;
     width: 42.222%;
     margin: 0 auto;
@@ -21,8 +35,117 @@
     font-family: 'Roboto Slab', sans-serif;
     font-style: normal;
     font-weight: 400;
-    font-size: 18px;
-    line-height: 1.33;
-    color: #B6BCBF;
-    text-decoration: none;
+    font-size: 60px;
+    line-height: 1.066;
+    color: #FFF;
 }
+
+.search-form__subtitle {
+    margin-top: 0;
+    margin-bottom: 64px;
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 1.333;
+    color: #FFF;
+    width: 92.927%;
+}
+
+.search-form__search-line {
+    position: relative;
+}
+
+.search-form__input {
+    border: 1px solid #D1D2D6;
+    border-radius: 100px;
+    width: 100%;
+    height: 64px;
+    padding-left: 24px;
+    filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.375;
+    color: #1A1B22;
+    box-sizing: border-box;
+}
+
+.search-form__submit-button {
+    border: none;
+    background-color: #2F71E5;
+    border-radius: 100px;
+    width: 27.63%;
+    height: 64px;
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 1.333;
+    color: #FFF;
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+@media screen and (max-width: 900px) {
+    .search-form {
+        width: 55%;
+    }
+}
+
+@media screen and (max-width: 770px) {
+    .search-form {
+        padding-top: 38px;
+        width: 60%;
+        padding-bottom: 48px;
+    }
+    
+    .search-form__title {
+        font-size: 36px;
+        line-height: 1.111;
+        margin-bottom: 16px;
+    }
+
+    .search-form__subtitle {
+        font-size: 18px;
+        line-height: 1.333;
+        margin-bottom: 48px;
+        width: 100%;
+    }
+
+    .search-form__input {
+        height: 56px;
+    }
+
+    .search-form__submit-button {
+        width: 35.714%;
+        height: 56px;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .search-form {
+        padding-top: 30px;
+        width: 90%;
+        padding-bottom: 32px;
+    }
+
+    .search-form__subtitle {
+        margin-bottom: 122px;
+    }
+
+    .search-form__input {
+        padding-left: 16px;
+        margin-bottom: 16px;
+    }
+
+    .search-form__submit-button {
+        position: static;
+        width: 100%;
+        height: 56px;
+    }
+}
+

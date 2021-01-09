@@ -32,11 +32,11 @@
     box-shadow: none;
     cursor: pointer;
     margin-bottom: 13px;
+    margin-top: 19px;
 }
 
 .nav-list__item {
     margin-right: 34px;
-    margin-top: 11px;
     font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 500;
@@ -44,6 +44,7 @@
     line-height: 1.33;
     color: #B6BCBF;
     text-decoration: none;
+    margin-top: 30px;
 }
 
 .nav-list__item_active {
@@ -59,7 +60,6 @@
 @media screen and (max-width: 770px) {
     .nav-list {
         margin-right: 0px;
-        margin-top: 14px;
     }
 
     .nav-list__auth-button {
@@ -70,7 +70,6 @@
 
     .nav-list__item {
         margin-right: 16px;
-        margin-top: 8px;
         font-size: 16px;
         line-height: 1.5;
     }
