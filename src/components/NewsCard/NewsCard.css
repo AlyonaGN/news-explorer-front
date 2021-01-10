@@ -1,0 +1,112 @@
+@font-face {
+    font-family: 'Source Sans Pro';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('../../fonts/sourcesanspro-regular.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Roboto Slab';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('../../fonts/robotoslab-regular.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('../../fonts/roboto-regular.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Roboto Slab';
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url('../../fonts/robotoslab-bold.woff') format('woff');
+}
+
+.news-card {
+    margin: 0;
+    background-color: #fff;
+    border-radius: 10px;
+    line-height: 0;
+    overflow: hidden;
+    position: relative;
+    filter: drop-shadow(0px 2px 2px rgba(8, 29, 45, 0.1));
+    cursor: pointer;
+}
+
+.news-card__save-button {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    width: 40px;
+    height: 40px;
+    background-image: url(../../images/save-inactive.png);
+    border: none;
+    border-radius: 10px;
+    padding: 0;
+    box-shadow: none;
+    cursor: pointer;
+}
+
+.news-card__photo {
+    object-fit: cover;
+    height: 272px;
+    width: 100%;
+}
+
+.news-card__caption {
+    width: 88%;
+    padding: 20px 24px 24px;
+    display: flex;
+    flex-direction: column;
+}
+
+.news-card__date {
+    margin-bottom: 12px;
+    margin-top: 0;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 1.333;
+    color: #B6BCBF;
+}
+
+.news-card__title {
+    margin-bottom: 16px;
+    margin-top: 0;
+    font-family: 'Roboto Slab', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 26px;
+    line-height: 1.153;
+    color: #1A1B22;
+}
+
+.news-card__abstract {
+    margin-bottom: 18px;
+    margin-top: 0;
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.375;
+    color: #1A1B22;
+}
+
+.news-card__source {
+    margin: 0;
+    font-family: 'Roboto Slab', sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 1.25;
+    color: #B6BCBF;
+}

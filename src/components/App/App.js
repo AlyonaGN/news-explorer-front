@@ -11,15 +11,20 @@ import { Route, Switch, useHistory } from 'react-router-dom';
 
 function App() {
   const [isMenuOpen, setMenuOpen] = React.useState(false);
+  const [areSearchResultsDisplayed, setSearchResultsDisplayed] = React.useState(false);
 
   const toggleMenu = useCallback(() => {
     setMenuOpen(!isMenuOpen);
   }, [isMenuOpen]);
 
+  const displaySearchResults = useCallback(() => {
+    setSearchResultsDisplayed(!areSearchResultsDisplayed);
+  }, [areSearchResultsDisplayed]);
+
   return (
     <>
       <div className="page__header">
-        <AppHeader onMenuClick={toggleMenu} isMenuShown={isMenuOpen} />
+        <AppHeader onMenuClick={toggleMenu} isMenuShown={isMenuOpen} onSubmit={displaySearchResults} />
         <SearchForm />
       </div>
       <Switch>
@@ -27,7 +32,7 @@ function App() {
           <div>SavedNews</div>
         </Route>
         <Route path={ROUTES_MAP.MAIN}>
-          <Main />
+          <Main areResultsShown={areSearchResultsDisplayed}/>
         </Route>
       </Switch>
       <Footer />
