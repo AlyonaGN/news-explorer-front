@@ -2,7 +2,7 @@ import React from 'react';
 import './AppHeader.css';
 import Navigation from '../Navigation/Navigation.js';
 
-function AppHeader({ onMenuClick, isMenuShown, name, onSignout, onAuth, isDarkMode }) {
+function AppHeader({ onMenuClick, isMenuShown }) {
     return (
         <div className="app-header__container">
             <header className={isMenuShown ? "app-header app-header_with-background" : "app-header"}>

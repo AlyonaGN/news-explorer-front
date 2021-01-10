@@ -24,8 +24,8 @@ function App() {
   return (
     <>
       <div className="page__header">
-        <AppHeader onMenuClick={toggleMenu} isMenuShown={isMenuOpen} onSubmit={displaySearchResults} />
-        <SearchForm />
+        <AppHeader onMenuClick={toggleMenu} isMenuShown={isMenuOpen} />
+        <SearchForm onSubmit={displaySearchResults} />
       </div>
       <Switch>
         <Route path={ROUTES_MAP.SAVED_NEWS}>

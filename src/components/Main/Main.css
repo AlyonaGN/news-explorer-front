@@ -8,7 +8,7 @@
 }
 
 .content-container__results_invisible {
-    
+    display: none;
 }
 
 @media screen and (max-width: 770px) {
