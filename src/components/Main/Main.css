@@ -1,0 +1,9 @@
+.content-container {
+    width: 100%;
+    display: flex;
+}
+
+.content-container__about-author {
+    width: 100%;
+    display: flex;
+}
