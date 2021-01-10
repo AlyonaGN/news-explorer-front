@@ -76,3 +76,22 @@
         width: 240px;
     }
 }
+
+@media screen and (max-width: 500px) {
+    .news-list {
+        grid-gap: 10px 10px;
+        grid-template-columns: repeat(auto-fit, 288px);
+        width: 90%;
+    }
+
+    .news-list__title {
+        margin-bottom: 24px;
+        padding-left: 5%;
+    }
+
+    .news-list__more-button {
+        margin-top: 16px;
+        padding: 15px 84px 17px;
+        width: 288px;
+    }
+}
