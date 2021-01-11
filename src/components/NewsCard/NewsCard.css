@@ -86,6 +86,10 @@
     visibility: hidden;
 }
 
+.news-card__save-button_loggedin:after {
+    content: none;
+}
+
 .news-card__save-button:hover:after {
     visibility: visible;
 }

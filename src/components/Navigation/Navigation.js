@@ -5,9 +5,9 @@ import { ROUTES_MAP } from '../../utils/routesMap';
 import exitIcon from '../../images/logout.png';
 
 
-function Navigation({ isUserLoggedIn }) {
+function Navigation({ isUserLoggedIn, isMenuDisplayed }) {
     return (
-            <nav className="nav-list">
+            <nav className={isMenuDisplayed ? "nav-list nav-list_vertical" : "nav-list"}>
                 <NavLink className="nav-list__item" to={ROUTES_MAP.MAIN} activeClassName="nav-list__item_active">Главная</NavLink>
                 {
                     isUserLoggedIn && <NavLink className="nav-list__item" to={ROUTES_MAP.SAVED_NEWS} activeClassName="nav-list__item_active">Сохранённые статьи</NavLink>  

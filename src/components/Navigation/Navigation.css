@@ -101,10 +101,13 @@
         flex-direction: column;
         width: 90%;
         margin-bottom: 24px;
+        margin-left: auto;
+        margin-right: auto;
     }
 
     .nav-list__item_active {
         border-bottom: none;
+        padding-bottom: 0;
     }
 
     .nav-list__auth-button {

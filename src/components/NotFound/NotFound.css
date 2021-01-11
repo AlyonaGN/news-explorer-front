@@ -51,3 +51,15 @@
     line-height: 1.333;
     color: #B6BCBF;
 }
+
+@media screen and (max-width: 680px) {
+    .not-found {
+        width: 40%;
+    }
+}
+
+@media screen and (max-width: 560px) {
+    .not-found {
+        width: 60%;
+    }
+}

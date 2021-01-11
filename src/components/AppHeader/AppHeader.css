@@ -72,20 +72,17 @@
 
 .app-header__menu {
     margin-right: 0px;
-    
 }
 
-.app-header__menu_mobile {
-    display: flex;
+.app-header__menu_popuped {
     position: absolute;
-    flex-direction: column;
-    padding-left: 5%;
+    top: 56px;
+    left: 0;
+    display: flex;
+    width: 100%;
+    background-color: #1A1B22;
     border-bottom-right-radius: 16px;
     border-bottom-left-radius: 16px;
-    background-color: #1A1B22;
-    box-sizing: border-box;
-    width: 100%;
-    z-index: 2;
 }
 
 .app-header__close-menu-button {
@@ -117,7 +114,6 @@
 }
 
 @media screen and (max-width: 500px) {
-
     .app-header__logo {
         margin-top: 16px;
         margin-bottom: 16px;
@@ -125,6 +121,10 @@
 
     .app-header__menu {
         display: none;
+    }
+
+    .app-header__menu_popuped {
+        display: flex;
     }
 
     .app-header__menu-button {

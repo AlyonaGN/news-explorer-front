@@ -8,9 +8,6 @@ import NewsCardList from '../NewsCardList/NewsCardList.js';
 function Main ({areResultsShown, isPreloaderShown, showAndHidePreloader, showAndHideNotFound, isNotFoundShown, isUserLoggedIn}) {
     return (
         <main className="content-container">
-            <section className="content-container__about-author">
-                <About />
-            </section>
             <section className={areResultsShown ? "content-container__results" : "content-container__results content-container__results_invisible"}>
                 <NewsCardList togglePreloader={showAndHidePreloader} toggleNotFound={showAndHideNotFound} isLoggedIn={isUserLoggedIn}/>
             </section>
@@ -20,6 +17,9 @@ function Main ({areResultsShown, isPreloaderShown, showAndHidePreloader, showAnd
             <section className={isNotFoundShown ? "content-container__not-found" : "content-container__not-found content-container__not-found_invisible"}>
                 <NotFound />
             </section>
+            <section className="content-container__about-author">
+                <About />
+            </section> 
         </main>
     );
 }
