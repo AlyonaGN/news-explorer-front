@@ -63,6 +63,10 @@
     cursor: pointer;
 }
 
+.news-card__save-button:hover {
+    background-image: url(../../images/save-active.png);
+}
+
 .news-card__save-button:after {
     content: "Войдите, чтобы сохранять статьи";
     background-color: #FFF;

@@ -9,6 +9,12 @@
 .nav-list {
     margin: 0;
     display: flex;
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 1.33;
+    color: #FFF;
 }
 
 .nav-list_visible {
@@ -18,12 +24,6 @@
 }
 
 .nav-list__auth-button {
-    font-family: 'Roboto', sans-serif;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 18px;
-    line-height: 1.33;
-    color: #FFF;
     background-color: transparent;
     border: 1px solid #FFFFFF;
     box-sizing: border-box;
@@ -33,15 +33,11 @@
     cursor: pointer;
     margin-bottom: 13px;
     margin-top: 19px;
+    color: #FFF;
 }
 
 .nav-list__item {
     margin-right: 34px;
-    font-family: 'Roboto', sans-serif;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 18px;
-    line-height: 1.33;
     color: #B6BCBF;
     text-decoration: none;
     margin-top: 30px;
@@ -55,6 +51,27 @@
 
 .nav-list__item:last-of-type {
     margin-right: 32px;
+}
+
+.nav-list__exit-button {
+    background-color: transparent;
+    border: 1px solid #FFFFFF;
+    box-sizing: border-box;
+    padding: 12px 15px 12px 19px;
+    border-radius: 100px;
+    box-shadow: none;
+    cursor: pointer;
+    margin-bottom: 13px;
+    margin-top: 19px;
+    color: #FFF;
+}
+
+.nav-list__exit-icon {
+    margin-left: 5px;
+    object-fit: cover;
+    height: 24px;
+    width: 24px;
+    vertical-align: top;
 }
 
 @media screen and (max-width: 770px) {

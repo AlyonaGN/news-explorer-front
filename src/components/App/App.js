@@ -11,28 +11,55 @@ import { Route, Switch, useHistory } from 'react-router-dom';
 
 function App() {
   const [isMenuOpen, setMenuOpen] = React.useState(false);
+  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+  const [isPreloaderOpen, setPreloaderOpen] = React.useState(false);
+  const [isNotFoundOpen, setNotFoundOpen] = React.useState(false);
   const [areSearchResultsDisplayed, setSearchResultsDisplayed] = React.useState(false);
+
+  React.useEffect(() => {
+    
+  }, []);
 
   const toggleMenu = useCallback(() => {
     setMenuOpen(!isMenuOpen);
   }, [isMenuOpen]);
 
+  const toggleLoggedIn = useCallback(() => {
+    setIsLoggedIn(!isLoggedIn);
+  }, [isLoggedIn]);
+
   const displaySearchResults = useCallback(() => {
     setSearchResultsDisplayed(!areSearchResultsDisplayed);
   }, [areSearchResultsDisplayed]);
 
+  const togglePreloader = useCallback(() => {
+    displaySearchResults();
+    setPreloaderOpen(!isPreloaderOpen);
+  }, [isPreloaderOpen, displaySearchResults]);
+
+  const toggleNotFound = useCallback(() => {
+    displaySearchResults();
+    setNotFoundOpen(!isNotFoundOpen);
+  }, [isNotFoundOpen, displaySearchResults]);
+
   return (
     <>
       <div className="page__header">
-        <AppHeader onMenuClick={toggleMenu} isMenuShown={isMenuOpen} />
-        <SearchForm onSubmit={displaySearchResults} />
+        <AppHeader onMenuClick={toggleMenu} isMenuShown={isMenuOpen} makeLoggedIn={toggleLoggedIn} isLoggedIn={isLoggedIn} />
+        <SearchForm onSearch={displaySearchResults} />
       </div>
       <Switch>
         <Route path={ROUTES_MAP.SAVED_NEWS}>
           <div>SavedNews</div>
         </Route>
         <Route path={ROUTES_MAP.MAIN}>
-          <Main areResultsShown={areSearchResultsDisplayed}/>
+          <Main areResultsShown={areSearchResultsDisplayed} 
+                isPreloaderShown={isPreloaderOpen} 
+                showAndHidePreloader={togglePreloader}
+                showAndHideNotFound={toggleNotFound}
+                isNotFoundShown={isNotFoundOpen}
+                isUserLoggedIn={isLoggedIn}
+          />
         </Route>
       </Switch>
       <Footer />

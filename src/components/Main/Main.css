@@ -11,6 +11,24 @@
     display: none;
 }
 
+.content-container__preloader {
+    background-color: #F5F6F7;
+    display: flex;
+    position: relative;
+}
+
+.content-container__preloader_invisible {
+    display: none;
+}
+
+.content-container__not-found {
+    background-color: #F5F6F7;
+}
+
+.content-container__not-found_invisible {
+    display: none;
+}
+
 @media screen and (max-width: 770px) {
     .content-container__results {
         padding-top: 40px;
