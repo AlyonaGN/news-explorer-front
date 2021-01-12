@@ -5,7 +5,7 @@ import picture from '../../images/author.jpg';
 function About() {
     return (
         <article className="about-author">
-            <img class="about-author__picture" src={picture} alt="здесь должно быть моё фото, но что-то пошло не так" />
+            <img className="about-author__picture" src={picture} alt="здесь должно быть моё фото, но что-то пошло не так" />
             <div className="about-author__text">
                 <h1 className="about-author__title">Об авторе</h1>
                 <p className="about-author__description">Меня зовут Алёна, а перед вами моя дипломная работа, которую я подготовила 

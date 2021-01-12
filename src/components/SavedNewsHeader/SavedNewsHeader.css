@@ -1,0 +1,95 @@
+@font-face {
+    font-family: 'Roboto Slab';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('../../fonts/robotoslab-regular.woff') format('woff');
+}
+
+.saved-news-header {
+    padding-top: 40px;
+    padding-left: 7.225%;
+    width: 49.444%;
+    margin: 0;
+    padding-bottom: 56px;
+}
+
+.saved-news-header__title {
+    margin-top: 0;
+    margin-bottom: 28px;
+    font-family: 'Roboto Slab', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 1.333;
+    color: rgba(26, 27, 34, 0.5);
+}
+
+.saved-news-header__amount-of-articles {
+    width: 74.438%;
+    margin-bottom: 30px;
+    font-family: 'Roboto Slab', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 1.15;
+    color: #1A1B22;
+}
+
+.saved-news-header__key-words {
+    margin-bottom: 0;
+    font-family: 'Roboto Slab', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 1.333;
+    color: #1A1B22;
+}
+
+@media screen and (max-width: 770px) {
+    .saved-news-header {
+        padding-left: 5%;
+        padding-right: 5%;
+        padding-top: 24px;
+        padding-bottom: 32px;
+        width: 90%;
+    }
+
+    .saved-news-header__title {
+        margin-bottom: 16px;
+        font-size: 14px;
+        line-height: 1.714;
+    }
+    
+    .saved-news-header__amount-of-articles {
+        width: 47.19%;
+        margin-bottom: 16px;
+        font-size: 30px;
+        line-height: 1.133;
+    }
+    
+    .saved-news-header__key-words {
+        font-size: 14px;
+        line-height: 1.714;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .saved-news-header {
+        padding-top: 8px;
+    }
+
+    .saved-news-header__title {
+        font-size: 12px;
+        line-height: 2;
+    }
+    
+    .saved-news-header__amount-of-articles {
+        width: 100%;
+    }
+    
+    .saved-news-header__key-words {
+        font-size: 18px;
+        line-height: 1.333;
+    }
+}

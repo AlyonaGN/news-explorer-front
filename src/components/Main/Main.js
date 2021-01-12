@@ -9,7 +9,9 @@ function Main ({areResultsShown, isPreloaderShown, showAndHidePreloader, showAnd
     return (
         <main className="content-container">
             <section className={areResultsShown ? "content-container__results" : "content-container__results content-container__results_invisible"}>
+                <h1 className="news-list__title">Результаты поиска</h1>
                 <NewsCardList togglePreloader={showAndHidePreloader} toggleNotFound={showAndHideNotFound} isLoggedIn={isUserLoggedIn}/>
+                <button className="news-list__more-button" type="button" onClick={showAndHideNotFound}>Показать ещё</button>
             </section>
             <section className={isPreloaderShown ? "content-container__preloader" : "content-container__preloader content-container__preloader_invisible"}>
                 <Preloader />

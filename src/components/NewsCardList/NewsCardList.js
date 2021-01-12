@@ -1,18 +1,24 @@
 import React from 'react';
 import './NewsCardList.css';
 import NewsCard from '../NewsCard/NewsCard.js';
+import { useLocation } from "react-router-dom";
+import { ROUTES_MAP } from '../../utils/routesMap';
 
-function NewsCardList({togglePreloader, toggleNotFound, isLoggedIn}) {
+function NewsCardList({togglePreloader, isLoggedIn}) {
+    const location = useLocation();
+    const isSavedNewsOpen = (location.pathname === ROUTES_MAP.SAVED_NEWS);
+
     return (
-        <>
-            <h1 className="news-list__title">Результаты поиска</h1>
-            <ul class="news-list">
-                <NewsCard showAndHidePreloader={togglePreloader} isUserLoggedIn={isLoggedIn}/>
-                <NewsCard showAndHidePreloader={togglePreloader} isUserLoggedIn={isLoggedIn}/>
-                <NewsCard showAndHidePreloader={togglePreloader} isUserLoggedIn={isLoggedIn}/>
+            <ul className="news-list">
+                <NewsCard showAndHidePreloader={togglePreloader} isUserLoggedIn={isLoggedIn} isItSavedNewsPage={isSavedNewsOpen}/>
+                <NewsCard showAndHidePreloader={togglePreloader} isUserLoggedIn={isLoggedIn} isItSavedNewsPage={isSavedNewsOpen}/>
+                <NewsCard showAndHidePreloader={togglePreloader} isUserLoggedIn={isLoggedIn} isItSavedNewsPage={isSavedNewsOpen}/>
+                {isSavedNewsOpen && 
+                <>
+                <NewsCard showAndHidePreloader={togglePreloader} isUserLoggedIn={isLoggedIn} isItSavedNewsPage={isSavedNewsOpen}/>
+                <NewsCard showAndHidePreloader={togglePreloader} isUserLoggedIn={isLoggedIn} isItSavedNewsPage={isSavedNewsOpen}/>
+                </>}
             </ul>
-            <button className="news-list__more-button" type="button" onClick={toggleNotFound}>Показать ещё</button>
-        </>
     );
 }
 

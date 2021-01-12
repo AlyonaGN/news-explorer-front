@@ -19,6 +19,10 @@
   background-position: center;
 }
 
+.page__header_saved-news {
+  background: #FFF;
+}
+
 /* @media screen and (max-width: 600px) {
   .page {
     padding-top: 28px;  

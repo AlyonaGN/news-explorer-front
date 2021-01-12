@@ -81,7 +81,7 @@
     font-weight: 500;
     font-size: 10px;
     line-height: 1.172;
-    padding-bottom: 14px;
+    padding-bottom: 13px;
     padding-top: 15px;
     visibility: hidden;
 }
@@ -92,6 +92,68 @@
 
 .news-card__save-button:hover:after {
     visibility: visible;
+}
+
+.news-card__delete-button {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    width: 40px;
+    height: 40px;
+    background-image: url(../../images/bin.png);
+    border: none;
+    border-radius: 10px;
+    padding: 0;
+    box-shadow: none;
+    cursor: pointer;
+}
+
+.news-card__delete-button:hover {
+    background-image: url(../../images/bin-dark.png);
+}
+
+.news-card__delete-button:after {
+    content: "Убрать из сохранённых";
+    background-color: #FFF;
+    position: absolute;
+    width: 182px;
+    top: 0;
+    right: 45px;
+    border-radius: 10px;
+    color: #000;
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 1.16;
+    padding-bottom: 13px;
+    padding-top: 15px;
+    visibility: hidden;
+}
+
+.news-card__delete-button:hover:after {
+    visibility: visible;
+}
+
+.news-card__key-word {
+    background-color: #FFF;
+    position: absolute;
+    top: 24px;
+    left: 36px;
+    border-radius: 10px;
+    color: #000;
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 1.2;
+    padding: 13px 12px 14px;
+    display: none;
+    margin: 0;
+}
+
+.news-card__key-word_visible {
+    display: block;
 }
 
 .news-card__photo {
@@ -180,6 +242,21 @@
     .news-card__save-button:after {
         width: 165px;
     }
+
+    .news-card__delete-button {
+        top: 8px;
+        right: 8px;
+    }
+
+    .news-card__delete-button:after {
+        display: none;
+    }
+
+    .news-card__key-word {
+        top: 8px;
+        left: 8px;
+        padding: 12px 12px;
+    }
 }
 
 @media screen and (max-width: 500px) {
@@ -203,5 +280,16 @@
 
     .news-card__abstract {
         margin-bottom: 8px;
+    }
+
+    .news-card__delete-button {
+        top: 16px;
+        right: 16px;
+    }
+
+    .news-card__key-word {
+        top: 16px;
+        left: 16px;
+        padding: 12px 12px;
     }
 }

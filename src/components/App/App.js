@@ -6,6 +6,7 @@ import SearchForm from '../SearchForm/SearchForm.js';
 import Main from '../Main/Main.js';
 import Footer from '../Footer/Footer.js';
 import SavedNews from '../SavedNews/SavedNews.js';
+import SavedNewsHeader from '../SavedNewsHeader/SavedNewsHeader.js';
 import React, { useCallback } from 'react';
 import { Route, Switch, useHistory } from 'react-router-dom';
 
@@ -44,15 +45,29 @@ function App() {
 
   return (
     <>
-      <div className="page__header">
-        <AppHeader onMenuClick={toggleMenu} isMenuShown={isMenuOpen} makeLoggedIn={toggleLoggedIn} isLoggedIn={isLoggedIn} />
-        <SearchForm onSearch={displaySearchResults} />
-      </div>
       <Switch>
         <Route path={ROUTES_MAP.SAVED_NEWS}>
-          <div>SavedNews</div>
+          <div className="page__header_saved-news">
+              <AppHeader onMenuClick={toggleMenu} 
+                          isMenuShown={isMenuOpen} 
+                          makeLoggedIn={toggleLoggedIn} 
+                          isLoggedIn={true} 
+                          isFontDark={true} />
+              <SavedNewsHeader />
+          </div>
+          <SavedNews showAndHidePreloader={togglePreloader}
+                    showAndHideNotFound={toggleNotFound}
+                    isUserLoggedIn={true}/>
         </Route>
-        <Route path={ROUTES_MAP.MAIN}>
+        <Route exact path={ROUTES_MAP.MAIN}>
+          <div className="page__header">
+              <AppHeader onMenuClick={toggleMenu} 
+                          isMenuShown={isMenuOpen} 
+                          makeLoggedIn={toggleLoggedIn} 
+                          isLoggedIn={isLoggedIn} 
+                          isFontDark={false} />
+              <SearchForm onSearch={displaySearchResults} />
+          </div>
           <Main areResultsShown={areSearchResultsDisplayed} 
                 isPreloaderShown={isPreloaderOpen} 
                 showAndHidePreloader={togglePreloader}

@@ -2,11 +2,18 @@ import React from 'react';
 import './NewsCard.css';
 import newsphoto from '../../images/news-photo.png';
 
-function NewsCard({showAndHidePreloader, isUserLoggedIn}) {
-    console.log(isUserLoggedIn);
+function NewsCard({ showAndHidePreloader, isUserLoggedIn, isItSavedNewsPage }) {
+    
     return (
         <li><figure className="news-card" onClick={showAndHidePreloader}>
-            <button type="button" className={isUserLoggedIn ? "news-card__save-button news-card__save-button_loggedin" : "news-card__save-button"} disabled={isUserLoggedIn ? false : true}></button>
+            { 
+                isItSavedNewsPage ?
+                <button type="button" className="news-card__delete-button"></button>
+                    :
+                <button type="button" className={isUserLoggedIn ? "news-card__save-button news-card__save-button_loggedin" : "news-card__save-button"} 
+                disabled={isUserLoggedIn ? false : true}></button>
+            }
+            <p className={isItSavedNewsPage ? "news-card__key-word news-card__key-word_visible" : "news-card__key-word"}>Природа</p>
             <img className="news-card__photo" src={newsphoto} alt="здесь должно быть фото новости"></img>
             <figcaption className="news-card__caption">
                 <p className="news-card__date">2 августа, 2019</p>

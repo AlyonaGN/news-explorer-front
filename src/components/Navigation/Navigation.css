@@ -14,7 +14,6 @@
     font-weight: 500;
     font-size: 18px;
     line-height: 1.33;
-    color: #FFF;
 }
 
 .nav-list_visible {
@@ -25,7 +24,7 @@
 
 .nav-list__auth-button {
     background-color: transparent;
-    border: 1px solid #FFFFFF;
+    border: 1px solid;
     box-sizing: border-box;
     padding: 11.88px 12px 15.13px;
     border-radius: 100px;
@@ -33,20 +32,27 @@
     cursor: pointer;
     margin-bottom: 13px;
     margin-top: 19px;
-    color: #FFF;
+    color: inherit;
 }
 
 .nav-list__item {
     margin-right: 34px;
-    color: #B6BCBF;
     text-decoration: none;
     margin-top: 30px;
+    color: inherit;
+}
+
+.nav-list__item_dark {
+    color: #1A1B22;
 }
 
 .nav-list__item_active {
-    color: #FFF;
-    border-bottom: 3px solid #FFF;
+    border-bottom: 3px solid;
     padding-bottom: 28px;
+}
+
+.nav-list__item_light-theme {
+    color: #B6BCBF;
 }
 
 .nav-list__item:last-of-type {
@@ -55,7 +61,7 @@
 
 .nav-list__exit-button {
     background-color: transparent;
-    border: 1px solid #FFFFFF;
+    border: 1px solid;
     box-sizing: border-box;
     padding: 12px 15px 12px 19px;
     border-radius: 100px;
@@ -63,7 +69,7 @@
     cursor: pointer;
     margin-bottom: 13px;
     margin-top: 19px;
-    color: #FFF;
+    color: inherit;
 }
 
 .nav-list__exit-icon {
@@ -94,9 +100,13 @@
     .nav-list__item_active {
         padding-bottom: 24px;
     }
+
+    .nav-list__exit-button_dark {
+        border-color: #D1D2D6;
+    }
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 650px) {
     .nav-list {
         flex-direction: column;
         width: 90%;
