@@ -90,6 +90,14 @@
     right: 0;
 }
 
+.search-form__submit-button:hover {
+    background-color: #347EFF;
+}
+
+.search-form__submit-button:active {
+    background-color: #2A65CC;
+}
+
 @media screen and (max-width: 900px) {
     .search-form {
         width: 55%;

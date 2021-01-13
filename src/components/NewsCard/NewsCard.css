@@ -67,6 +67,14 @@
     background-image: url(../../images/save-active.png);
 }
 
+.news-card__save-button_blue {
+    background-image: url(../../images/save-blue.png);
+}
+
+.news-card__save-button_blue:hover {
+    background-image: url(../../images/save-blue.png);
+}
+
 .news-card__save-button:after {
     content: "Войдите, чтобы сохранять статьи";
     background-color: #FFF;

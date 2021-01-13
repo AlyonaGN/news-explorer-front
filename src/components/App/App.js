@@ -6,9 +6,11 @@ import SearchForm from '../SearchForm/SearchForm.js';
 import Main from '../Main/Main.js';
 import Footer from '../Footer/Footer.js';
 import SavedNews from '../SavedNews/SavedNews.js';
+import PopupWithForm from '../PopupWithForm/PopupWithForm.js';
 import SavedNewsHeader from '../SavedNewsHeader/SavedNewsHeader.js';
 import React, { useCallback } from 'react';
-import { Route, Switch, useHistory } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
+import PopupSuccessReg from '../PopupSuccessReg/PopupSuccessReg';
 
 function App() {
   const [isMenuOpen, setMenuOpen] = React.useState(false);
@@ -17,13 +19,16 @@ function App() {
   const [isNotFoundOpen, setNotFoundOpen] = React.useState(false);
   const [areSearchResultsDisplayed, setSearchResultsDisplayed] = React.useState(false);
 
-  React.useEffect(() => {
-    
-  }, []);
+  const [isPopupWithFormOpen, setPopupWithFormOpen] = React.useState(false);
+  const [isSuccessRegPopupOpen, setSuccessRegPopupOpen] = React.useState(false);
 
   const toggleMenu = useCallback(() => {
     setMenuOpen(!isMenuOpen);
   }, [isMenuOpen]);
+
+  const closeMenu = useCallback(() => {
+    setMenuOpen(false);
+  }, []);
 
   const toggleLoggedIn = useCallback(() => {
     setIsLoggedIn(!isLoggedIn);
@@ -34,14 +39,50 @@ function App() {
   }, [areSearchResultsDisplayed]);
 
   const togglePreloader = useCallback(() => {
-    displaySearchResults();
     setPreloaderOpen(!isPreloaderOpen);
-  }, [isPreloaderOpen, displaySearchResults]);
+  }, [isPreloaderOpen]);
 
   const toggleNotFound = useCallback(() => {
     displaySearchResults();
     setNotFoundOpen(!isNotFoundOpen);
   }, [isNotFoundOpen, displaySearchResults]);
+
+  const closeAllPopups = useCallback(() => {
+    setPopupWithFormOpen(false);
+    setSuccessRegPopupOpen(false)
+  }, []);
+
+  const handleRegisterSubmission = useCallback(() => {
+    setPopupWithFormOpen(false);
+    setSuccessRegPopupOpen(true);
+  }, []);
+
+  const handleLoginSubmission = useCallback(() => {
+    setPopupWithFormOpen(false);
+  }, []);
+
+  const handleOpenAuth = useCallback(() => {
+    setPopupWithFormOpen(true);
+  }, []);
+
+  const handleLoginClick = useCallback(() => {
+    setSuccessRegPopupOpen(false);
+    setPopupWithFormOpen(true);
+  }, []);
+
+  const handleOverlayClose = useCallback((e) => {
+    if (e.target.classList.contains('popup')) {
+        closeAllPopups();
+    }
+  }, [closeAllPopups]);
+
+  React.useEffect(() => {
+    window.addEventListener('keyup', (e) => {
+      if (e.key === 'Escape') {
+        closeAllPopups()
+      }
+    });
+  }, [closeAllPopups]);
 
   return (
     <>
@@ -52,11 +93,13 @@ function App() {
                           isMenuShown={isMenuOpen} 
                           makeLoggedIn={toggleLoggedIn} 
                           isLoggedIn={true} 
-                          isFontDark={true} />
+                          isFontDark={true}
+                          onAuthClick={handleOpenAuth}
+                          closeMenuOnclick={closeMenu} 
+              />
               <SavedNewsHeader />
           </div>
-          <SavedNews showAndHidePreloader={togglePreloader}
-                    showAndHideNotFound={toggleNotFound}
+          <SavedNews showAndHideNotFound={toggleNotFound}
                     isUserLoggedIn={true}/>
         </Route>
         <Route exact path={ROUTES_MAP.MAIN}>
@@ -65,12 +108,14 @@ function App() {
                           isMenuShown={isMenuOpen} 
                           makeLoggedIn={toggleLoggedIn} 
                           isLoggedIn={isLoggedIn} 
-                          isFontDark={false} />
-              <SearchForm onSearch={displaySearchResults} />
+                          isFontDark={false} 
+                          onAuthClick={handleOpenAuth}
+                          closeMenuOnclick={closeMenu}    
+                />
+              <SearchForm onSearch={displaySearchResults} showAndHidePreloader={togglePreloader}/>
           </div>
           <Main areResultsShown={areSearchResultsDisplayed} 
-                isPreloaderShown={isPreloaderOpen} 
-                showAndHidePreloader={togglePreloader}
+                isPreloaderShown={isPreloaderOpen}
                 showAndHideNotFound={toggleNotFound}
                 isNotFoundShown={isNotFoundOpen}
                 isUserLoggedIn={isLoggedIn}
@@ -78,6 +123,24 @@ function App() {
         </Route>
       </Switch>
       <Footer />
+
+      {
+        isPopupWithFormOpen && 
+        <PopupWithForm isOpen={isPopupWithFormOpen} 
+                        onClose={closeAllPopups} 
+                        onRegister={handleRegisterSubmission}
+                        onLogin={handleLoginSubmission}
+                        onOverlayAndEscClick={handleOverlayClose}
+          />
+      }
+      {
+        isSuccessRegPopupOpen && 
+        <PopupSuccessReg isOpen={isSuccessRegPopupOpen} 
+                        onClose={closeAllPopups} 
+                        onLogin={handleLoginClick}
+                        onOverlayAndEscClick={handleOverlayClose}
+          />
+      }
     </>
   );
 }
