@@ -1,0 +1,127 @@
+@font-face {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+    src: url('../../fonts/roboto-medium.woff') format('woff');
+}
+
+.nav-list {
+    margin: 0;
+    display: flex;
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 1.33;
+}
+
+.nav-list_visible {
+    visibility: visible;
+    opacity: 1;
+    transition: visibility 0s, opacity 500ms linear;
+}
+
+.nav-list__auth-button {
+    background-color: transparent;
+    border: 1px solid;
+    box-sizing: border-box;
+    padding: 11.88px 12px 15.13px;
+    border-radius: 100px;
+    box-shadow: none;
+    cursor: pointer;
+    margin-bottom: 13px;
+    margin-top: 19px;
+    color: inherit;
+}
+
+.nav-list__item {
+    margin-right: 34px;
+    text-decoration: none;
+    margin-top: 30px;
+    color: inherit;
+}
+
+.nav-list__item_dark {
+    color: #1A1B22;
+}
+
+.nav-list__item_active {
+    border-bottom: 3px solid;
+    padding-bottom: 28px;
+}
+
+.nav-list__item_light-theme {
+    color: #B6BCBF;
+}
+
+.nav-list__item:last-of-type {
+    margin-right: 32px;
+}
+
+.nav-list__exit-button {
+    background-color: transparent;
+    border: 1px solid;
+    box-sizing: border-box;
+    padding: 12px 15px 12px 19px;
+    border-radius: 100px;
+    box-shadow: none;
+    cursor: pointer;
+    margin-bottom: 13px;
+    margin-top: 19px;
+    color: inherit;
+}
+
+.nav-list__exit-icon {
+    margin-left: 5px;
+    object-fit: cover;
+    height: 24px;
+    width: 24px;
+    vertical-align: top;
+}
+
+@media screen and (max-width: 770px) {
+    .nav-list {
+        margin-right: 0px;
+    }
+
+    .nav-list__auth-button {
+        font-size: 16px;
+        line-height: 1.5;
+        padding: 8px 14px;
+    }
+
+    .nav-list__item {
+        margin-right: 16px;
+        font-size: 16px;
+        line-height: 1.5;
+    }
+    
+    .nav-list__item_active {
+        padding-bottom: 24px;
+    }
+
+    .nav-list__exit-button_dark {
+        border-color: #D1D2D6;
+    }
+}
+
+@media screen and (max-width: 650px) {
+    .nav-list {
+        flex-direction: column;
+        width: 90%;
+        margin-bottom: 24px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .nav-list__item_active {
+        border-bottom: none;
+        padding-bottom: 0;
+    }
+
+    .nav-list__auth-button {
+        width: 100%;
+    }
+
+}

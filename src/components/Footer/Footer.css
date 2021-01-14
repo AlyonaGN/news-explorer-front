@@ -1,0 +1,128 @@
+@font-face {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('../../fonts/roboto-regular.woff') format('woff');
+}
+
+.footer {
+    display: flex;
+    padding-left: 7.225%;
+    padding-right: 7.225%;
+    justify-content: space-between;
+}
+
+.footer__copyright {
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.375;
+    color: #B6BCBF;
+    margin-top: 32px;
+    margin-bottom: 26px;
+}
+
+.footer__links {
+    display: flex;
+}
+
+.footer__menu-links {
+    margin-top: 30px;
+    margin-bottom: 28px;
+    margin-right: 40px;
+    padding: 0;
+    display: flex;
+}
+
+.footer__menu-link {
+    text-decoration: none;
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 1.333;
+    color: #1A1B22;
+    margin-right: 30px;
+    cursor: pointer;
+}
+
+.footer__menu-link:last-of-type {
+    margin-right: 0px;
+}
+
+.footer__networks-links {
+    display: flex;
+    list-style: none;
+    margin-top: 28px;
+    margin-bottom: 28px;
+    padding: 0;
+}
+
+.footer__networks-link {
+    cursor: pointer;
+    margin-right: 24px;
+}
+
+.footer__networks-link:last-of-type {
+    margin-right: 0;
+}
+
+@media screen and (max-width: 895px) {
+    .footer {
+        padding-left: 5.2%;
+        padding-right: 2.6%;
+    }
+
+    .footer__menu-links {
+        margin-right: 24px;
+    }
+
+    .footer__menu-link {
+        margin-right: 15px;
+    }
+}
+
+@media screen and (max-width: 712px) {
+    .footer {
+        flex-direction: column-reverse;
+        padding-left: 5%;
+        padding-right: 5%;
+    }
+
+    .footer__links {
+        justify-content: space-between;
+        margin-top: 20px;
+        margin-bottom: 38px;
+    }
+
+    .footer__menu-links {
+        margin: 0;
+        flex-direction: column;
+    }
+
+    .footer__networks-links {
+        margin-top: 0;
+        margin-bottom: 0;
+        
+    }
+
+    .footer__networks-link {
+        margin-right: 24px;
+    }
+
+    .footer__menu-link {
+        margin-right: 0;
+        margin-bottom: 20px;
+    }
+    
+    .footer__menu-link:last-of-type {
+        margin-bottom: 0;
+    }
+
+    .footer__copyright {
+        margin-top: 0;
+        margin-bottom: 22px;
+    }
+}

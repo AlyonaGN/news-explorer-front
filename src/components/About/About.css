@@ -1,0 +1,108 @@
+@font-face {
+    font-family: 'Roboto Slab';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('../../fonts/robotoslab-regular.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('../../fonts/roboto-regular.woff') format('woff');
+}
+
+.about-author {
+    display: flex;
+    margin-top: 80px;
+    margin-left: 104px;
+    margin-bottom: 80px;
+    width: 77.78%;
+}
+
+.about-author__picture {
+    object-fit: cover;
+    margin: 0;
+    height: 464px;
+    width: 464px;
+    border-radius: 50%;
+}
+
+.about-author__text {
+    margin-left: 56px;
+    
+}
+
+.about-author__title {
+    margin-top: 51px;
+    margin-bottom: 24px;
+    font-family: 'Roboto Slab', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 1.15;
+    color: #1A1B22;
+}
+
+.about-author__description {
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 1.333;
+    color: #1A1B22;
+}
+
+@media screen and (max-width: 1150px) {
+    .about-author__picture {
+        height: 300px;
+        width: 300px;
+    }
+}
+
+@media screen and (max-width: 770px) {
+    .about-author {
+        margin-top: 40px;
+        margin-left: 40px;
+        margin-bottom: 61px;
+        width: 89.58%;
+    }
+
+    .about-author__picture {
+        margin-top: 21px;
+        height: 232px;
+        width: 232px;
+    }
+
+    .about-author__text {
+        margin-left: 32px;
+    }
+
+    .about-author__title {
+        margin-top: 0px;
+        margin-bottom: 16px;
+        font-size: 30px;
+        line-height: 1.333;
+    }
+    
+}
+
+@media screen and (max-width: 600px) {
+    .about-author {
+        flex-direction: column;
+        margin: 32px auto 80px;
+        width: 90%;
+    }
+
+    .about-author__picture {
+        margin: 0 auto;
+        height: 272px;
+        width: 272px;
+    }
+
+    .about-author__text {
+        margin: 24px auto 0;
+    }
+}
