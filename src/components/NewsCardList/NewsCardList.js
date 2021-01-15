@@ -10,13 +10,13 @@ function NewsCardList({ isLoggedIn, actButton }) {
 
     return (
             <ul className="news-list">
-                <NewsCard isUserLoggedIn={isLoggedIn} isItSavedNewsPage={isSavedNewsOpen} actionButton={actButton}/>
-                <NewsCard isUserLoggedIn={isLoggedIn} isItSavedNewsPage={isSavedNewsOpen} actionButton={actButton}/>
-                <NewsCard isUserLoggedIn={isLoggedIn} isItSavedNewsPage={isSavedNewsOpen} actionButton={actButton}/>
+                <NewsCard isUserLoggedIn={isLoggedIn} doesKeyWordNeedToBeShown={isSavedNewsOpen} actionButton={actButton}/>
+                <NewsCard isUserLoggedIn={isLoggedIn} doesKeyWordNeedToBeShown={isSavedNewsOpen} actionButton={actButton}/>
+                <NewsCard isUserLoggedIn={isLoggedIn} doesKeyWordNeedToBeShown={isSavedNewsOpen} actionButton={actButton}/>
                 {isSavedNewsOpen && 
                 <>
-                <NewsCard isUserLoggedIn={isLoggedIn} isItSavedNewsPage={isSavedNewsOpen} actionButton={actButton}/>
-                <NewsCard isUserLoggedIn={isLoggedIn} isItSavedNewsPage={isSavedNewsOpen} actionButton={actButton}/>
+                <NewsCard isUserLoggedIn={isLoggedIn} doesKeyWordNeedToBeShown={isSavedNewsOpen} actionButton={actButton}/>
+                <NewsCard isUserLoggedIn={isLoggedIn} doesKeyWordNeedToBeShown={isSavedNewsOpen} actionButton={actButton}/>
                 </>}
             </ul>
     );

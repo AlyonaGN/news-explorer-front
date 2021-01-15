@@ -1,13 +1,13 @@
-import React, {useCallback} from 'react';
+import React from 'react';
 import './NewsCard.css';
 import newsphoto from '../../images/news-photo.png';
 
-function NewsCard({ isItSavedNewsPage, actionButton }) {
+function NewsCard({ doesKeyWordNeedToBeShown, actionButton }) {
     
     return (
         <li><figure className="news-card">
             {actionButton}
-            <p className={isItSavedNewsPage ? "news-card__key-word news-card__key-word_visible" : "news-card__key-word"}>Природа</p>
+            <p className={doesKeyWordNeedToBeShown ? "news-card__key-word news-card__key-word_visible" : "news-card__key-word"}>Природа</p>
             <img className="news-card__photo" src={newsphoto} alt="здесь должно быть фото новости"></img>
             <figcaption className="news-card__caption">
                 <p className="news-card__date">2 августа, 2019</p>

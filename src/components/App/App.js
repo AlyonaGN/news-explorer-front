@@ -103,7 +103,7 @@ function App() {
           </div>
           <SavedNews showAndHideNotFound={toggleNotFound}
                     isUserLoggedIn={true}
-                    actionButton={DeleteButton}/>
+                    actionButton={<DeleteButton/>}/>
         </Route>
         <Route exact path={ROUTES_MAP.MAIN}>
           <div className="page__header">
@@ -122,7 +122,7 @@ function App() {
                 showAndHideNotFound={toggleNotFound}
                 isNotFoundShown={isNotFoundOpen}
                 isUserLoggedIn={isLoggedIn}
-                actionButton={<SaveButton />}
+                actionButton={<SaveButton isUserLoggedIn={isLoggedIn}/>}
           />
         </Route>
       </Switch>
