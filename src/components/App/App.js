@@ -2,6 +2,8 @@ import './App.css';
 import '../../index.css';
 import { ROUTES_MAP } from '../../utils/routesMap.js';
 import AppHeader from '../AppHeader/AppHeader.js';
+import SaveButton from '../SaveButton/SaveButton.js';
+import DeleteButton from '../DeleteButton/DeleteButton.js';
 import SearchForm from '../SearchForm/SearchForm.js';
 import Main from '../Main/Main.js';
 import Footer from '../Footer/Footer.js';
@@ -100,7 +102,8 @@ function App() {
               <SavedNewsHeader />
           </div>
           <SavedNews showAndHideNotFound={toggleNotFound}
-                    isUserLoggedIn={true}/>
+                    isUserLoggedIn={true}
+                    actionButton={DeleteButton}/>
         </Route>
         <Route exact path={ROUTES_MAP.MAIN}>
           <div className="page__header">
@@ -112,13 +115,14 @@ function App() {
                           onAuthClick={handleOpenAuth}
                           closeMenuOnclick={closeMenu}    
                 />
-              <SearchForm onSearch={displaySearchResults} showAndHidePreloader={togglePreloader}/>
+              <SearchForm onSubmit={displaySearchResults} showAndHidePreloader={togglePreloader}/>
           </div>
           <Main areResultsShown={areSearchResultsDisplayed} 
                 isPreloaderShown={isPreloaderOpen}
                 showAndHideNotFound={toggleNotFound}
                 isNotFoundShown={isNotFoundOpen}
                 isUserLoggedIn={isLoggedIn}
+                actionButton={<SaveButton />}
           />
         </Route>
       </Switch>

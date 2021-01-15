@@ -2,25 +2,11 @@ import React, {useCallback} from 'react';
 import './NewsCard.css';
 import newsphoto from '../../images/news-photo.png';
 
-function NewsCard({ isUserLoggedIn, isItSavedNewsPage }) {
-    const [isSaved, setSaved] = React.useState(false);
-
-    const toggleSaveCard = useCallback(() => {
-        setSaved(!isSaved);
-    }, [isSaved]);
+function NewsCard({ isItSavedNewsPage, actionButton }) {
+    
     return (
         <li><figure className="news-card">
-            { 
-                isItSavedNewsPage ?
-                <button type="button" className="news-card__delete-button"></button>
-                    :
-                <button type="button" onClick={toggleSaveCard} className={
-                    isUserLoggedIn ? 
-                    (isSaved ? "news-card__save-button news-card__save-button_loggedin news-card__save-button_blue" : "news-card__save-button news-card__save-button_loggedin") 
-                    : "news-card__save-button"
-                } 
-                disabled={isUserLoggedIn ? false : true}></button>
-            }
+            {actionButton}
             <p className={isItSavedNewsPage ? "news-card__key-word news-card__key-word_visible" : "news-card__key-word"}>Природа</p>
             <img className="news-card__photo" src={newsphoto} alt="здесь должно быть фото новости"></img>
             <figcaption className="news-card__caption">
