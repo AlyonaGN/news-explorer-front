@@ -87,7 +87,7 @@ function PopupWithForm(props) {
     return (
         <div className={`popup ${props.isOpen && `popup_opened`}`} onClick={props.onOverlayAndEscClick}>
 
-            <form className="popup__form" name={isRegister ? CONSTS.REGISTER_TITLE : CONSTS.LOGIN_TITLE} >
+            <form className="popup__form" name={isRegister ? CONSTS.REGISTER_TITLE : CONSTS.LOGIN_TITLE} onSubmit={isRegister ? props.onRegister : props.onLogin} >
 
                 <button type="button" className="popup__close-button" onClick={props.onClose}></button>
 
@@ -117,7 +117,7 @@ function PopupWithForm(props) {
                     </label>
                 }
 
-                <button type="button" onClick={isRegister ? props.onRegister : props.onLogin} className={isButtonDisabled ? "popup__submit-button popup__submit-button_inactive" : "popup__submit-button"} disabled={isButtonDisabled ? true : false}>{buttonName}</button>
+                <button type="submit" className={isButtonDisabled ? "popup__submit-button popup__submit-button_inactive" : "popup__submit-button"} disabled={isButtonDisabled ? true : false}>{buttonName}</button>
 
                 <span className="popup__alt-option">или <button className="popup__alt-option-button" type="button" onClick={handleAltOptionClick}>{altOptionText}</button></span>
 

@@ -36,7 +36,8 @@ function App() {
     setIsLoggedIn(!isLoggedIn);
   }, [isLoggedIn]);
 
-  const displaySearchResults = useCallback(() => {
+  const displaySearchResults = useCallback((e) => {
+    e.preventDefault();
     setSearchResultsDisplayed(!areSearchResultsDisplayed);
   }, [areSearchResultsDisplayed]);
 
@@ -78,13 +79,17 @@ function App() {
     }
   }, [closeAllPopups]);
 
-  React.useEffect(() => {
+  const handleEscClose = useCallback((e) => {
     window.addEventListener('keyup', (e) => {
       if (e.key === 'Escape') {
         closeAllPopups()
       }
     });
   }, [closeAllPopups]);
+
+  React.useEffect(() => {
+    handleEscClose();
+  }, [handleEscClose]);
 
   return (
     <>
@@ -115,7 +120,7 @@ function App() {
                           onAuthClick={handleOpenAuth}
                           closeMenuOnclick={closeMenu}    
                 />
-              <SearchForm onSubmit={displaySearchResults} showAndHidePreloader={togglePreloader}/>
+              <SearchForm onSearch={displaySearchResults} showAndHidePreloader={togglePreloader}/>
           </div>
           <Main areResultsShown={areSearchResultsDisplayed} 
                 isPreloaderShown={isPreloaderOpen}
