@@ -1,24 +1,28 @@
 import React, { useCallback } from 'react';
 import './SearchForm.css';
+import { ERRORS } from '../../utils/errors.js';
 
 function SearchForm({ onSearch, showAndHidePreloader }) {
     const [searchValue, setSearchValue] = React.useState({
         value: ""
     });
+    const [isValid, setValid] = React.useState(false);
+    const [isErrorDisplayed, setErrorDisplayed] = React.useState(false);
 
     const checkValidity = useCallback((inputValue) => {
         if (inputValue.validity.valueMissing) {
-            showInputError(inputValue, formInput.validationMessage);
+            setErrorDisplayed(true);
         } 
         else {
-            hideInputError(formInput);
+            setValid(true);
+            setErrorDisplayed(false);
         }
-    })
+    }, []);
 
     const handleChange = useCallback((e) => {
         setSearchValue({ value: e.target.value });
         checkValidity(e.target);
-      }, []);
+      }, [checkValidity]);
 
     return (
             <form className="search-form" onSubmit={onSearch} noValidate>
@@ -26,7 +30,7 @@ function SearchForm({ onSearch, showAndHidePreloader }) {
                 <p className="search-form__subtitle" onClick={showAndHidePreloader}>Находите самые свежие статьи на любую тему и сохраняйте в своём личном кабинете.</p>
                 <div className="search-form__search-line">
                     <input className="search-form__input" placeholder="Введите тему новости" type="text" onChange={handleChange} value={searchValue.value} required></input>
-                    {!isValid && <span class="search-form__input-error">Необходимо заполнить данное поле</span>}
+                    {isErrorDisplayed && <span className="search-form__input-error">{ERRORS.REQUIRED_INPUT}</span>}
                     <button className="search-form__submit-button" type="submit" disabled={isValid ? false : true}>Искать</button>
                 </div>
             </form> 

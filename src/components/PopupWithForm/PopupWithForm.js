@@ -1,5 +1,5 @@
 import React,  { useCallback } from 'react';
-import { CONSTS } from '../../utils/consts.js';
+import { CONSTS } from '../../utils/auth-consts.js';
 import { formsValidator } from '../FormsValidator/FormsValidator.js';
 import './PopupWithForm.css';
 

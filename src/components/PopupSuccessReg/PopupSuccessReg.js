@@ -1,4 +1,4 @@
-import { CONSTS } from '../../utils/consts';
+import { CONSTS } from '../../utils/auth-consts';
 import './PopupSuccessReg.css';
 
 function PopupSuccessReg(props) {
