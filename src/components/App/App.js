@@ -43,14 +43,12 @@ function App() {
   const getNewsFromApi = useCallback((keyWord, fromDate, toDate) => {
     setNewsLoading(true);
     newsApi.getNews(keyWord, fromDate, toDate).then((res) => {
-      console.log(res);
-      console.log(typeof(res.articles));
-      if (res.totalResults === '0') {
+      const receivedArticles = Array.from(res.articles);
+      if (receivedArticles.length !== 0) {
         setNewsLoading(false);
         setSearchResultsDisplayed(true);
       }
       else {
-        console.log('hi');
         setNewsLoading(false);
         setNotFoundOpen(true);
       }
