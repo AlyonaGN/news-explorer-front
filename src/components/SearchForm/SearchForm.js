@@ -24,8 +24,16 @@ function SearchForm({ onSearch, showAndHidePreloader }) {
         checkValidity(e.target);
       }, [checkValidity]);
 
+      const handleSubmit = useCallback((e) => {
+        e.preventDefault();
+        const today = new Date().toISOString();
+        const sevenDaysEarlier = new Date((Date.now() - 604800000)).toISOString();
+        console.log(today, sevenDaysEarlier);
+        onSearch(searchValue.value, sevenDaysEarlier, today);
+      }, [searchValue, onSearch]);
+
     return (
-            <form className="search-form" onSubmit={onSearch} noValidate>
+            <form className="search-form" onSubmit={handleSubmit} noValidate>
                 <h1 className="search-form__title">Что творится в мире?</h1>
                 <p className="search-form__subtitle" onClick={showAndHidePreloader}>Находите самые свежие статьи на любую тему и сохраняйте в своём личном кабинете.</p>
                 <div className="search-form__search-line">

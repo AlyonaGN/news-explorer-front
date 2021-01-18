@@ -13,16 +13,20 @@ import SavedNewsHeader from '../SavedNewsHeader/SavedNewsHeader.js';
 import React, { useCallback } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import PopupSuccessReg from '../PopupSuccessReg/PopupSuccessReg';
+import { newsApi } from '../../utils/NewsApi';
 
 function App() {
   const [isMenuOpen, setMenuOpen] = React.useState(false);
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
-  const [isPreloaderOpen, setPreloaderOpen] = React.useState(false);
   const [isNotFoundOpen, setNotFoundOpen] = React.useState(false);
   const [areSearchResultsDisplayed, setSearchResultsDisplayed] = React.useState(false);
 
   const [isPopupWithFormOpen, setPopupWithFormOpen] = React.useState(false);
   const [isSuccessRegPopupOpen, setSuccessRegPopupOpen] = React.useState(false);
+
+  const [articles, setArticles] = React.useState(null);
+
+  const [isNewsLoading, setNewsLoading] = React.useState(false);
 
   const toggleMenu = useCallback(() => {
     setMenuOpen(!isMenuOpen);
@@ -36,19 +40,29 @@ function App() {
     setIsLoggedIn(!isLoggedIn);
   }, [isLoggedIn]);
 
-  const displaySearchResults = useCallback((e) => {
-    e.preventDefault();
-    setSearchResultsDisplayed(!areSearchResultsDisplayed);
-  }, [areSearchResultsDisplayed]);
+  const getNewsFromApi = useCallback((keyWord, fromDate, toDate) => {
+    setNewsLoading(true);
+    newsApi.getNews(keyWord, fromDate, toDate).then((res) => {
+      console.log(res);
+      console.log(typeof(res.articles));
+      if (res.totalResults === '0') {
+        setNewsLoading(false);
+        setSearchResultsDisplayed(true);
+      }
+      else {
+        console.log('hi');
+        setNewsLoading(false);
+        setNotFoundOpen(true);
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    });
+  }, []);
 
-  const togglePreloader = useCallback(() => {
-    setPreloaderOpen(!isPreloaderOpen);
-  }, [isPreloaderOpen]);
-
-  const toggleNotFound = useCallback(() => {
-    displaySearchResults();
-    setNotFoundOpen(!isNotFoundOpen);
-  }, [isNotFoundOpen, displaySearchResults]);
+  const displaySearchResults = useCallback((keyWord, fromDate, toDate) => {
+    getNewsFromApi(keyWord, fromDate, toDate);
+  }, [getNewsFromApi]);
 
   const closeAllPopups = useCallback(() => {
     setPopupWithFormOpen(false);
@@ -88,6 +102,7 @@ function App() {
   }, [closeAllPopups]);
 
   React.useEffect(() => {
+    
     handleEscClose();
   }, [handleEscClose]);
 
@@ -106,8 +121,7 @@ function App() {
               />
               <SavedNewsHeader />
           </div>
-          <SavedNews showAndHideNotFound={toggleNotFound}
-                    isUserLoggedIn={true}
+          <SavedNews isUserLoggedIn={true}
                     actionButton={<DeleteButton/>}/>
         </Route>
         <Route exact path={ROUTES_MAP.MAIN}>
@@ -120,11 +134,10 @@ function App() {
                           onAuthClick={handleOpenAuth}
                           closeMenuOnclick={closeMenu}    
                 />
-              <SearchForm onSearch={displaySearchResults} showAndHidePreloader={togglePreloader}/>
+              <SearchForm onSearch={displaySearchResults} />
           </div>
           <Main areResultsShown={areSearchResultsDisplayed} 
-                isPreloaderShown={isPreloaderOpen}
-                showAndHideNotFound={toggleNotFound}
+                isPreloaderShown={isNewsLoading}
                 isNotFoundShown={isNotFoundOpen}
                 isUserLoggedIn={isLoggedIn}
                 actionButton={<SaveButton isUserLoggedIn={isLoggedIn}/>}
