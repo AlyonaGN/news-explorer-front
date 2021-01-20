@@ -20,11 +20,11 @@
     display: none;
 }
 
-.content-container__not-found {
+.content-container__error {
     background-color: #F5F6F7;
 }
 
-.content-container__not-found_invisible {
+.content-container__error_invisible {
     display: none;
 }
 

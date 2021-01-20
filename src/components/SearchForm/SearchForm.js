@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import './SearchForm.css';
 import { ERRORS } from '../../utils/errors.js';
 
-function SearchForm({ onSearch, showAndHidePreloader }) {
+function SearchForm({ receiveResults }) {
     const [searchValue, setSearchValue] = React.useState({
         value: ""
     });
@@ -28,14 +28,13 @@ function SearchForm({ onSearch, showAndHidePreloader }) {
         e.preventDefault();
         const today = new Date().toISOString();
         const sevenDaysEarlier = new Date((Date.now() - 604800000)).toISOString();
-        console.log(today, sevenDaysEarlier);
-        onSearch(searchValue.value, sevenDaysEarlier, today);
-      }, [searchValue, onSearch]);
+        receiveResults(searchValue.value, sevenDaysEarlier, today);
+      }, [searchValue, receiveResults]);
 
     return (
             <form className="search-form" onSubmit={handleSubmit} noValidate>
                 <h1 className="search-form__title">Что творится в мире?</h1>
-                <p className="search-form__subtitle" onClick={showAndHidePreloader}>Находите самые свежие статьи на любую тему и сохраняйте в своём личном кабинете.</p>
+                <p className="search-form__subtitle">Находите самые свежие статьи на любую тему и сохраняйте в своём личном кабинете.</p>
                 <div className="search-form__search-line">
                     <input className="search-form__input" placeholder="Введите тему новости" type="text" onChange={handleChange} value={searchValue.value} required></input>
                     {isErrorDisplayed && <span className="search-form__input-error">{ERRORS.REQUIRED_INPUT}</span>}

@@ -19,14 +19,12 @@ function App() {
   const [isMenuOpen, setMenuOpen] = React.useState(false);
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
   const [isNotFoundOpen, setNotFoundOpen] = React.useState(false);
-  const [areSearchResultsDisplayed, setSearchResultsDisplayed] = React.useState(false);
-
   const [isPopupWithFormOpen, setPopupWithFormOpen] = React.useState(false);
   const [isSuccessRegPopupOpen, setSuccessRegPopupOpen] = React.useState(false);
 
   const [articles, setArticles] = React.useState(null);
-
   const [isNewsLoading, setNewsLoading] = React.useState(false);
+  const [isSearchError, setSearchError] = React.useState(false);
 
   const toggleMenu = useCallback(() => {
     setMenuOpen(!isMenuOpen);
@@ -40,32 +38,37 @@ function App() {
     setIsLoggedIn(!isLoggedIn);
   }, [isLoggedIn]);
 
-  const getNewsFromApi = useCallback((keyWord, fromDate, toDate) => {
+  const getNewsFromApi = useCallback(async (keyWord, fromDate, toDate) => {
     setNewsLoading(true);
-    newsApi.getNews(keyWord, fromDate, toDate).then((res) => {
+    try {
+      const res = await newsApi.getNews(keyWord, fromDate, toDate);
       const receivedArticles = Array.from(res.articles);
+      console.log(receivedArticles);
       if (receivedArticles.length !== 0) {
+        setArticles(receivedArticles);
         setNewsLoading(false);
-        setSearchResultsDisplayed(true);
+        setNotFoundOpen(false);
+        setSearchError(false);
       }
       else {
         setNewsLoading(false);
         setNotFoundOpen(true);
+        setSearchError(false);
       }
-    })
-    .catch((err) => {
+    }
+    catch(err) {
+      setNotFoundOpen(false);
+      setNewsLoading(false);
+      setSearchError(true);
       console.log(err);
-    });
+    }
   }, []);
-
-  const displaySearchResults = useCallback((keyWord, fromDate, toDate) => {
-    getNewsFromApi(keyWord, fromDate, toDate);
-  }, [getNewsFromApi]);
 
   const closeAllPopups = useCallback(() => {
+    console.log(articles);
     setPopupWithFormOpen(false);
     setSuccessRegPopupOpen(false)
-  }, []);
+  }, [articles]);
 
   const handleRegisterSubmission = useCallback(() => {
     setPopupWithFormOpen(false);
@@ -100,7 +103,6 @@ function App() {
   }, [closeAllPopups]);
 
   React.useEffect(() => {
-    
     handleEscClose();
   }, [handleEscClose]);
 
@@ -132,13 +134,13 @@ function App() {
                           onAuthClick={handleOpenAuth}
                           closeMenuOnclick={closeMenu}    
                 />
-              <SearchForm onSearch={displaySearchResults} />
+              <SearchForm receiveResults={getNewsFromApi} />
           </div>
-          <Main areResultsShown={areSearchResultsDisplayed} 
+          <Main searchResultsErr={isSearchError} 
                 isPreloaderShown={isNewsLoading}
                 isNotFoundShown={isNotFoundOpen}
-                isUserLoggedIn={isLoggedIn}
-                actionButton={<SaveButton isUserLoggedIn={isLoggedIn}/>}
+                actionButton={<SaveButton isUserLoggedIn={isLoggedIn} />}
+                news={articles}
           />
         </Route>
       </Switch>
