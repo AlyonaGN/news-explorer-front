@@ -43,7 +43,6 @@ function App() {
     try {
       const res = await newsApi.getNews(keyWord, fromDate, toDate);
       const receivedArticles = Array.from(res.articles);
-      console.log(receivedArticles);
       if (receivedArticles.length !== 0) {
         setArticles(receivedArticles);
         setNewsLoading(false);

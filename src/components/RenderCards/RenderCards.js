@@ -1,11 +1,10 @@
 import React, { useCallback } from 'react';
-import './NewsCardList.css';
-import NewsCard from '../NewsCard/NewsCard.js';
-import RenderCards from '../RenderCards/RenderCards.js';
 import { useLocation } from "react-router-dom";
 import { ROUTES_MAP } from '../../utils/routesMap';
+import NewsCard from '../NewsCard/NewsCard.js';
 
-function NewsCardList({ isLoggedIn, actButton, articles }) {
+
+function RenderCards({ isLoggedIn, actButton, articles }) {
     const location = useLocation();
     const isSavedNewsOpen = (location.pathname === ROUTES_MAP.SAVED_NEWS);
     const [articlesAmount, setArticlesAmount] = React.useState(articles ? articles.length : 0);
@@ -30,13 +29,9 @@ function NewsCardList({ isLoggedIn, actButton, articles }) {
       }, [actButton, articles, articlesAmount, displayedArticles, isSavedNewsOpen]);
       console.log(articles);
 
-    return (articles ?
-            <ul className="news-list">
-                <RenderCards isItSavedNews={isSavedNewsOpen} />
-            </ul>
-            :
-            ''
+    return (
+        
     );
 }
 
-export default NewsCardList;
+export default RenderCards;

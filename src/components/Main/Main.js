@@ -7,7 +7,7 @@ import SearchError from '../SearchError/SearchError.js';
 import NewsCardList from '../NewsCardList/NewsCardList.js';
 
 function Main ({ searchResultsErr, isPreloaderShown, isNotFoundShown, actionButton, news }) {
-    console.log(news);
+    
     return (
         <main className="content-container">
             <section className={news ? "content-container__results" : "content-container__results content-container__results_invisible"}>
