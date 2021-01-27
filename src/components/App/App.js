@@ -103,7 +103,7 @@ function App() {
 
   React.useEffect(() => {
     handleEscClose();
-  }, [handleEscClose]);
+  }, []);
 
   return (
     <>

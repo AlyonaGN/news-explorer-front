@@ -1,38 +1,45 @@
 import React, { useCallback } from 'react';
 import './NewsCardList.css';
 import NewsCard from '../NewsCard/NewsCard.js';
-import RenderCards from '../RenderCards/RenderCards.js';
 import { useLocation } from "react-router-dom";
 import { ROUTES_MAP } from '../../utils/routesMap';
 
 function NewsCardList({ isLoggedIn, actButton, articles }) {
     const location = useLocation();
     const isSavedNewsOpen = (location.pathname === ROUTES_MAP.SAVED_NEWS);
-    const [articlesAmount, setArticlesAmount] = React.useState(articles ? articles.length : 0);
-    const [displayedArticles, setDisplayedArticles] = React.useState(null);
+    const [notDisplayedArticlesAmount, setNotDisplayedArticlesAmount] = React.useState(0);
+    const [articlesToDisplay, setArticlesToDisplay] = React.useState(null);
 
     const displayCards = useCallback(() => {
-        if (articlesAmount > 3) {
-            setDisplayedArticles(articles.splice(0, 3));
-            displayedArticles.map((article) => {
-                    setArticlesAmount(articlesAmount - 3);
-                    return <NewsCard doesKeyWordNeedToBeShown={isSavedNewsOpen} 
-                        actionButton={actButton} 
-                        article={article} 
-                        key={article.id} /> })
+        if (notDisplayedArticlesAmount > 3) {
+            const articlesToShow = articles.splice(0, 3);
+            setArticlesToDisplay(articlesToDisplay, ...articlesToShow);
+            setNotDisplayedArticlesAmount(notDisplayedArticlesAmount - 3);
         }
-        else {
-            articles.map(article => <NewsCard  doesKeyWordNeedToBeShown={isSavedNewsOpen} 
-                actionButton={actButton} 
-                article={article} 
-                key={article.id} />)
+        else if (notDisplayedArticlesAmount <= 3 && notDisplayedArticlesAmount !== 0) {
+            setArticlesToDisplay(articles);
         }
-      }, [actButton, articles, articlesAmount, displayedArticles, isSavedNewsOpen]);
+      }, [articles, notDisplayedArticlesAmount, articlesToDisplay]);
       console.log(articles);
+      console.log(articlesToDisplay);
+
+    React.useEffect(() => {
+        if (articles) {
+            setNotDisplayedArticlesAmount(articles.length);
+        }
+        displayCards();
+        console.log(notDisplayedArticlesAmount);
+    }, []);
 
     return (articles ?
             <ul className="news-list">
-                <RenderCards isItSavedNews={isSavedNewsOpen} />
+                {/* isItSavedNews ?  */
+                    articles.map((article) => 
+                        <NewsCard  doesKeyWordNeedToBeShown={isSavedNewsOpen} 
+                        actionButton={actButton} 
+                        article={article} 
+                        key={article.id}/>)
+                }
             </ul>
             :
             ''
