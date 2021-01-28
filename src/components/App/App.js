@@ -44,6 +44,9 @@ function App() {
       const res = await newsApi.getNews(keyWord, fromDate, toDate);
       const receivedArticles = Array.from(res.articles);
       if (receivedArticles.length !== 0) {
+        receivedArticles.forEach((article) => {
+          article.keyWord = keyWord;
+        });
         setArticles(receivedArticles);
         setNewsLoading(false);
         setNotFoundOpen(false);

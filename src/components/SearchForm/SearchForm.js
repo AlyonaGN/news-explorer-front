@@ -29,6 +29,7 @@ function SearchForm({ receiveResults }) {
         const today = new Date().toISOString();
         const sevenDaysEarlier = new Date((Date.now() - 604800000)).toISOString();
         receiveResults(searchValue.value, sevenDaysEarlier, today);
+        setSearchValue({ value: "" })
       }, [searchValue, receiveResults]);
 
     return (

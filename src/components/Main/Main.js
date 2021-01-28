@@ -12,8 +12,7 @@ function Main ({ searchResultsErr, isPreloaderShown, isNotFoundShown, actionButt
         <main className="content-container">
             <section className={news ? "content-container__results" : "content-container__results content-container__results_invisible"}>
                 <h1 className="news-list__title">Результаты поиска</h1>
-                <NewsCardList actButton={actionButton} articles={news}/>
-                <button className="news-list__more-button" type="button">Показать ещё</button>
+                {news && news.length !== 0 && <NewsCardList actButton={actionButton} articles={news}/>}
             </section>
             <section className={isPreloaderShown ? "content-container__preloader" : "content-container__preloader content-container__preloader_invisible"}>
                 <Preloader />
