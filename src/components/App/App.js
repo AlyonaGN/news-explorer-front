@@ -43,6 +43,7 @@ function App() {
     try {
       const res = await newsApi.getNews(keyWord, fromDate, toDate);
       const receivedArticles = Array.from(res.articles);
+      localStorage.setItem('articles', JSON.stringify(receivedArticles));
       if (receivedArticles.length !== 0) {
         receivedArticles.forEach((article) => {
           article.keyWord = keyWord;
@@ -105,6 +106,10 @@ function App() {
   }, [closeAllPopups]);
 
   React.useEffect(() => {
+    const articlesFromStorage = JSON.parse(localStorage.getItem('articles'));
+    if (articlesFromStorage.length > 0) {
+      setArticles(articlesFromStorage);
+    }
     handleEscClose();
   }, []);
 

@@ -34,8 +34,7 @@ function NewsCardList({ isLoggedIn, actButton, articles }) {
 
     React.useEffect(() => {
         displayCards();
-        console.log(notDisplayedArticlesAmount);
-    }, []);
+    }, [articles]);
 
     console.log(articles);
     console.log(articlesToDisplay);

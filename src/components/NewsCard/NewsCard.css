@@ -151,12 +151,12 @@
         margin-bottom: 10px;
         font-size: 22px;
         line-height: 1.09;
+        max-height: 3.27em;
     }
 
     .news-card__abstract {
         margin-bottom: 12px;
         height: 88px;
-        overflow: hidden;
     }
 
     .news-card__save-button:after {
@@ -180,6 +180,11 @@
 }
 
 @media screen and (max-width: 500px) {
+    .news-card {
+        max-height: 440px;
+        min-height: 440px;
+    }
+
     .news-card__save-button {
         top: 16px;
         right: 16px;
