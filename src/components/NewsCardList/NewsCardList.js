@@ -1,6 +1,7 @@
 import React, { useCallback } from 'react';
 import './NewsCardList.css';
 import NewsCard from '../NewsCard/NewsCard.js';
+import { CONSTS } from '../../utils/card-list-consts'
 import { useLocation } from "react-router-dom";
 import { ROUTES_MAP } from '../../utils/routesMap';
 
@@ -12,12 +13,12 @@ function NewsCardList({ isLoggedIn, actButton, articles }) {
 
     const displayCards = useCallback(() => {
         
-        if (notDisplayedArticlesAmount > 3) {
-            const articlesToShow = articles.splice(0, 3);
+        if (notDisplayedArticlesAmount > CONSTS.MAX_CARDS_AMOUNT_IN_A_ROW) {
+            const articlesToShow = articles.splice(0, CONSTS.MAX_CARDS_AMOUNT_IN_A_ROW);
             setArticlesToDisplay([...articlesToDisplay, ...articlesToShow]);
-            setNotDisplayedArticlesAmount(notDisplayedArticlesAmount - 3);
+            setNotDisplayedArticlesAmount(notDisplayedArticlesAmount - CONSTS.MAX_CARDS_AMOUNT_IN_A_ROW);
         }
-        else if (notDisplayedArticlesAmount <= 3) {
+        else if (notDisplayedArticlesAmount <= CONSTS.MAX_CARDS_AMOUNT_IN_A_ROW) {
             setArticlesToDisplay([...articlesToDisplay, ...articles]);
             setNotDisplayedArticlesAmount(notDisplayedArticlesAmount - articles.length)
         }
@@ -42,7 +43,7 @@ function NewsCardList({ isLoggedIn, actButton, articles }) {
     return (
         <>
             <ul className="news-list">
-                {/* isItSavedNews ?  */
+                {
                     articlesToDisplay &&
                     articlesToDisplay.map((article) => {
                         console.log(article);
