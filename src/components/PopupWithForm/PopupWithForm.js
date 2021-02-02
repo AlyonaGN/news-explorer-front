@@ -3,7 +3,7 @@ import { CONSTS } from '../../utils/auth-consts.js';
 import './PopupWithForm.css';
 
 function PopupWithForm(props) {
-    const [isRegister, setIsRegister] = React.useState(props.isRegister);
+    const [isRegister, setIsRegister] = React.useState(false);
 
     let buttonName;
     let altOptionText;

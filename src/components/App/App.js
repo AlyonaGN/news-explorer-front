@@ -9,7 +9,7 @@ import Main from '../Main/Main.js';
 import Register from '../Register/Register.js';
 import Footer from '../Footer/Footer.js';
 import SavedNews from '../SavedNews/SavedNews.js';
-import PopupWithForm from '../PopupWithForm/PopupWithForm.js';
+import Login from '../Login/Login.js';
 import SavedNewsHeader from '../SavedNewsHeader/SavedNewsHeader.js';
 import React, { useCallback } from 'react';
 import { Route, Switch } from 'react-router-dom';
@@ -164,15 +164,14 @@ function App() {
                   onCloseClick={closeAllPopups}
           />
       }
-{/*       {
-        isPopupWithFormOpen && 
-        <PopupWithForm isOpen={isPopupWithFormOpen} 
-                        onClose={closeAllPopups} 
-                        onRegister={handleRegisterSubmission}
+       {
+        isLoginPopupOpen && 
+        <Login isOpen={isLoginPopupOpen} 
+                        onClose={closeAllPopups}
                         onLogin={handleLoginSubmission}
                         onOverlayAndEscClick={handleOverlayClose}
           />
-      } */}
+      } 
       {
         isSuccessRegPopupOpen && 
         <PopupSuccessReg isOpen={isSuccessRegPopupOpen} 
