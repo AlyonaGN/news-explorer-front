@@ -6,6 +6,7 @@ import SaveButton from '../SaveButton/SaveButton.js';
 import DeleteButton from '../DeleteButton/DeleteButton.js';
 import SearchForm from '../SearchForm/SearchForm.js';
 import Main from '../Main/Main.js';
+import Register from '../Register/Register.js';
 import Footer from '../Footer/Footer.js';
 import SavedNews from '../SavedNews/SavedNews.js';
 import PopupWithForm from '../PopupWithForm/PopupWithForm.js';
@@ -19,7 +20,8 @@ function App() {
   const [isMenuOpen, setMenuOpen] = React.useState(false);
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
   const [isNotFoundOpen, setNotFoundOpen] = React.useState(false);
-  const [isPopupWithFormOpen, setPopupWithFormOpen] = React.useState(false);
+  const [isRegPopupOpen, setRegPopupOpen] = React.useState(false);
+  const [isLoginPopupOpen, setLoginPopupOpen] = React.useState(false);
   const [isSuccessRegPopupOpen, setSuccessRegPopupOpen] = React.useState(false);
 
   const [articles, setArticles] = React.useState(null);
@@ -69,26 +71,27 @@ function App() {
 
   const closeAllPopups = useCallback(() => {
     console.log(articles);
-    setPopupWithFormOpen(false);
-    setSuccessRegPopupOpen(false)
+    setRegPopupOpen(false);
+    setSuccessRegPopupOpen(false);
+    setLoginPopupOpen(false);
   }, [articles]);
 
   const handleRegisterSubmission = useCallback(() => {
-    setPopupWithFormOpen(false);
+    setRegPopupOpen(false);
     setSuccessRegPopupOpen(true);
   }, []);
 
   const handleLoginSubmission = useCallback(() => {
-    setPopupWithFormOpen(false);
+    setRegPopupOpen(false);
   }, []);
 
   const handleOpenAuth = useCallback(() => {
-    setPopupWithFormOpen(true);
+    setRegPopupOpen(true);
   }, []);
 
   const handleLoginClick = useCallback(() => {
     setSuccessRegPopupOpen(false);
-    setPopupWithFormOpen(true);
+    setLoginPopupOpen(true);
   }, []);
 
   const handleOverlayClose = useCallback((e) => {
@@ -154,6 +157,14 @@ function App() {
       <Footer />
 
       {
+        isRegPopupOpen && 
+        <Register onRegister={handleRegisterSubmission} 
+                  isPopupOpen={isRegPopupOpen} 
+                  handleOverlayClick={handleOverlayClose} 
+                  onCloseClick={closeAllPopups}
+          />
+      }
+{/*       {
         isPopupWithFormOpen && 
         <PopupWithForm isOpen={isPopupWithFormOpen} 
                         onClose={closeAllPopups} 
@@ -161,7 +172,7 @@ function App() {
                         onLogin={handleLoginSubmission}
                         onOverlayAndEscClick={handleOverlayClose}
           />
-      }
+      } */}
       {
         isSuccessRegPopupOpen && 
         <PopupSuccessReg isOpen={isSuccessRegPopupOpen} 
