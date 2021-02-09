@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import { ERRORS } from '../../utils/errors.js';
 import PopupWithForm from '../PopupWithForm/PopupWithForm.js';
 
-function Login({ onLogin, isPopupOpen, handleOverlayClick, onCloseClick }) {
+function Login({ onLogin, isPopupOpen, handleOverlayClick, onCloseClick, onRegisterClick }) {
     const [formValues, setFormValues] = React.useState({
         userEmail: "",
         userPassword: "",
@@ -60,7 +60,8 @@ function Login({ onLogin, isPopupOpen, handleOverlayClick, onCloseClick }) {
                         isOpen={isPopupOpen} 
                         onOverlayAndEscClick={handleOverlayClick} 
                         onClose={onCloseClick}
-                        isRegister={false}>
+                        isRegister={false}
+                        onAltOptionClick={onRegisterClick}>
                 <label className="popup__input">Email
                     <input className="popup__field popup__field_email" 
                             required

@@ -70,11 +70,10 @@ function App() {
   }, []);
 
   const closeAllPopups = useCallback(() => {
-    console.log(articles);
     setRegPopupOpen(false);
     setSuccessRegPopupOpen(false);
     setLoginPopupOpen(false);
-  }, [articles]);
+  }, []);
 
   const handleRegisterSubmission = useCallback(() => {
     setRegPopupOpen(false);
@@ -98,6 +97,16 @@ function App() {
     if (e.target.classList.contains('popup')) {
         closeAllPopups();
     }
+  }, [closeAllPopups]);
+
+  const switchToLoginPopup = useCallback(() => {
+    closeAllPopups();
+    setLoginPopupOpen(true);
+  }, [closeAllPopups]);
+
+  const switchToRegPopup = useCallback(() => {
+    closeAllPopups();
+    setRegPopupOpen(true);
   }, [closeAllPopups]);
 
   const handleEscClose = useCallback((e) => {
@@ -162,14 +171,16 @@ function App() {
                   isPopupOpen={isRegPopupOpen} 
                   handleOverlayClick={handleOverlayClose} 
                   onCloseClick={closeAllPopups}
+                  onLoginClick={switchToLoginPopup}
           />
       }
        {
         isLoginPopupOpen && 
-        <Login isOpen={isLoginPopupOpen} 
-                        onClose={closeAllPopups}
-                        onLogin={handleLoginSubmission}
-                        onOverlayAndEscClick={handleOverlayClose}
+        <Login isPopupOpen={isLoginPopupOpen} 
+                onCloseClick={closeAllPopups}
+                onLogin={handleLoginSubmission}
+                handleOverlayClick={handleOverlayClose}
+                onRegisterClick={switchToRegPopup}
           />
       } 
       {
