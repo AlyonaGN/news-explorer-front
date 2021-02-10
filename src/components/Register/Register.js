@@ -1,4 +1,5 @@
 import React, { useCallback } from 'react';
+import { CONSTS } from '../../utils/auth-consts.js';
 import { ERRORS } from '../../utils/errors.js';
 import PopupWithForm from '../PopupWithForm/PopupWithForm.js';
 
@@ -61,8 +62,10 @@ function Register({ onRegister, isPopupOpen, handleOverlayClick, onCloseClick, o
                         isOpen={isPopupOpen} 
                         onOverlayAndEscClick={handleOverlayClick} 
                         onClose={onCloseClick}
-                        isRegister={true}
-                        onAltOptionClick={onLoginClick}>
+                        onAltOptionClick={onLoginClick}
+                        title={CONSTS.REGISTER_TITLE}
+                        buttonName={CONSTS.REGISTER_INVITE}
+                        altOptionText={CONSTS.LOGIN_INVITE}>
                 <label className="popup__input">Email
                     <input className="popup__field popup__field_email" 
                             required

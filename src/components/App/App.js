@@ -77,6 +77,7 @@ function App() {
 
   const handleRegisterSubmission = useCallback(() => {
     setRegPopupOpen(false);
+    
     setSuccessRegPopupOpen(true);
   }, []);
 

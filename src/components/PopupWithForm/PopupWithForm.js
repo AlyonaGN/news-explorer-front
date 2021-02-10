@@ -1,37 +1,30 @@
 import React,  { useCallback } from 'react';
-import { CONSTS } from '../../utils/auth-consts.js';
 import './PopupWithForm.css';
 
 function PopupWithForm(props) {
-    const { isFormValid, onSubmit, isOpen, onOverlayAndEscClick, onClose, isRegister, onAltOptionClick, children } = props;
-    const [isRegisterPopup, setIsRegisterPopup] = React.useState(isRegister);
-
-    let buttonName;
-    let altOptionText;
-
-    if (!isRegisterPopup) {
-        buttonName = CONSTS.LOGIN_INVITE;
-        altOptionText = CONSTS.REGISTER_INVITE;
-    }
-    else if (isRegisterPopup) {
-        buttonName = CONSTS.REGISTER_INVITE;
-        altOptionText = CONSTS.LOGIN_INVITE;
-    }
+    const { isFormValid, 
+            onSubmit, 
+            isOpen, 
+            onOverlayAndEscClick, 
+            onClose,
+            onAltOptionClick, 
+            title, 
+            buttonName, 
+            altOptionText, 
+            children } = props;
 
     const handleAltOptionClick = useCallback(() => {
         onAltOptionClick();
-        console.log(children);
-        setIsRegisterPopup(!isRegisterPopup);
-    }, [isRegisterPopup, onAltOptionClick]);
+    }, [onAltOptionClick]);
 
     return (
         <div className={`popup ${isOpen && `popup_opened`}`} onClick={onOverlayAndEscClick}>
 
-            <form className="popup__form" name={isRegisterPopup ? CONSTS.REGISTER_TITLE : CONSTS.LOGIN_TITLE} onSubmit={onSubmit} >
+            <form className="popup__form" name={title} onSubmit={onSubmit} >
 
                 <button type="button" className="popup__close-button" onClick={onClose}></button>
 
-                <h2 className="popup__header">{isRegisterPopup ? CONSTS.REGISTER_TITLE : CONSTS.LOGIN_TITLE}</h2>
+                <h2 className="popup__header">{title}</h2>
 
                 {children}
 
