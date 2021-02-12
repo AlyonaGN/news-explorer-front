@@ -1,42 +1,44 @@
-class MainApi {
-    constructor({ baseUrl, headers }) {
-        this.baseUrl = baseUrl;
-    }
+import { ROUTES_MAP } from "./routesMap";
+import { setToken } from "./token";
 
-    getNews(keyWord, fromDate, toDate) {
-        return this.makeApiRequest(`${this.baseUrl}&q=${keyWord}&from=${fromDate}&to=${toDate}&pageSize=${100}`, {
-            method: 'GET',
-            headers: this.headers,
+export const BASE_URL = 'http://api.news.explorer.by.alyona.students.nomoredomains.icu';
+
+export const register = (name, email, password) => {
+    return fetch(`${BASE_URL}${ROUTES_MAP.SIGNUP}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ name, email, password })
+    })
+        .then(async (response) => {
+                const data = await response.json();
+                if (response.status === 200){
+                  return data;
+                }
+                else {
+                    if (response.status === 400) {
+                        (console.log(data));
+                        return Promise.reject(new Error(data.validation.body.message));
+                    }
+                    return Promise.reject(new Error(data.message));
+                }
         })
-            .then(res => {
-                return this._getResponseData(res);
-            });
-    }
+};
 
-    
-    makeApiRequest(url, config) {
-        const token = 1/* getToken() */;
-        if (!token) {
-            return;
-        }
-
-        if (!config.headers) {
-            config.headers = { authorization: `Bearer ${token}` };
-        } else {
-            config.headers.authorization = `Bearer ${token}`;
-        }
-        return fetch(url, config);
-    }
-
-    _getResponseData(res){
-        if (res.ok) {
-            return res.json();
-        }
-
-        return Promise.reject(new Error(`Ошибка: ${res.status}`));
-    }
-}
-
-export const mainApi = new MainApi({
-    baseUrl: `https://newsapi.org/v2/everything?apiKey=${newsApiKey}`,
-});
+export const login = (email, password) => {
+    return fetch(`${BASE_URL}${ROUTES_MAP.SIGNIN}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({email, password})
+    })
+    .then(response => response.json())
+    .then((data) => {
+      if (data.token){
+        setToken(data.token);
+        return data;
+      }
+    })
+  };

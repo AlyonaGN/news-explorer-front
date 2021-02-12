@@ -124,7 +124,7 @@
     min-width: 200px;
 }
 
- .popup__field-error {
+.popup__field-error {
     font-family: 'Inter', sans-serif;
     font-style: normal;
     font-weight: 400;
@@ -134,6 +134,20 @@
     color: #FF0000;
     margin-top: 5px;
     margin-bottom: 13px;
+    display: block;
+}
+
+.popup__submission-error {
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 1.25;
+    width: 100%;
+    color: #FF0000;
+    text-align: center;
+    margin-top: 5px;
+    margin-bottom: 8px;
     display: block;
 }
 

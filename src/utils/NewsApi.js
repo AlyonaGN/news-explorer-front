@@ -2,14 +2,13 @@
 import { newsApiKey } from './newsApiKey';
 
 class NewsApi {
-    constructor({ baseUrl, headers }) {
+    constructor({ baseUrl }) {
         this.baseUrl = baseUrl;
     }
 
     getNews(keyWord, fromDate, toDate) {
         return this.makeApiRequest(`${this.baseUrl}&q=${keyWord}&from=${fromDate}&to=${toDate}&pageSize=${100}`, {
             method: 'GET',
-            headers: this.headers,
         })
             .then(res => {
                 return this._getResponseData(res);

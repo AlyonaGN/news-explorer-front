@@ -3,7 +3,7 @@ import { CONSTS } from '../../utils/auth-consts.js';
 import { ERRORS } from '../../utils/errors.js';
 import PopupWithForm from '../PopupWithForm/PopupWithForm.js';
 
-function Register({ onRegister, isPopupOpen, handleOverlayClick, onCloseClick, onLoginClick }) {
+function Register({ onRegister, isPopupOpen, handleOverlayClick, onCloseClick, onLoginClick, registrationError }) {
     const [formValues, setFormValues] = React.useState({
         userEmail: "",
         userPassword: "",
@@ -33,7 +33,9 @@ function Register({ onRegister, isPopupOpen, handleOverlayClick, onCloseClick, o
         setErrors({...errors, [eventName]: errorMessages });
     }, [errors]);
 
-    const resetForm = useCallback((newValues = {}, newErrors = {}, newIsValid = false) => {
+    const resetForm = useCallback((newValues = { userEmail: "", userPassword: "", userName: ""}, 
+                                    newErrors = { userEmail: [], userPassword: [], userName: []}, 
+                                    newIsValid = false) => {
         setFormValues(newValues);
         setErrors(newErrors);
         setIsValid(newIsValid);
@@ -52,7 +54,7 @@ function Register({ onRegister, isPopupOpen, handleOverlayClick, onCloseClick, o
 
     const handleSubmit = useCallback((event) => {
         event.preventDefault();
-        onRegister(formValues.password, formValues.email, formValues.name);
+        onRegister(formValues.userName, formValues.userEmail, formValues.userPassword);
         resetForm();
     }, [formValues, onRegister, resetForm]);
 
@@ -65,7 +67,8 @@ function Register({ onRegister, isPopupOpen, handleOverlayClick, onCloseClick, o
                         onAltOptionClick={onLoginClick}
                         title={CONSTS.REGISTER_TITLE}
                         buttonName={CONSTS.REGISTER_INVITE}
-                        altOptionText={CONSTS.LOGIN_INVITE}>
+                        altOptionText={CONSTS.LOGIN_INVITE}
+                        error={registrationError}>
                 <label className="popup__input">Email
                     <input className="popup__field popup__field_email" 
                             required
@@ -106,6 +109,7 @@ function Register({ onRegister, isPopupOpen, handleOverlayClick, onCloseClick, o
                             inputMode="search" />
                     {errors.userName.length > 0 && <span className="popup__field-error">{errors.userName}</span>}
                 </label>
+                {registrationError && <span className="popup__submission-error">{registrationError}</span>}
         </PopupWithForm>    
     );
 

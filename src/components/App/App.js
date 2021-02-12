@@ -15,6 +15,7 @@ import React, { useCallback } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import PopupSuccessReg from '../PopupSuccessReg/PopupSuccessReg';
 import { newsApi } from '../../utils/NewsApi';
+import { register, login } from '../../utils/MainApi';
 
 function App() {
   const [isMenuOpen, setMenuOpen] = React.useState(false);
@@ -23,10 +24,10 @@ function App() {
   const [isRegPopupOpen, setRegPopupOpen] = React.useState(false);
   const [isLoginPopupOpen, setLoginPopupOpen] = React.useState(false);
   const [isSuccessRegPopupOpen, setSuccessRegPopupOpen] = React.useState(false);
-
   const [articles, setArticles] = React.useState(null);
   const [isNewsLoading, setNewsLoading] = React.useState(false);
   const [isSearchError, setSearchError] = React.useState(false);
+  const [regError, setRegError] = React.useState(null);
 
   const toggleMenu = useCallback(() => {
     setMenuOpen(!isMenuOpen);
@@ -75,18 +76,61 @@ function App() {
     setLoginPopupOpen(false);
   }, []);
 
-  const handleRegisterSubmission = useCallback(() => {
-    setRegPopupOpen(false);
-    
-    setSuccessRegPopupOpen(true);
+  const handleRegisterSubmission = useCallback((name, email, password) => {
+    register(name, email, password)
+      .then((res) => {
+        if (res) {
+          console.log(res);
+          setRegPopupOpen(false);
+          setSuccessRegPopupOpen(true);
+        }
+      })
+      .catch((err) => {
+        setRegError(err.message);
+        console.log(err.message);
+      });
   }, []);
 
-  const handleLoginSubmission = useCallback(() => {
-    setRegPopupOpen(false);
+/*   const prepareAppForLogin = useCallback((jwt) => {
+    getContent(jwt)
+        .then(async (res) => {
+          if (res) {
+            setUser(res); 
+            const cards = await api.getInitialCards();
+            const initialCards = cards.map((initialCard) => {
+              return api.createCard(initialCard);
+            })
+            setCards(initialCards);
+            setIsLoading(false);
+          }
+        })
+        .then(() => {
+          setLoggedIn(true);
+          history.push(ROUTES_MAP.MAIN);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+  }, [history]); */
+
+  const handleLoginSubmission = useCallback((email, password) => {
+    login(email, password)
+    .then((res) => {  
+      if (res) {
+        prepareAppForLogin(res.token);
+        setRegPopupOpen(false);
+      } else {
+        //history.push(ROUTES_MAP.SIGNIN);
+      }
+    })
+    .catch((err) => {
+      console.log(err);
+    })
   }, []);
 
   const handleOpenAuth = useCallback(() => {
-    setRegPopupOpen(true);
+    setRegError(null);
+    setLoginPopupOpen(true);
   }, []);
 
   const handleLoginClick = useCallback(() => {
@@ -173,6 +217,7 @@ function App() {
                   handleOverlayClick={handleOverlayClose} 
                   onCloseClick={closeAllPopups}
                   onLoginClick={switchToLoginPopup}
+                  registrationError={regError}
           />
       }
        {
