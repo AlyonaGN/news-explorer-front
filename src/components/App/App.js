@@ -15,7 +15,8 @@ import React, { useCallback } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import PopupSuccessReg from '../PopupSuccessReg/PopupSuccessReg';
 import { newsApi } from '../../utils/NewsApi';
-import { register, login } from '../../utils/MainApi';
+import { register, login, getUserData } from '../../utils/MainApi';
+import { CurrentUserContext } from '../../contexts/currentUserContext';
 
 function App() {
   const [isMenuOpen, setMenuOpen] = React.useState(false);
@@ -27,7 +28,9 @@ function App() {
   const [articles, setArticles] = React.useState(null);
   const [isNewsLoading, setNewsLoading] = React.useState(false);
   const [isSearchError, setSearchError] = React.useState(false);
-  const [regError, setRegError] = React.useState(null);
+  const [authSubmissionError, setAuthSubmissionError] = React.useState(null);
+  const [currentUser, setUser] = React.useState(null);
+  const [savedArticles, setSavedArticles] = React.useState([]);
 
   const toggleMenu = useCallback(() => {
     setMenuOpen(!isMenuOpen);
@@ -86,32 +89,27 @@ function App() {
         }
       })
       .catch((err) => {
-        setRegError(err.message);
+        setAuthSubmissionError(err.message);
         console.log(err.message);
       });
   }, []);
 
-/*   const prepareAppForLogin = useCallback((jwt) => {
-    getContent(jwt)
-        .then(async (res) => {
+const prepareAppForLogin = useCallback((jwt) => {
+    getUserData(jwt)
+        .then((res) => {
           if (res) {
-            setUser(res); 
-            const cards = await api.getInitialCards();
-            const initialCards = cards.map((initialCard) => {
-              return api.createCard(initialCard);
-            })
-            setCards(initialCards);
-            setIsLoading(false);
+            setUser(res);
+            closeAllPopups();
           }
         })
         .then(() => {
-          setLoggedIn(true);
-          history.push(ROUTES_MAP.MAIN);
+          setIsLoggedIn(true);
         })
         .catch((err) => {
+          setAuthSubmissionError(err.message);
           console.log(err);
         });
-  }, [history]); */
+  }, [closeAllPopups]);
 
   const handleLoginSubmission = useCallback((email, password) => {
     login(email, password)
@@ -119,17 +117,16 @@ function App() {
       if (res) {
         prepareAppForLogin(res.token);
         setRegPopupOpen(false);
-      } else {
-        //history.push(ROUTES_MAP.SIGNIN);
       }
     })
     .catch((err) => {
+      setAuthSubmissionError(err.message);
       console.log(err);
     })
-  }, []);
+  }, [prepareAppForLogin]);
 
   const handleOpenAuth = useCallback(() => {
-    setRegError(null);
+    setAuthSubmissionError(null);
     setLoginPopupOpen(true);
   }, []);
 
@@ -146,11 +143,13 @@ function App() {
 
   const switchToLoginPopup = useCallback(() => {
     closeAllPopups();
+    setAuthSubmissionError(null);
     setLoginPopupOpen(true);
   }, [closeAllPopups]);
 
   const switchToRegPopup = useCallback(() => {
     closeAllPopups();
+    setAuthSubmissionError(null);
     setRegPopupOpen(true);
   }, [closeAllPopups]);
 
@@ -171,13 +170,12 @@ function App() {
   }, []);
 
   return (
-    <>
+    <CurrentUserContext.Provider value={currentUser}>
       <Switch>
         <Route path={ROUTES_MAP.SAVED_NEWS}>
           <div className="page__header_saved-news">
               <AppHeader onMenuClick={toggleMenu} 
-                          isMenuShown={isMenuOpen} 
-                          makeLoggedIn={toggleLoggedIn} 
+                          isMenuShown={isMenuOpen}
                           isLoggedIn={true} 
                           isFontDark={true}
                           onAuthClick={handleOpenAuth}
@@ -185,8 +183,8 @@ function App() {
               />
               <SavedNewsHeader />
           </div>
-          <SavedNews isUserLoggedIn={true}
-                    actionButton={<DeleteButton/>}/>
+          <SavedNews actionButton={<DeleteButton/>}
+                    news={savedArticles}/>
         </Route>
         <Route exact path={ROUTES_MAP.MAIN}>
           <div className="page__header">
@@ -217,7 +215,7 @@ function App() {
                   handleOverlayClick={handleOverlayClose} 
                   onCloseClick={closeAllPopups}
                   onLoginClick={switchToLoginPopup}
-                  registrationError={regError}
+                  registrationError={authSubmissionError}
           />
       }
        {
@@ -227,6 +225,7 @@ function App() {
                 onLogin={handleLoginSubmission}
                 handleOverlayClick={handleOverlayClose}
                 onRegisterClick={switchToRegPopup}
+                loginError={authSubmissionError}
           />
       } 
       {
@@ -237,7 +236,7 @@ function App() {
                         onOverlayAndEscClick={handleOverlayClose}
           />
       }
-    </>
+    </CurrentUserContext.Provider>
   );
 }
 

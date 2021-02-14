@@ -3,7 +3,7 @@ import { CONSTS } from '../../utils/auth-consts.js';
 import { ERRORS } from '../../utils/errors.js';
 import PopupWithForm from '../PopupWithForm/PopupWithForm.js';
 
-function Login({ onLogin, isPopupOpen, handleOverlayClick, onCloseClick, onRegisterClick }) {
+function Login({ onLogin, isPopupOpen, handleOverlayClick, onCloseClick, onRegisterClick, loginError }) {
     const [formValues, setFormValues] = React.useState({
         userEmail: "",
         userPassword: "",
@@ -32,7 +32,9 @@ function Login({ onLogin, isPopupOpen, handleOverlayClick, onCloseClick, onRegis
         setErrors({...errors, [eventName]: errorMessages });
     }, [errors]);
 
-    const resetForm = useCallback((newValues = {}, newErrors = {}, newIsValid = false) => {
+    const resetForm = useCallback((newValues = { userEmail: "", userPassword: ""}, 
+                                    newErrors = { userEmail: [], userPassword: []}, 
+                                    newIsValid = false) => {
         setFormValues(newValues);
         setErrors(newErrors);
         setIsValid(newIsValid);
@@ -51,7 +53,7 @@ function Login({ onLogin, isPopupOpen, handleOverlayClick, onCloseClick, onRegis
 
     const handleSubmit = useCallback((event) => {
         event.preventDefault();
-        onLogin(formValues.password, formValues.email);
+        onLogin(formValues.userEmail, formValues.userPassword);
         resetForm();
     }, [formValues, onLogin, resetForm]);
 
@@ -91,7 +93,7 @@ function Login({ onLogin, isPopupOpen, handleOverlayClick, onCloseClick, onRegis
                             inputMode="search" />
                     {errors.userPassword.length > 0 && <span className="popup__field-error">{errors.userPassword}</span>}
                 </label>
-
+                {loginError && <span className="popup__submission-error">{loginError}</span>}
         </PopupWithForm>    
     );
 

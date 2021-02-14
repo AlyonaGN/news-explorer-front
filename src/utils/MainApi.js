@@ -18,7 +18,6 @@ export const register = (name, email, password) => {
                 }
                 else {
                     if (response.status === 400) {
-                        (console.log(data));
                         return Promise.reject(new Error(data.validation.body.message));
                     }
                     return Promise.reject(new Error(data.message));
@@ -40,5 +39,25 @@ export const login = (email, password) => {
         setToken(data.token);
         return data;
       }
+      else {
+        if (data.status === 400) {
+          return Promise.reject(new Error(data.validation.body.message));
+        }
+        return Promise.reject(new Error(data.message));
+      }
+    })
+  };
+
+  export const getUserData = (token) => {
+    return fetch(`${BASE_URL}${ROUTES_MAP.USER_INFO}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      }
+    })
+    .then((response) => {
+        console.log(response);
+        return response.json();
     })
   };

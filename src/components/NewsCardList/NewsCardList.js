@@ -5,7 +5,7 @@ import { CONSTS } from '../../utils/card-list-consts'
 import { useLocation } from "react-router-dom";
 import { ROUTES_MAP } from '../../utils/routesMap';
 
-function NewsCardList({ isLoggedIn, actButton, articles }) {
+function NewsCardList({ actButton, articles }) {
     const location = useLocation();
     const isSavedNewsOpen = (location.pathname === ROUTES_MAP.SAVED_NEWS);
     const [notDisplayedArticlesAmount, setNotDisplayedArticlesAmount] = React.useState(articles.length);
@@ -37,16 +37,12 @@ function NewsCardList({ isLoggedIn, actButton, articles }) {
         displayCards();
     }, [articles]);
 
-    console.log(articles);
-    console.log(articlesToDisplay);
-
     return (
         <>
             <ul className="news-list">
                 {
                     articlesToDisplay &&
                     articlesToDisplay.map((article) => {
-                        console.log(article);
                         return <NewsCard  doesKeyWordNeedToBeShown={isSavedNewsOpen} 
                             actionButton={actButton} 
                             picture={article.urlToImage}
