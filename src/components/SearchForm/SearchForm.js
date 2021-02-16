@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import './SearchForm.css';
 import { ERRORS } from '../../utils/errors.js';
 
-function SearchForm({ receiveResults }) {
+function SearchForm({ receiveResults, nullifyResults }) {
     const [searchValue, setSearchValue] = React.useState({
         value: ""
     });
@@ -22,15 +22,20 @@ function SearchForm({ receiveResults }) {
     const handleChange = useCallback((e) => {
         setSearchValue({ value: e.target.value });
         checkValidity(e.target);
-      }, [checkValidity]);
+    }, [checkValidity]);
 
-      const handleSubmit = useCallback((e) => {
+    const refreshArticlesInfo = useCallback(() => {
+        nullifyResults();
+    }, [nullifyResults]);
+
+    const handleSubmit = useCallback((e) => {
+        //refreshArticlesInfo();
         e.preventDefault();
         const today = new Date().toISOString();
         const sevenDaysEarlier = new Date((Date.now() - 604800000)).toISOString();
         receiveResults(searchValue.value, sevenDaysEarlier, today);
-        setSearchValue({ value: "" })
-      }, [searchValue, receiveResults]);
+        setSearchValue({ value: "" });
+    }, [searchValue, receiveResults, nullifyResults]);
 
     return (
             <form className="search-form" onSubmit={handleSubmit} noValidate>

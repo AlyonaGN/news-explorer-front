@@ -17,6 +17,8 @@ import PopupSuccessReg from '../PopupSuccessReg/PopupSuccessReg';
 import { newsApi } from '../../utils/NewsApi';
 import { register, login, getUserData } from '../../utils/MainApi';
 import { CurrentUserContext } from '../../contexts/currentUserContext';
+import { getToken, setToken, removeToken } from "../../utils/token";
+import { CONSTS } from '../../utils/card-list-consts'
 
 function App() {
   const [isMenuOpen, setMenuOpen] = React.useState(false);
@@ -25,16 +27,35 @@ function App() {
   const [isRegPopupOpen, setRegPopupOpen] = React.useState(false);
   const [isLoginPopupOpen, setLoginPopupOpen] = React.useState(false);
   const [isSuccessRegPopupOpen, setSuccessRegPopupOpen] = React.useState(false);
-  const [articles, setArticles] = React.useState(null);
+  const [articles, setArticles] = React.useState([]);
   const [isNewsLoading, setNewsLoading] = React.useState(false);
   const [isSearchError, setSearchError] = React.useState(false);
   const [authSubmissionError, setAuthSubmissionError] = React.useState(null);
   const [currentUser, setUser] = React.useState(null);
+  const [isShowMoreButtonNeeded, setShowMoreButtonNeeded] = React.useState(false);
   const [savedArticles, setSavedArticles] = React.useState([]);
+  const [articlesToDisplay, setArticlesToDisplay] = React.useState([]);
+
+  const displayCards = useCallback((articlesFromNewsApi = articles) => {
+      if (articlesFromNewsApi.length > CONSTS.MAX_CARDS_AMOUNT_IN_A_ROW) {
+          setShowMoreButtonNeeded(true);
+          const articlesToShow = articlesFromNewsApi.splice(0, CONSTS.MAX_CARDS_AMOUNT_IN_A_ROW);
+          setArticlesToDisplay([...articlesToDisplay, ...articlesToShow]); 
+      }
+      else if (articlesFromNewsApi.length <= CONSTS.MAX_CARDS_AMOUNT_IN_A_ROW) {
+          setShowMoreButtonNeeded(false);
+          setArticlesToDisplay([...articlesToDisplay, ...articlesFromNewsApi]);
+      }
+  }, [articles, articlesToDisplay]);
 
   const toggleMenu = useCallback(() => {
     setMenuOpen(!isMenuOpen);
   }, [isMenuOpen]);
+
+  const nullifyResults = useCallback(() => {
+    setArticles([]);
+    setArticlesToDisplay([]);
+  }, []);
 
   const closeMenu = useCallback(() => {
     setMenuOpen(false);
@@ -55,6 +76,7 @@ function App() {
           article.keyWord = keyWord;
         });
         setArticles(receivedArticles);
+        displayCards(receivedArticles);
         setNewsLoading(false);
         setNotFoundOpen(false);
         setSearchError(false);
@@ -71,7 +93,7 @@ function App() {
       setSearchError(true);
       console.log(err);
     }
-  }, []);
+  }, [displayCards]);
 
   const closeAllPopups = useCallback(() => {
     setRegPopupOpen(false);
@@ -161,11 +183,31 @@ const prepareAppForLogin = useCallback((jwt) => {
     });
   }, [closeAllPopups]);
 
+  const handleSignOut = useCallback(() => {
+    removeToken();
+    setIsLoggedIn(false);
+    setMenuOpen(false);
+  }, []);
+
+  const checkToken = useCallback(() => {
+    const jwt = getToken();
+    if (!jwt) {
+      setIsLoggedIn(false);
+      return;
+    }
+    return jwt;
+  }, [setIsLoggedIn]);
+
   React.useEffect(() => {
-    const articlesFromStorage = JSON.parse(localStorage.getItem('articles'));
+    const jwt =  checkToken();
+    if (jwt) {
+      prepareAppForLogin(jwt);
+    }
+
+/*     const articlesFromStorage = JSON.parse(localStorage.getItem('articles'));
     if (articlesFromStorage.length > 0) {
       setArticles(articlesFromStorage);
-    }
+    } */
     handleEscClose();
   }, []);
 
@@ -179,7 +221,8 @@ const prepareAppForLogin = useCallback((jwt) => {
                           isLoggedIn={true} 
                           isFontDark={true}
                           onAuthClick={handleOpenAuth}
-                          closeMenuOnclick={closeMenu} 
+                          closeMenuOnclick={closeMenu}
+                          onSignOut={handleSignOut} 
               />
               <SavedNewsHeader />
           </div>
@@ -194,15 +237,19 @@ const prepareAppForLogin = useCallback((jwt) => {
                           isLoggedIn={isLoggedIn} 
                           isFontDark={false} 
                           onAuthClick={handleOpenAuth}
-                          closeMenuOnclick={closeMenu}    
+                          closeMenuOnclick={closeMenu}
+                          onSignOut={handleSignOut}    
                 />
-              <SearchForm receiveResults={getNewsFromApi} />
+              <SearchForm receiveResults={getNewsFromApi} 
+                          nullResults={nullifyResults}/>
           </div>
           <Main searchResultsErr={isSearchError} 
                 isPreloaderShown={isNewsLoading}
                 isNotFoundShown={isNotFoundOpen}
                 actionButton={<SaveButton isUserLoggedIn={isLoggedIn} />}
-                news={articles}
+                newsToDisplay={articlesToDisplay}
+                displayNews={displayCards}
+                isMoreButtonDisplayed={isShowMoreButtonNeeded}
           />
         </Route>
       </Switch>

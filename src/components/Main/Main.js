@@ -6,13 +6,22 @@ import NotFound from '../NotFound/NotFound.js';
 import SearchError from '../SearchError/SearchError.js';
 import NewsCardList from '../NewsCardList/NewsCardList.js';
 
-function Main ({ searchResultsErr, isPreloaderShown, isNotFoundShown, actionButton, news }) {
+function Main ({ searchResultsErr, 
+                    isPreloaderShown, 
+                    isNotFoundShown, 
+                    actionButton, 
+                    newsToDisplay,
+                    displayNews,
+                    isMoreButtonDisplayed }) {
     
     return (
         <main className="content-container">
-            <section className={news ? "content-container__results" : "content-container__results content-container__results_invisible"}>
+            <section className={newsToDisplay.length !== 0 ? "content-container__results" : "content-container__results content-container__results_invisible"}>
                 <h1 className="news-list__title">Результаты поиска</h1>
-                {news && news.length !== 0 && <NewsCardList actButton={actionButton} articles={news}/>}
+                {newsToDisplay.length !== 0 && <NewsCardList actButton={actionButton} 
+                                                            articlesToDisplay={newsToDisplay}
+                                                            displayCards={displayNews}
+                                                            isMoreButtonNeeded={isMoreButtonDisplayed}/>}
             </section>
             <section className={isPreloaderShown ? "content-container__preloader" : "content-container__preloader content-container__preloader_invisible"}>
                 <Preloader />

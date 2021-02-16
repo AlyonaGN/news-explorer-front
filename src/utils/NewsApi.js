@@ -1,4 +1,4 @@
-//import { getToken } from "./token";
+import { getToken } from "./token";
 import { newsApiKey } from './newsApiKey';
 
 class NewsApi {
@@ -7,7 +7,7 @@ class NewsApi {
     }
 
     getNews(keyWord, fromDate, toDate) {
-        return this.makeApiRequest(`${this.baseUrl}&q=${keyWord}&from=${fromDate}&to=${toDate}&pageSize=${100}`, {
+        return fetch(`${this.baseUrl}&q=${keyWord}&from=${fromDate}&to=${toDate}&pageSize=${100}`, {
             method: 'GET',
         })
             .then(res => {
@@ -16,8 +16,8 @@ class NewsApi {
     }
 
     
-    makeApiRequest(url, config) {
-        const token = 1/* getToken() */;
+    _makeAuthorizedApiRequest(url, config) {
+        const token = 1/* getToken() */; //сделать применимым только для сохранения и удаления карточек
         if (!token) {
             return;
         }
@@ -40,6 +40,5 @@ class NewsApi {
 }
 
 export const newsApi = new NewsApi({
-    baseUrl: `https://newsapi.org/v2/everything?apiKey=${newsApiKey}`,
-    //baseUrl: 'http://localhost:4000/api',
+    baseUrl: `https://nomoreparties.co/news/v2/top-headlines?country=us&apiKey=${newsApiKey}`,
 });

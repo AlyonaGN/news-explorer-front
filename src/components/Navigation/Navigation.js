@@ -8,7 +8,7 @@ import { useLocation } from "react-router-dom";
 
 
 
-function Navigation({ isUserLoggedIn, isMenuDisplayed, isDark, onAuth, closeMenu }) {
+function Navigation({ isUserLoggedIn, isMenuDisplayed, isDark, onAuth, closeMenu, signOut }) {
     const location = useLocation();
     const handleAuthClick = useCallback(() => {
         closeMenu();
@@ -29,7 +29,7 @@ function Navigation({ isUserLoggedIn, isMenuDisplayed, isDark, onAuth, closeMenu
                 }
                 {
                 isUserLoggedIn ?
-                    <button className={isDark ? "nav-list__exit-button nav-list__exit-button_dark" : "nav-list__exit-button"} onClick={closeMenu}>
+                    <button className={isDark ? "nav-list__exit-button nav-list__exit-button_dark" : "nav-list__exit-button"} onClick={signOut}>
                         Грета
                         <img className="nav-list__exit-icon" src={isDark && !isMenuDisplayed ? exitIconDark : exitIcon} alt="иконка выхода из профиля"></img>
                     </button>
