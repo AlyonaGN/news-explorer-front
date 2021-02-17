@@ -15,21 +15,6 @@ class NewsApi {
             });
     }
 
-    
-    _makeAuthorizedApiRequest(url, config) {
-        const token = 1/* getToken() */; //сделать применимым только для сохранения и удаления карточек
-        if (!token) {
-            return;
-        }
-
-        if (!config.headers) {
-            config.headers = { authorization: `Bearer ${token}` };
-        } else {
-            config.headers.authorization = `Bearer ${token}`;
-        }
-        return fetch(url, config);
-    }
-
     _getResponseData(res){
         if (res.ok) {
             return res.json();

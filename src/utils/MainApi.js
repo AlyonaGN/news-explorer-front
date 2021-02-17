@@ -61,3 +61,27 @@ export const login = (email, password) => {
         return response.json();
     })
   };
+
+  export const saveNews = (newsCard, token) => {
+    //TODO: дописать запрос
+    return fetch(`${BASE_URL}${ROUTES_MAP.ARTICLES}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      },
+      body: JSON.stringify({
+        keyword: , 
+        title: , 
+        text: , 
+        date: , 
+        source: , 
+        link: , 
+        image: ,
+      })
+    })
+    .then((response) => {
+        console.log(response);
+        return response.json();
+    })
+  };

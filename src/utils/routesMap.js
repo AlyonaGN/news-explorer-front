@@ -4,4 +4,5 @@ export const ROUTES_MAP = {
     SIGNUP: '/signup',
     SIGNIN: '/signin',
     USER_INFO: '/users/me',
+    ARTICLES: '/articles',
 }

@@ -47,31 +47,7 @@ function App() {
       setShowMoreButtonNeeded(false);
       setArticlesToDisplay([...articlesForDisplaying, ...newsFromApi]);
     }
-}, [articlesToDisplay, articles]);
-  
-/*   const displayInitialCards = useCallback((articlesFromNewsApi) => {
-    if (articlesFromNewsApi.length > CONSTS.MAX_CARDS_AMOUNT_IN_A_ROW) {
-      setShowMoreButtonNeeded(true);
-      const articlesToShow = articlesFromNewsApi.splice(0, CONSTS.MAX_CARDS_AMOUNT_IN_A_ROW);
-      setArticlesToDisplay(articlesToShow);
-    }
-    else if (articlesFromNewsApi.length <= CONSTS.MAX_CARDS_AMOUNT_IN_A_ROW) {
-      setShowMoreButtonNeeded(false);
-      setArticlesToDisplay(articlesFromNewsApi);
-    }
-  }, []);
-
-  const showMoreCards = useCallback(() => {
-    if (articles.length > CONSTS.MAX_CARDS_AMOUNT_IN_A_ROW) {
-      setShowMoreButtonNeeded(true);
-      const articlesToShow = articles.splice(0, CONSTS.MAX_CARDS_AMOUNT_IN_A_ROW);
-      setArticlesToDisplay([...articlesToDisplay, ...articlesToShow]);
-    }
-    else if (articles.length <= CONSTS.MAX_CARDS_AMOUNT_IN_A_ROW) {
-      setShowMoreButtonNeeded(false);
-      setArticlesToDisplay([...articlesToDisplay, ...articles]);
-    }
-  }, [articles, articlesToDisplay]); */
+  }, [articlesToDisplay, articles]);
 
   const toggleMenu = useCallback(() => {
     setMenuOpen(!isMenuOpen);
@@ -141,6 +117,7 @@ const prepareAppForLogin = useCallback((jwt) => {
         .then((res) => {
           if (res) {
             setUser(res);
+            //TODO: запросить сохраненные новости
             closeAllPopups();
           }
         })
@@ -158,6 +135,9 @@ const prepareAppForLogin = useCallback((jwt) => {
     .then((res) => {  
       if (res) {
         prepareAppForLogin(res.token);
+        localStorage.removeItem('articles');
+        setArticles([]);
+        displayNews([], []);
         setRegPopupOpen(false);
       }
     })
@@ -165,7 +145,7 @@ const prepareAppForLogin = useCallback((jwt) => {
       setAuthSubmissionError(err.message);
       console.log(err);
     })
-  }, [prepareAppForLogin]);
+  }, [prepareAppForLogin, displayNews]);
 
   const handleOpenAuth = useCallback(() => {
     setAuthSubmissionError(null);
@@ -195,6 +175,10 @@ const prepareAppForLogin = useCallback((jwt) => {
     setRegPopupOpen(true);
   }, [closeAllPopups]);
 
+  const handleSaveClick = useCallback((e) => {
+      //TODO: обработчик клика по иконке сохранить
+  }, []);
+
   const handleEscClose = useCallback((e) => {
     window.addEventListener('keyup', (e) => {
       if (e.key === 'Escape') {
@@ -204,10 +188,13 @@ const prepareAppForLogin = useCallback((jwt) => {
   }, [closeAllPopups]);
 
   const handleSignOut = useCallback(() => {
+    localStorage.removeItem('articles');
+    setArticles([]);
+    displayNews([], []);
     removeToken();
     setIsLoggedIn(false);
     setMenuOpen(false);
-  }, []);
+  }, [displayNews]);
 
   const checkToken = useCallback(() => {
     const jwt = getToken();
@@ -219,15 +206,16 @@ const prepareAppForLogin = useCallback((jwt) => {
   }, [setIsLoggedIn]);
 
   React.useEffect(() => {
-    const jwt =  checkToken();
+    const jwt = checkToken();
     if (jwt) {
       prepareAppForLogin(jwt);
     }
 
-/*     const articlesFromStorage = JSON.parse(localStorage.getItem('articles'));
-    if (articlesFromStorage.length > 0) {
+    const articlesFromStorage = JSON.parse(localStorage.getItem('articles'));
+    if (articlesFromStorage && articlesFromStorage.length > 0) {
       setArticles(articlesFromStorage);
-    } */
+      displayNews(articlesFromStorage);
+    }
     handleEscClose();
   }, []);
 
