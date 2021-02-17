@@ -36,26 +36,46 @@ function App() {
   const [savedArticles, setSavedArticles] = React.useState([]);
   const [articlesToDisplay, setArticlesToDisplay] = React.useState([]);
 
-  const displayCards = useCallback((articlesFromNewsApi = articles) => {
-      if (articlesFromNewsApi.length > CONSTS.MAX_CARDS_AMOUNT_IN_A_ROW) {
-          setShowMoreButtonNeeded(true);
-          const articlesToShow = articlesFromNewsApi.splice(0, CONSTS.MAX_CARDS_AMOUNT_IN_A_ROW);
-          setArticlesToDisplay([...articlesToDisplay, ...articlesToShow]); 
-      }
-      else if (articlesFromNewsApi.length <= CONSTS.MAX_CARDS_AMOUNT_IN_A_ROW) {
-          setShowMoreButtonNeeded(false);
-          setArticlesToDisplay([...articlesToDisplay, ...articlesFromNewsApi]);
-      }
-  }, [articles, articlesToDisplay]);
+
+  const displayNews = useCallback((newsFromApi = articles, articlesForDisplaying = articlesToDisplay) => {
+    if (newsFromApi.length > CONSTS.MAX_CARDS_AMOUNT_IN_A_ROW) {
+      setShowMoreButtonNeeded(true);
+      const articlesToShow = newsFromApi.splice(0, CONSTS.MAX_CARDS_AMOUNT_IN_A_ROW);
+      setArticlesToDisplay([...articlesForDisplaying, ...articlesToShow]);
+    }
+    else if (newsFromApi.length <= CONSTS.MAX_CARDS_AMOUNT_IN_A_ROW) {
+      setShowMoreButtonNeeded(false);
+      setArticlesToDisplay([...articlesForDisplaying, ...newsFromApi]);
+    }
+}, [articlesToDisplay, articles]);
+  
+/*   const displayInitialCards = useCallback((articlesFromNewsApi) => {
+    if (articlesFromNewsApi.length > CONSTS.MAX_CARDS_AMOUNT_IN_A_ROW) {
+      setShowMoreButtonNeeded(true);
+      const articlesToShow = articlesFromNewsApi.splice(0, CONSTS.MAX_CARDS_AMOUNT_IN_A_ROW);
+      setArticlesToDisplay(articlesToShow);
+    }
+    else if (articlesFromNewsApi.length <= CONSTS.MAX_CARDS_AMOUNT_IN_A_ROW) {
+      setShowMoreButtonNeeded(false);
+      setArticlesToDisplay(articlesFromNewsApi);
+    }
+  }, []);
+
+  const showMoreCards = useCallback(() => {
+    if (articles.length > CONSTS.MAX_CARDS_AMOUNT_IN_A_ROW) {
+      setShowMoreButtonNeeded(true);
+      const articlesToShow = articles.splice(0, CONSTS.MAX_CARDS_AMOUNT_IN_A_ROW);
+      setArticlesToDisplay([...articlesToDisplay, ...articlesToShow]);
+    }
+    else if (articles.length <= CONSTS.MAX_CARDS_AMOUNT_IN_A_ROW) {
+      setShowMoreButtonNeeded(false);
+      setArticlesToDisplay([...articlesToDisplay, ...articles]);
+    }
+  }, [articles, articlesToDisplay]); */
 
   const toggleMenu = useCallback(() => {
     setMenuOpen(!isMenuOpen);
   }, [isMenuOpen]);
-
-  const nullifyResults = useCallback(() => {
-    setArticles([]);
-    setArticlesToDisplay([]);
-  }, []);
 
   const closeMenu = useCallback(() => {
     setMenuOpen(false);
@@ -76,7 +96,7 @@ function App() {
           article.keyWord = keyWord;
         });
         setArticles(receivedArticles);
-        displayCards(receivedArticles);
+        displayNews(receivedArticles, []);
         setNewsLoading(false);
         setNotFoundOpen(false);
         setSearchError(false);
@@ -93,7 +113,7 @@ function App() {
       setSearchError(true);
       console.log(err);
     }
-  }, [displayCards]);
+  }, [displayNews]);
 
   const closeAllPopups = useCallback(() => {
     setRegPopupOpen(false);
@@ -240,15 +260,14 @@ const prepareAppForLogin = useCallback((jwt) => {
                           closeMenuOnclick={closeMenu}
                           onSignOut={handleSignOut}    
                 />
-              <SearchForm receiveResults={getNewsFromApi} 
-                          nullResults={nullifyResults}/>
+              <SearchForm receiveResults={getNewsFromApi} />
           </div>
           <Main searchResultsErr={isSearchError} 
                 isPreloaderShown={isNewsLoading}
                 isNotFoundShown={isNotFoundOpen}
                 actionButton={<SaveButton isUserLoggedIn={isLoggedIn} />}
                 newsToDisplay={articlesToDisplay}
-                displayNews={displayCards}
+                displayNews={displayNews}
                 isMoreButtonDisplayed={isShowMoreButtonNeeded}
           />
         </Route>

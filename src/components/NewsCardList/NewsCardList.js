@@ -20,6 +20,7 @@ function NewsCardList({ actButton, articlesToDisplay, displayCards, isMoreButton
     const handleShowMoreClick = useCallback((date) => {
         displayCards();
     }, [displayCards]);
+    console.log(articlesToDisplay);
     
     return (
         <>
