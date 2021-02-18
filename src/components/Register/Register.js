@@ -45,8 +45,7 @@ function Register({ onRegister, isPopupOpen, handleOverlayClick, onCloseClick, o
 
     const handleInputChange = useCallback((event) => {
         const target = event.target;
-        const name = target.name;
-        const value = target.value;
+        const { name, value } = target;
         setFormValues({...formValues, [name]: value});
         setInputErrors(target, name);
         setIsValid(target.closest("form").checkValidity());

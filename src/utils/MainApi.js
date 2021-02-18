@@ -1,5 +1,5 @@
 import { ROUTES_MAP } from "./routesMap";
-import { setToken } from "./token";
+import { getToken, setToken } from "./token";
 
 export const BASE_URL = 'http://api.news.explorer.by.alyona.students.nomoredomains.icu';
 
@@ -57,13 +57,26 @@ export const login = (email, password) => {
       }
     })
     .then((response) => {
-        console.log(response);
         return response.json();
     })
   };
 
-  export const saveNews = (newsCard, token) => {
-    //TODO: дописать запрос
+  export const getSavedNews = () => {
+    const token = getToken();
+    return fetch(`${BASE_URL}${ROUTES_MAP.ARTICLES}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      }
+    })
+    .then((response) => {
+        return response.json();
+    })
+  };
+
+  export const saveNews = (keyword, title, text, date, source, link, image) => {
+    const token = getToken();
     return fetch(`${BASE_URL}${ROUTES_MAP.ARTICLES}`, {
       method: 'POST',
       headers: {
@@ -71,13 +84,13 @@ export const login = (email, password) => {
         'Authorization': `Bearer ${token}`,
       },
       body: JSON.stringify({
-        keyword: , 
-        title: , 
-        text: , 
-        date: , 
-        source: , 
-        link: , 
-        image: ,
+        keyword, 
+        title, 
+        text, 
+        date, 
+        source, 
+        link, 
+        image,
       })
     })
     .then((response) => {

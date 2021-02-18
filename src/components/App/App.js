@@ -15,9 +15,9 @@ import React, { useCallback } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import PopupSuccessReg from '../PopupSuccessReg/PopupSuccessReg';
 import { newsApi } from '../../utils/NewsApi';
-import { register, login, getUserData } from '../../utils/MainApi';
+import { register, login, getUserData, getSavedNews, saveNews } from '../../utils/MainApi';
 import { CurrentUserContext } from '../../contexts/currentUserContext';
-import { getToken, setToken, removeToken } from "../../utils/token";
+import { getToken, removeToken } from "../../utils/token";
 import { CONSTS } from '../../utils/card-list-consts'
 
 function App() {
@@ -66,11 +66,11 @@ function App() {
     try {
       const res = await newsApi.getNews(keyWord, fromDate, toDate);
       const receivedArticles = Array.from(res.articles);
-      localStorage.setItem('articles', JSON.stringify(receivedArticles));
       if (receivedArticles.length !== 0) {
         receivedArticles.forEach((article) => {
           article.keyWord = keyWord;
         });
+        localStorage.setItem('articles', JSON.stringify(receivedArticles));
         setArticles(receivedArticles);
         displayNews(receivedArticles, []);
         setNewsLoading(false);
@@ -114,10 +114,11 @@ function App() {
 
 const prepareAppForLogin = useCallback((jwt) => {
     getUserData(jwt)
-        .then((res) => {
+        .then(async(res) => {
           if (res) {
             setUser(res);
-            //TODO: запросить сохраненные новости
+            const savedNews = await getSavedNews(jwt);
+            setSavedArticles(savedNews);
             closeAllPopups();
           }
         })
@@ -176,8 +177,17 @@ const prepareAppForLogin = useCallback((jwt) => {
   }, [closeAllPopups]);
 
   const handleSaveClick = useCallback((e) => {
-      //TODO: обработчик клика по иконке сохранить
-  }, []);
+      e.preventDefault();
+      const target = e.target;
+      const articleUrl = target.closest("li").dataset.url;
+      console.log(articlesToDisplay);
+      const articleToSave = articlesToDisplay.find((article) => article.url === articleUrl);
+      console.log(articleToSave);
+      const { keyWord, title, content, publishedAt, url, urlToImage } = articleToSave;
+      const source = articleToSave.source.name;
+      saveNews(keyWord, title, content, publishedAt, source, url, urlToImage);
+      getSavedNews();
+  }, [articlesToDisplay]);
 
   const handleEscClose = useCallback((e) => {
     window.addEventListener('keyup', (e) => {
@@ -253,7 +263,7 @@ const prepareAppForLogin = useCallback((jwt) => {
           <Main searchResultsErr={isSearchError} 
                 isPreloaderShown={isNewsLoading}
                 isNotFoundShown={isNotFoundOpen}
-                actionButton={<SaveButton isUserLoggedIn={isLoggedIn} />}
+                actionButton={<SaveButton isUserLoggedIn={isLoggedIn} onSave={handleSaveClick} />}
                 newsToDisplay={articlesToDisplay}
                 displayNews={displayNews}
                 isMoreButtonDisplayed={isShowMoreButtonNeeded}
