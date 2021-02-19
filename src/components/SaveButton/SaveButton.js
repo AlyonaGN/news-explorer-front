@@ -1,23 +1,27 @@
 import React, {useCallback} from 'react';
 import './SaveButton.css';
 
-function SaveButton({ isUserLoggedIn, onSave }) {
-    const [isSaved, setSaved] = React.useState(false);
-
-    const toggleSaveCard = useCallback(() => {
-        setSaved(!isSaved);
-    }, [isSaved]);
+function SaveButton({ isUserLoggedIn, onSave, onUnsave, isItSaved }) {
+    const [isSaved, setIsSaved] = React.useState(isItSaved);
+    console.log(isSaved);
 
     const handleSaveClick = useCallback((e) => {
+        e.preventDefault();
         onSave(e);
-        toggleSaveCard();
-    }, [onSave, toggleSaveCard]);
+        setIsSaved(!isSaved);
+    }, [onSave, isSaved]);
+
+    const handleUnsaveClick = useCallback((e) => {
+        e.preventDefault();
+        onUnsave(e);
+        setIsSaved(!isSaved);
+    }, [onUnsave, isSaved]);
 
     return (
         <>
         {
             isUserLoggedIn ? 
-            <button type="button" onClick={handleSaveClick} 
+            <button type="button" onClick={isSaved ? handleUnsaveClick : handleSaveClick} 
                     className={isSaved ? 
                                 "news-card__save-button news-card__save-button_loggedin news-card__save-button_blue" 
                                 : "news-card__save-button news-card__save-button_loggedin"}></button> 

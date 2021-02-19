@@ -15,7 +15,7 @@ import React, { useCallback } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import PopupSuccessReg from '../PopupSuccessReg/PopupSuccessReg';
 import { newsApi } from '../../utils/NewsApi';
-import { register, login, getUserData, getSavedNews, saveNews } from '../../utils/MainApi';
+import { register, login, getUserData, getSavedNews, saveNews, unsaveNews } from '../../utils/MainApi';
 import { CurrentUserContext } from '../../contexts/currentUserContext';
 import { getToken, removeToken } from "../../utils/token";
 import { CONSTS } from '../../utils/card-list-consts'
@@ -177,19 +177,23 @@ const prepareAppForLogin = useCallback((jwt) => {
   }, [closeAllPopups]);
 
   const handleSaveClick = useCallback((e) => {
-      e.preventDefault();
       const target = e.target;
       const articleUrl = target.closest("li").dataset.url;
-      console.log(articlesToDisplay);
       const articleToSave = articlesToDisplay.find((article) => article.url === articleUrl);
-      console.log(articleToSave);
       const { keyWord, title, content, publishedAt, url, urlToImage } = articleToSave;
       const source = articleToSave.source.name;
       saveNews(keyWord, title, content, publishedAt, source, url, urlToImage);
-      getSavedNews();
   }, [articlesToDisplay]);
 
-  const handleEscClose = useCallback((e) => {
+  const handleUnsaveClick = useCallback(async(e) => {
+    const target = e.target;
+    const savedNews = await getSavedNews();
+    const articleUrl = target.closest("li").dataset.url;
+    const articleToUnsave = savedNews.find((article) => article.link === articleUrl);
+    unsaveNews(articleToUnsave._id);
+}, []);
+
+  const handleEscClose = useCallback(() => {
     window.addEventListener('keyup', (e) => {
       if (e.key === 'Escape') {
         closeAllPopups()
@@ -244,7 +248,7 @@ const prepareAppForLogin = useCallback((jwt) => {
               />
               <SavedNewsHeader />
           </div>
-          <SavedNews actionButton={<DeleteButton/>}
+          <SavedNews actionButton={<DeleteButton onClick={handleUnsaveClick}/>}
                     news={savedArticles}/>
         </Route>
         <Route exact path={ROUTES_MAP.MAIN}>
@@ -263,10 +267,18 @@ const prepareAppForLogin = useCallback((jwt) => {
           <Main searchResultsErr={isSearchError} 
                 isPreloaderShown={isNewsLoading}
                 isNotFoundShown={isNotFoundOpen}
-                actionButton={<SaveButton isUserLoggedIn={isLoggedIn} onSave={handleSaveClick} />}
+/*                 actionButton={<SaveButton isUserLoggedIn={isLoggedIn} 
+                                          onSave={handleSaveClick} 
+                                          onUnsave={handleUnsaveClick}
+                                          displayedNews={articlesToDisplay}
+                                          savedNews={savedArticles}/>} */
                 newsToDisplay={articlesToDisplay}
                 displayNews={displayNews}
                 isMoreButtonDisplayed={isShowMoreButtonNeeded}
+                savedNews={savedArticles}
+                isUserLoggedIn={isLoggedIn} 
+                onSave={handleSaveClick} 
+                onUnsave={handleUnsaveClick}
           />
         </Route>
       </Switch>

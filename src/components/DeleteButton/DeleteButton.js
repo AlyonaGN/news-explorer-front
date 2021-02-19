@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { useCallback } from 'react';
 import './DeleteButton.css';
 
-function DeleteButton() {
+function DeleteButton({onClick}) {
+    const handleUnsave = useCallback((e) => {
+        e.preventDefault();
+        onClick(e);
+    }, [onClick]);
 
     return (
-        <button type="button" className="news-card__delete-button"></button>
+        <button type="button" className="news-card__delete-button" onClick={handleUnsave}></button>
     );
 }
 

@@ -75,6 +75,20 @@ export const login = (email, password) => {
     })
   };
 
+  export const unsaveNews = (cardId) => {
+    const token = getToken();
+    return fetch(`${BASE_URL}${ROUTES_MAP.ARTICLES}/${cardId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`,
+      }
+    })
+    .then((response) => {
+        return response.json();
+    })
+  };
+
   export const saveNews = (keyword, title, text, date, source, link, image) => {
     const token = getToken();
     return fetch(`${BASE_URL}${ROUTES_MAP.ARTICLES}`, {
@@ -94,7 +108,6 @@ export const login = (email, password) => {
       })
     })
     .then((response) => {
-        console.log(response);
         return response.json();
     })
   };

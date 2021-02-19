@@ -9,19 +9,27 @@ import NewsCardList from '../NewsCardList/NewsCardList.js';
 function Main ({ searchResultsErr, 
                     isPreloaderShown, 
                     isNotFoundShown, 
-                    actionButton, 
+                    /* actionButton,  */
                     newsToDisplay,
                     displayNews,
-                    isMoreButtonDisplayed }) {
+                    isMoreButtonDisplayed,
+                    savedNews,
+                    isUserLoggedIn,
+                    onSave, 
+                    onUnsave }) {
     
     return (
         <main className="content-container">
             <section className={newsToDisplay.length !== 0 ? "content-container__results" : "content-container__results content-container__results_invisible"}>
                 <h1 className="news-list__title">Результаты поиска</h1>
-                {newsToDisplay.length !== 0 && <NewsCardList actButton={actionButton} 
+                {newsToDisplay.length !== 0 && <NewsCardList /* actButton={actionButton} */ 
                                                             articlesToDisplay={newsToDisplay}
                                                             displayCards={displayNews}
-                                                            isMoreButtonNeeded={isMoreButtonDisplayed}/>}
+                                                            isMoreButtonNeeded={isMoreButtonDisplayed}
+                                                            savedArticles={savedNews}
+                                                            isLoggedIn={isUserLoggedIn}
+                                                            handleSaveClick={onSave}
+                                                            handleUnsaveClick={onUnsave}/>}
             </section>
             <section className={isPreloaderShown ? "content-container__preloader" : "content-container__preloader content-container__preloader_invisible"}>
                 <Preloader />

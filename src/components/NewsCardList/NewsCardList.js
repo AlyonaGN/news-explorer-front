@@ -3,8 +3,9 @@ import './NewsCardList.css';
 import NewsCard from '../NewsCard/NewsCard.js';
 import { useLocation } from "react-router-dom";
 import { ROUTES_MAP } from '../../utils/routesMap';
+import SaveButton from '../SaveButton/SaveButton.js';
 
-function NewsCardList({ actButton, articlesToDisplay, displayCards, isMoreButtonNeeded }) {
+function NewsCardList({ /* actButton, */ articlesToDisplay, displayCards, isMoreButtonNeeded, savedArticles, isLoggedIn, handleSaveClick, handleUnsaveClick }) {
     const location = useLocation();
     const isSavedNewsOpen = (location.pathname === ROUTES_MAP.SAVED_NEWS);
 
@@ -26,9 +27,17 @@ function NewsCardList({ actButton, articlesToDisplay, displayCards, isMoreButton
             <ul className="news-list">
                 {
                     articlesToDisplay.length !== 0 &&
+                    savedArticles.length !==0 &&
                     articlesToDisplay.map((article) => {
+                        console.log(savedArticles);
                         return <NewsCard  doesKeyWordNeedToBeShown={isSavedNewsOpen} 
-                            actionButton={actButton} 
+                            actionButton={ 
+                                <SaveButton isUserLoggedIn={isLoggedIn}
+                                            onSave={handleSaveClick}
+                                            onUnsave={handleUnsaveClick}
+                                            isItSaved={savedArticles.some((item) => item.link === article.url)}
+                                            /> 
+                                        } 
                             picture={article.urlToImage}
                             date={makeDateFormatted(article.publishedAt)}
                             title={article.title}
