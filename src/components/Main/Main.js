@@ -9,7 +9,6 @@ import NewsCardList from '../NewsCardList/NewsCardList.js';
 function Main ({ searchResultsErr, 
                     isPreloaderShown, 
                     isNotFoundShown, 
-                    /* actionButton,  */
                     newsToDisplay,
                     displayNews,
                     isMoreButtonDisplayed,
@@ -22,8 +21,7 @@ function Main ({ searchResultsErr,
         <main className="content-container">
             <section className={newsToDisplay.length !== 0 ? "content-container__results" : "content-container__results content-container__results_invisible"}>
                 <h1 className="news-list__title">Результаты поиска</h1>
-                {newsToDisplay.length !== 0 && <NewsCardList /* actButton={actionButton} */ 
-                                                            articlesToDisplay={newsToDisplay}
+                {newsToDisplay.length !== 0 && <NewsCardList articlesToDisplay={newsToDisplay}
                                                             displayCards={displayNews}
                                                             isMoreButtonNeeded={isMoreButtonDisplayed}
                                                             savedArticles={savedNews}

@@ -38,3 +38,21 @@
 .news-card__delete-button:hover:after {
     visibility: visible;
 }
+
+@media screen and (max-width: 970px) {
+    .news-card__delete-button {
+        top: 8px;
+        right: 8px;
+    }
+
+    .news-card__delete-button:after {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .news-card__delete-button {
+        top: 16px;
+        right: 16px;
+    }
+}

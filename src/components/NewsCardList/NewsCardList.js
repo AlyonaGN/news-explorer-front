@@ -4,8 +4,9 @@ import NewsCard from '../NewsCard/NewsCard.js';
 import { useLocation } from "react-router-dom";
 import { ROUTES_MAP } from '../../utils/routesMap';
 import SaveButton from '../SaveButton/SaveButton.js';
+import DeleteButton from '../DeleteButton/DeleteButton.js';
 
-function NewsCardList({ /* actButton, */ articlesToDisplay, displayCards, isMoreButtonNeeded, savedArticles, isLoggedIn, handleSaveClick, handleUnsaveClick }) {
+function NewsCardList({ articlesToDisplay, displayCards, isMoreButtonNeeded, savedArticles, isLoggedIn, handleSaveClick, handleUnsaveClick }) {
     const location = useLocation();
     const isSavedNewsOpen = (location.pathname === ROUTES_MAP.SAVED_NEWS);
 
@@ -18,39 +19,53 @@ function NewsCardList({ /* actButton, */ articlesToDisplay, displayCards, isMore
 
     }, []);
 
-    const handleShowMoreClick = useCallback((date) => {
+    const handleShowMoreClick = useCallback(() => {
         displayCards();
     }, [displayCards]);
     
     return (
         <>
             <ul className="news-list">
-                {
+                {isSavedNewsOpen ?
                     articlesToDisplay.length !== 0 &&
-                    savedArticles.length !==0 &&
                     articlesToDisplay.map((article) => {
-                        console.log(savedArticles);
-                        return <NewsCard  doesKeyWordNeedToBeShown={isSavedNewsOpen} 
-                            actionButton={ 
+                        return <NewsCard doesKeyWordNeedToBeShown={true}
+                            actionButton={
+                                <DeleteButton onClick={handleUnsaveClick}/>
+                            }
+                            picture={article.image}
+                            date={makeDateFormatted(article.date)}
+                            title={article.title}
+                            summary={article.text}
+                            source={article.source}
+                            keyWord={article.keyword}
+                            url={article.link}
+                            key={article.link} />
+                    }) :
+                    articlesToDisplay.length !== 0 &&
+                    savedArticles.length !== 0 &&
+                    articlesToDisplay.map((article) => {
+                        return <NewsCard doesKeyWordNeedToBeShown={false}
+                            actionButton={
                                 <SaveButton isUserLoggedIn={isLoggedIn}
-                                            onSave={handleSaveClick}
-                                            onUnsave={handleUnsaveClick}
-                                            isItSaved={savedArticles.some((item) => item.link === article.url)}
-                                            /> 
-                                        } 
+                                    onSave={handleSaveClick}
+                                    onUnsave={handleUnsaveClick}
+                                    isItSaved={savedArticles.some((item) => item.link === article.url)}
+                                />
+                            }
                             picture={article.urlToImage}
                             date={makeDateFormatted(article.publishedAt)}
                             title={article.title}
                             summary={article.description}
                             source={article.source.name}
                             keyWord={article.keyWord}
-                            url={article.url} 
+                            url={article.url}
                             key={article.url} />
                     })
                 }
             </ul>
             {isMoreButtonNeeded && <button className="news-list__more-button" type="button" onClick={handleShowMoreClick}>Показать ещё</button>}
-            </>
+        </>
     );
 }
 

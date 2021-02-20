@@ -3,7 +3,6 @@ import './SaveButton.css';
 
 function SaveButton({ isUserLoggedIn, onSave, onUnsave, isItSaved }) {
     const [isSaved, setIsSaved] = React.useState(isItSaved);
-    console.log(isSaved);
 
     const handleSaveClick = useCallback((e) => {
         e.preventDefault();

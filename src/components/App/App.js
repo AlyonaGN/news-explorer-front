@@ -2,8 +2,6 @@ import './App.css';
 import '../../index.css';
 import { ROUTES_MAP } from '../../utils/routesMap.js';
 import AppHeader from '../AppHeader/AppHeader.js';
-import SaveButton from '../SaveButton/SaveButton.js';
-import DeleteButton from '../DeleteButton/DeleteButton.js';
 import SearchForm from '../SearchForm/SearchForm.js';
 import Main from '../Main/Main.js';
 import Register from '../Register/Register.js';
@@ -101,7 +99,6 @@ function App() {
     register(name, email, password)
       .then((res) => {
         if (res) {
-          console.log(res);
           setRegPopupOpen(false);
           setSuccessRegPopupOpen(true);
         }
@@ -210,6 +207,10 @@ const prepareAppForLogin = useCallback((jwt) => {
     setMenuOpen(false);
   }, [displayNews]);
 
+  const handleSavedNewsClick = useCallback(() => {
+    displayNews(savedArticles, []);
+  }, [displayNews, savedArticles]);
+
   const checkToken = useCallback(() => {
     const jwt = getToken();
     if (!jwt) {
@@ -244,12 +245,21 @@ const prepareAppForLogin = useCallback((jwt) => {
                           isFontDark={true}
                           onAuthClick={handleOpenAuth}
                           closeMenuOnclick={closeMenu}
-                          onSignOut={handleSignOut} 
+                          onSignOut={handleSignOut}
+                          name={isLoggedIn ? currentUser.name : ""}
+                          onSavedNewsClick={handleSavedNewsClick} 
               />
-              <SavedNewsHeader />
+              <SavedNewsHeader name={isLoggedIn ? currentUser.name : ""}
+                                amountofSavedNews={savedArticles.length}/>
           </div>
-          <SavedNews actionButton={<DeleteButton onClick={handleUnsaveClick}/>}
-                    news={savedArticles}/>
+          <SavedNews  newsToDisplay={articlesToDisplay}
+                      displayNews={displayNews} 
+                      isMoreButtonNeedToBeSwown={isShowMoreButtonNeeded} 
+                      savedNews={savedArticles} 
+                      isUserLoggedIn={isLoggedIn} 
+                      onSave={handleSaveClick} 
+                      onUnsave={handleUnsaveClick}
+                />
         </Route>
         <Route exact path={ROUTES_MAP.MAIN}>
           <div className="page__header">
@@ -260,18 +270,15 @@ const prepareAppForLogin = useCallback((jwt) => {
                           isFontDark={false} 
                           onAuthClick={handleOpenAuth}
                           closeMenuOnclick={closeMenu}
-                          onSignOut={handleSignOut}    
+                          onSignOut={handleSignOut}
+                          name={isLoggedIn ? currentUser.name : ""}
+                          onSavedNewsClick={handleSavedNewsClick}    
                 />
               <SearchForm receiveResults={getNewsFromApi} />
           </div>
           <Main searchResultsErr={isSearchError} 
                 isPreloaderShown={isNewsLoading}
                 isNotFoundShown={isNotFoundOpen}
-/*                 actionButton={<SaveButton isUserLoggedIn={isLoggedIn} 
-                                          onSave={handleSaveClick} 
-                                          onUnsave={handleUnsaveClick}
-                                          displayedNews={articlesToDisplay}
-                                          savedNews={savedArticles}/>} */
                 newsToDisplay={articlesToDisplay}
                 displayNews={displayNews}
                 isMoreButtonDisplayed={isShowMoreButtonNeeded}

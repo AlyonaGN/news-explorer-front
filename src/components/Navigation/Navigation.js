@@ -8,12 +8,25 @@ import { useLocation } from "react-router-dom";
 
 
 
-function Navigation({ isUserLoggedIn, isMenuDisplayed, isDark, onAuth, closeMenu, signOut }) {
+function Navigation({ isUserLoggedIn, 
+                        isMenuDisplayed, 
+                        isDark, 
+                        onAuth, 
+                        closeMenu, 
+                        signOut, 
+                        userName, 
+                        onSavedNews }) {
+
     const location = useLocation();
     const handleAuthClick = useCallback(() => {
         closeMenu();
         onAuth();
       }, [closeMenu, onAuth]);
+
+      const handleGoToSavedNews = useCallback(() => {
+        closeMenu();
+        onSavedNews();
+      }, [closeMenu, onSavedNews]);
 
     return (
             <nav className={isMenuDisplayed ? "nav-list nav-list_vertical" : "nav-list"}>
@@ -25,12 +38,12 @@ function Navigation({ isUserLoggedIn, isMenuDisplayed, isDark, onAuth, closeMenu
                     isUserLoggedIn && <NavLink className={!isDark && !(location.pathname === ROUTES_MAP.SAVED_NEWS) ? "nav-list__item nav-list__item_light-theme" : "nav-list__item"}
                                         activeClassName="nav-list__item_active" 
                                         exact to={ROUTES_MAP.SAVED_NEWS}
-                                        onClick={closeMenu}>Сохранённые статьи</NavLink>  
+                                        onClick={handleGoToSavedNews}>Сохранённые статьи</NavLink>  
                 }
                 {
                 isUserLoggedIn ?
                     <button className={isDark ? "nav-list__exit-button nav-list__exit-button_dark" : "nav-list__exit-button"} onClick={signOut}>
-                        Грета
+                        {userName}
                         <img className="nav-list__exit-icon" src={isDark && !isMenuDisplayed ? exitIconDark : exitIcon} alt="иконка выхода из профиля"></img>
                     </button>
                     :
