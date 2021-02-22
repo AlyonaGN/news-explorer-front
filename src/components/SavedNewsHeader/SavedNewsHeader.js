@@ -5,11 +5,13 @@ function SavedNewsHeader({ name, amountofSavedNews }) {
     let savedNewsText;
     switch(amountofSavedNews) {
         case 1:
+        case amountofSavedNews % 10 === 1:
             savedNewsText = "сохранённая статья";  
             break;
         case 2:
         case 3:
-        case 4:  
+        case 4:
+        case amountofSavedNews % 10 === 2 || 3 || 4:  
             savedNewsText = "сохранённые статьи";  
             break;
         default:

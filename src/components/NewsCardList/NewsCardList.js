@@ -26,12 +26,18 @@ function NewsCardList({ articlesToDisplay, displayCards, isMoreButtonNeeded, sav
     return (
         <>
             <ul className="news-list">
-                {isSavedNewsOpen ?
+            {
                     articlesToDisplay.length !== 0 &&
                     articlesToDisplay.map((article) => {
-                        return <NewsCard doesKeyWordNeedToBeShown={true}
-                            actionButton={
-                                <DeleteButton onClick={handleUnsaveClick}/>
+                        return <NewsCard doesKeyWordNeedToBeShown={isSavedNewsOpen ? true : false}
+                            actionButton={isSavedNewsOpen ?
+                                            <DeleteButton onClick={handleUnsaveClick}/>
+                                            :
+                                            <SaveButton isUserLoggedIn={isLoggedIn}
+                                                        onSave={handleSaveClick}
+                                                        onUnsave={handleUnsaveClick}
+                                                        isItSaved={savedArticles.length !== 0 && savedArticles.some((item) => item.link === article.url)}
+                                />
                             }
                             picture={article.image}
                             date={makeDateFormatted(article.date)}
@@ -41,28 +47,8 @@ function NewsCardList({ articlesToDisplay, displayCards, isMoreButtonNeeded, sav
                             keyWord={article.keyword}
                             url={article.link}
                             key={article.link} />
-                    }) :
-                    articlesToDisplay.length !== 0 &&
-                    savedArticles.length !== 0 &&
-                    articlesToDisplay.map((article) => {
-                        return <NewsCard doesKeyWordNeedToBeShown={false}
-                            actionButton={
-                                <SaveButton isUserLoggedIn={isLoggedIn}
-                                    onSave={handleSaveClick}
-                                    onUnsave={handleUnsaveClick}
-                                    isItSaved={savedArticles.some((item) => item.link === article.url)}
-                                />
-                            }
-                            picture={article.urlToImage}
-                            date={makeDateFormatted(article.publishedAt)}
-                            title={article.title}
-                            summary={article.description}
-                            source={article.source.name}
-                            keyWord={article.keyWord}
-                            url={article.url}
-                            key={article.url} />
                     })
-                }
+            }
             </ul>
             {isMoreButtonNeeded && <button className="news-list__more-button" type="button" onClick={handleShowMoreClick}>Показать ещё</button>}
         </>

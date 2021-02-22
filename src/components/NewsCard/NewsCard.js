@@ -12,7 +12,7 @@ function NewsCard({ doesKeyWordNeedToBeShown,
     url }) {
 
     return (
-        <li data-url={url}><figure className="news-card">
+        <li data-link={url}><figure className="news-card">
             {actionButton}
             <p className={doesKeyWordNeedToBeShown ? "news-card__key-word news-card__key-word_visible" : "news-card__key-word"}>{keyWord}</p>
             <img className="news-card__photo" src={picture} alt="здесь должно быть фото новости"></img>

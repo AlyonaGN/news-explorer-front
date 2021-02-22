@@ -1,4 +1,3 @@
-import { getToken } from "./token";
 import { newsApiKey } from './newsApiKey';
 
 class NewsApi {
@@ -10,9 +9,25 @@ class NewsApi {
         return fetch(`${this.baseUrl}&q=${keyWord}&from=${fromDate}&to=${toDate}&pageSize=${100}`, {
             method: 'GET',
         })
-            .then(res => {
-                return this._getResponseData(res);
+            .then(async(res) => {
+                const results = await this._getResponseData(res);
+                return this._formatNews(results.articles, keyWord);
             });
+    }
+
+    _formatNews(results, keyWord){
+        const formattedCards = [];
+        results.forEach((article) =>{
+            const formattedArticle = { date: "", image: "", keyword: keyWord, link: "", source: "", text: "", title: ""}
+            formattedArticle.date = article.publishedAt;
+            formattedArticle.image = article.urlToImage;
+            formattedArticle.link = article.url;
+            formattedArticle.source = article.source.name;
+            formattedArticle.text = article.content;
+            formattedArticle.title = article.title;
+            formattedCards.push(formattedArticle);
+        });
+        return formattedCards;
     }
 
     _getResponseData(res){

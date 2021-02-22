@@ -8,15 +8,15 @@ import Register from '../Register/Register.js';
 import Footer from '../Footer/Footer.js';
 import SavedNews from '../SavedNews/SavedNews.js';
 import Login from '../Login/Login.js';
-import SavedNewsHeader from '../SavedNewsHeader/SavedNewsHeader.js';
 import React, { useCallback } from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, useHistory } from 'react-router-dom';
 import PopupSuccessReg from '../PopupSuccessReg/PopupSuccessReg';
 import { newsApi } from '../../utils/NewsApi';
 import { register, login, getUserData, getSavedNews, saveNews, unsaveNews } from '../../utils/MainApi';
 import { CurrentUserContext } from '../../contexts/currentUserContext';
 import { getToken, removeToken } from "../../utils/token";
-import { CONSTS } from '../../utils/card-list-consts'
+import { CONSTS } from '../../utils/card-list-consts';
+import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 
 function App() {
   const [isMenuOpen, setMenuOpen] = React.useState(false);
@@ -33,9 +33,12 @@ function App() {
   const [isShowMoreButtonNeeded, setShowMoreButtonNeeded] = React.useState(false);
   const [savedArticles, setSavedArticles] = React.useState([]);
   const [articlesToDisplay, setArticlesToDisplay] = React.useState([]);
+  const [savedArticlesToDisplay, setSavedArticlesToDisplay] = React.useState([]);
+
+  const history = useHistory();
 
 
-  const displayNews = useCallback((newsFromApi = articles, articlesForDisplaying = articlesToDisplay) => {
+  const displayResults = useCallback((newsFromApi = articles, articlesForDisplaying = articlesToDisplay) => {
     if (newsFromApi.length > CONSTS.MAX_CARDS_AMOUNT_IN_A_ROW) {
       setShowMoreButtonNeeded(true);
       const articlesToShow = newsFromApi.splice(0, CONSTS.MAX_CARDS_AMOUNT_IN_A_ROW);
@@ -46,6 +49,18 @@ function App() {
       setArticlesToDisplay([...articlesForDisplaying, ...newsFromApi]);
     }
   }, [articlesToDisplay, articles]);
+
+  const displaySavedNews = useCallback((savedNews = savedArticles, articlesForDisplaying = savedArticlesToDisplay) => {
+    if (savedNews.length > CONSTS.MAX_CARDS_AMOUNT_IN_A_ROW) {
+      setShowMoreButtonNeeded(true);
+      const articlesToShow = savedNews.splice(0, CONSTS.MAX_CARDS_AMOUNT_IN_A_ROW);
+      setSavedArticlesToDisplay([...articlesForDisplaying, ...articlesToShow]);
+    }
+    else if (savedNews.length <= CONSTS.MAX_CARDS_AMOUNT_IN_A_ROW) {
+      setShowMoreButtonNeeded(false);
+      setSavedArticlesToDisplay([...articlesForDisplaying, ...savedNews]);
+    }
+  }, [savedArticles, savedArticlesToDisplay]);
 
   const toggleMenu = useCallback(() => {
     setMenuOpen(!isMenuOpen);
@@ -62,32 +77,30 @@ function App() {
   const getNewsFromApi = useCallback(async (keyWord, fromDate, toDate) => {
     setNewsLoading(true);
     try {
-      const res = await newsApi.getNews(keyWord, fromDate, toDate);
-      const receivedArticles = Array.from(res.articles);
+      const receivedArticles = await newsApi.getNews(keyWord, fromDate, toDate);
       if (receivedArticles.length !== 0) {
-        receivedArticles.forEach((article) => {
-          article.keyWord = keyWord;
-        });
         localStorage.setItem('articles', JSON.stringify(receivedArticles));
         setArticles(receivedArticles);
-        displayNews(receivedArticles, []);
+        displayResults(receivedArticles, []);
         setNewsLoading(false);
         setNotFoundOpen(false);
         setSearchError(false);
       }
       else {
+        displayResults([], []);
         setNewsLoading(false);
         setNotFoundOpen(true);
         setSearchError(false);
       }
     }
     catch(err) {
+      displayResults([], []);
       setNotFoundOpen(false);
       setNewsLoading(false);
       setSearchError(true);
       console.log(err);
     }
-  }, [displayNews]);
+  }, [displayResults]);
 
   const closeAllPopups = useCallback(() => {
     setRegPopupOpen(false);
@@ -135,7 +148,7 @@ const prepareAppForLogin = useCallback((jwt) => {
         prepareAppForLogin(res.token);
         localStorage.removeItem('articles');
         setArticles([]);
-        displayNews([], []);
+        displayResults([], []);
         setRegPopupOpen(false);
       }
     })
@@ -143,7 +156,7 @@ const prepareAppForLogin = useCallback((jwt) => {
       setAuthSubmissionError(err.message);
       console.log(err);
     })
-  }, [prepareAppForLogin, displayNews]);
+  }, [prepareAppForLogin, displayResults]);
 
   const handleOpenAuth = useCallback(() => {
     setAuthSubmissionError(null);
@@ -175,20 +188,18 @@ const prepareAppForLogin = useCallback((jwt) => {
 
   const handleSaveClick = useCallback((e) => {
       const target = e.target;
-      const articleUrl = target.closest("li").dataset.url;
-      const articleToSave = articlesToDisplay.find((article) => article.url === articleUrl);
-      const { keyWord, title, content, publishedAt, url, urlToImage } = articleToSave;
-      const source = articleToSave.source.name;
-      saveNews(keyWord, title, content, publishedAt, source, url, urlToImage);
+      const articleUrl = target.closest("li").dataset.link;
+      const articleToSave = articlesToDisplay.find((article) => article.link === articleUrl);
+      const { keyword, title, text, date, link, image, source } = articleToSave;
+      saveNews(keyword, title, text, date, source, link, image);
   }, [articlesToDisplay]);
 
   const handleUnsaveClick = useCallback(async(e) => {
     const target = e.target;
-    const savedNews = await getSavedNews();
-    const articleUrl = target.closest("li").dataset.url;
-    const articleToUnsave = savedNews.find((article) => article.link === articleUrl);
+    const articleUrl = target.closest("li").dataset.link;
+    const articleToUnsave = savedArticles.find((article) => article.link === articleUrl);
     unsaveNews(articleToUnsave._id);
-}, []);
+}, [savedArticles]);
 
   const handleEscClose = useCallback(() => {
     window.addEventListener('keyup', (e) => {
@@ -201,15 +212,15 @@ const prepareAppForLogin = useCallback((jwt) => {
   const handleSignOut = useCallback(() => {
     localStorage.removeItem('articles');
     setArticles([]);
-    displayNews([], []);
+    displayResults([], []);
     removeToken();
     setIsLoggedIn(false);
     setMenuOpen(false);
-  }, [displayNews]);
+  }, [displayResults]);
 
   const handleSavedNewsClick = useCallback(() => {
-    displayNews(savedArticles, []);
-  }, [displayNews, savedArticles]);
+    displaySavedNews();
+  }, [displaySavedNews]);
 
   const checkToken = useCallback(() => {
     const jwt = getToken();
@@ -229,38 +240,38 @@ const prepareAppForLogin = useCallback((jwt) => {
     const articlesFromStorage = JSON.parse(localStorage.getItem('articles'));
     if (articlesFromStorage && articlesFromStorage.length > 0) {
       setArticles(articlesFromStorage);
-      displayNews(articlesFromStorage);
+      displayResults(articlesFromStorage);
     }
     handleEscClose();
+
+    if (history.location.state && 
+        history.location.state.noAuthRedirected && 
+        history.action === "REPLACE") {
+          setLoginPopupOpen(true);
+        }
   }, []);
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <Switch>
-        <Route path={ROUTES_MAP.SAVED_NEWS}>
-          <div className="page__header_saved-news">
-              <AppHeader onMenuClick={toggleMenu} 
-                          isMenuShown={isMenuOpen}
-                          isLoggedIn={true} 
-                          isFontDark={true}
-                          onAuthClick={handleOpenAuth}
-                          closeMenuOnclick={closeMenu}
-                          onSignOut={handleSignOut}
-                          name={isLoggedIn ? currentUser.name : ""}
-                          onSavedNewsClick={handleSavedNewsClick} 
-              />
-              <SavedNewsHeader name={isLoggedIn ? currentUser.name : ""}
-                                amountofSavedNews={savedArticles.length}/>
-          </div>
-          <SavedNews  newsToDisplay={articlesToDisplay}
-                      displayNews={displayNews} 
+      <ProtectedRoute path={ROUTES_MAP.SAVED_NEWS}
+                      component={SavedNews} 
+                      isUserLoggedIn={isLoggedIn}
+                      onMenu={toggleMenu} 
+                      isMenuOpened={isMenuOpen}
+                      onAuth={handleOpenAuth}
+                      closeMenuByClick={closeMenu}
+                      signOut={handleSignOut}
+                      userName={isLoggedIn ? currentUser.name : ""}
+                      amountofSavedNews={savedArticles.length}
+                      newsToDisplay={savedArticlesToDisplay}
+                      displayNews={displaySavedNews} 
                       isMoreButtonNeedToBeSwown={isShowMoreButtonNeeded} 
-                      savedNews={savedArticles} 
-                      isUserLoggedIn={isLoggedIn} 
+                      savedNews={savedArticles}
                       onSave={handleSaveClick} 
                       onUnsave={handleUnsaveClick}
-                />
-        </Route>
+                      setAuthPopupOpen={setLoginPopupOpen} />
+
         <Route exact path={ROUTES_MAP.MAIN}>
           <div className="page__header">
               <AppHeader onMenuClick={toggleMenu} 
@@ -280,7 +291,7 @@ const prepareAppForLogin = useCallback((jwt) => {
                 isPreloaderShown={isNewsLoading}
                 isNotFoundShown={isNotFoundOpen}
                 newsToDisplay={articlesToDisplay}
-                displayNews={displayNews}
+                displayNews={displayResults}
                 isMoreButtonDisplayed={isShowMoreButtonNeeded}
                 savedNews={savedArticles}
                 isUserLoggedIn={isLoggedIn} 
