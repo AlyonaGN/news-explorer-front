@@ -18,7 +18,7 @@ function SavedNews({ isUserLoggedIn,
     savedNews,
     onSave,
     onUnsave, }) {
-    console.log(savedNews);
+
     return (
         <>
         <div className="page__header_saved-news">

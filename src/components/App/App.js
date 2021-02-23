@@ -128,6 +128,7 @@ const prepareAppForLogin = useCallback((jwt) => {
           if (res) {
             setUser(res);
             const savedNews = await getSavedNews(jwt);
+            console.log(savedNews);
             setSavedArticles(savedNews);
             closeAllPopups();
           }
@@ -191,15 +192,19 @@ const prepareAppForLogin = useCallback((jwt) => {
       const articleUrl = target.closest("li").dataset.link;
       const articleToSave = articlesToDisplay.find((article) => article.link === articleUrl);
       const { keyword, title, text, date, link, image, source } = articleToSave;
+      setSavedArticles([...savedArticles, articleToSave]);
       saveNews(keyword, title, text, date, source, link, image);
-  }, [articlesToDisplay]);
+  }, [articlesToDisplay, savedArticles]);
 
   const handleUnsaveClick = useCallback(async(e) => {
     const target = e.target;
     const articleUrl = target.closest("li").dataset.link;
     const articleToUnsave = savedArticles.find((article) => article.link === articleUrl);
     unsaveNews(articleToUnsave._id);
-}, [savedArticles]);
+    const updatedSavedArticles = await getSavedNews();
+    setSavedArticles(updatedSavedArticles);
+    displaySavedNews(updatedSavedArticles, []);
+}, [savedArticles, displaySavedNews]);
 
   const handleEscClose = useCallback(() => {
     window.addEventListener('keyup', (e) => {
@@ -213,10 +218,12 @@ const prepareAppForLogin = useCallback((jwt) => {
     localStorage.removeItem('articles');
     setArticles([]);
     displayResults([], []);
+    setSavedArticles([]);
+    displaySavedNews([], []);
     removeToken();
     setIsLoggedIn(false);
     setMenuOpen(false);
-  }, [displayResults]);
+  }, [displayResults, displaySavedNews]);
 
   const handleSavedNewsClick = useCallback(() => {
     displaySavedNews();
@@ -240,7 +247,6 @@ const prepareAppForLogin = useCallback((jwt) => {
     const articlesFromStorage = JSON.parse(localStorage.getItem('articles'));
     if (articlesFromStorage && articlesFromStorage.length > 0) {
       setArticles(articlesFromStorage);
-      displayResults(articlesFromStorage);
     }
     handleEscClose();
 

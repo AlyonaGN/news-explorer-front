@@ -36,7 +36,7 @@ function NewsCardList({ articlesToDisplay, displayCards, isMoreButtonNeeded, sav
                                             <SaveButton isUserLoggedIn={isLoggedIn}
                                                         onSave={handleSaveClick}
                                                         onUnsave={handleUnsaveClick}
-                                                        isItSaved={savedArticles.length !== 0 && savedArticles.some((item) => item.link === article.url)}
+                                                        isItSaved={savedArticles.length !== 0 && savedArticles.some((item) => item.link === article.link)}
                                 />
                             }
                             picture={article.image}
