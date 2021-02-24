@@ -22,13 +22,20 @@ function NewsCardList({ articlesToDisplay, displayCards, isMoreButtonNeeded, sav
     const handleShowMoreClick = useCallback(() => {
         displayCards();
     }, [displayCards]);
+
+    React.useEffect(() => {
+        console.log('news card list re render');
+    });
     
     return (
         <>
             <ul className="news-list">
             {
+                
                     articlesToDisplay.length !== 0 &&
                     articlesToDisplay.map((article) => {
+                        const isNewsSaved = savedArticles.length !== 0 && savedArticles.some((item) => item.link === article.link);
+
                         return <NewsCard doesKeyWordNeedToBeShown={isSavedNewsOpen ? true : false}
                             actionButton={isSavedNewsOpen ?
                                             <DeleteButton onClick={handleUnsaveClick}/>
@@ -36,7 +43,7 @@ function NewsCardList({ articlesToDisplay, displayCards, isMoreButtonNeeded, sav
                                             <SaveButton isUserLoggedIn={isLoggedIn}
                                                         onSave={handleSaveClick}
                                                         onUnsave={handleUnsaveClick}
-                                                        isItSaved={savedArticles.length !== 0 && savedArticles.some((item) => item.link === article.link)}
+                                                        isItSaved={isNewsSaved}
                                 />
                             }
                             picture={article.image}

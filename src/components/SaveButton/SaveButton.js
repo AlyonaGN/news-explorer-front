@@ -16,6 +16,10 @@ function SaveButton({ isUserLoggedIn, onSave, onUnsave, isItSaved }) {
         setIsSaved(!isSaved);
     }, [onUnsave, isSaved]);
 
+    React.useEffect(() => {
+        setIsSaved(isItSaved);
+    }, [isItSaved]);
+
     return (
         <>
         {

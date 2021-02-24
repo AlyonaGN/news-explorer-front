@@ -14,8 +14,7 @@ function Navigation({ isUserLoggedIn,
                         onAuth, 
                         closeMenu, 
                         signOut, 
-                        userName, 
-                        onSavedNews }) {
+                        userName }) {
 
     const location = useLocation();
     const handleAuthClick = useCallback(() => {
@@ -25,8 +24,7 @@ function Navigation({ isUserLoggedIn,
 
       const handleGoToSavedNews = useCallback(() => {
         closeMenu();
-        onSavedNews();
-      }, [closeMenu, onSavedNews]);
+      }, [closeMenu]);
 
     return (
             <nav className={isMenuDisplayed ? "nav-list nav-list_vertical" : "nav-list"}>

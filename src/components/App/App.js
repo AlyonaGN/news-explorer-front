@@ -37,30 +37,41 @@ function App() {
 
   const history = useHistory();
 
-
-  const displayResults = useCallback((newsFromApi = articles, articlesForDisplaying = articlesToDisplay) => {
-    if (newsFromApi.length > CONSTS.MAX_CARDS_AMOUNT_IN_A_ROW) {
+  const showMoreResults = useCallback(() => {
+    if (articles.length > CONSTS.MAX_CARDS_AMOUNT_IN_A_ROW) {
       setShowMoreButtonNeeded(true);
-      const articlesToShow = newsFromApi.splice(0, CONSTS.MAX_CARDS_AMOUNT_IN_A_ROW);
-      setArticlesToDisplay([...articlesForDisplaying, ...articlesToShow]);
+      const articlesToShow = articles.splice(0, CONSTS.MAX_CARDS_AMOUNT_IN_A_ROW);
+      setArticlesToDisplay([...articlesToDisplay, ...articlesToShow]);
     }
-    else if (newsFromApi.length <= CONSTS.MAX_CARDS_AMOUNT_IN_A_ROW) {
+    else if (articles.length <= CONSTS.MAX_CARDS_AMOUNT_IN_A_ROW) {
       setShowMoreButtonNeeded(false);
-      setArticlesToDisplay([...articlesForDisplaying, ...newsFromApi]);
+      setArticlesToDisplay([...articlesToDisplay, ...articles]);
     }
   }, [articlesToDisplay, articles]);
 
-  const displaySavedNews = useCallback((savedNews = savedArticles, articlesForDisplaying = savedArticlesToDisplay) => {
-    if (savedNews.length > CONSTS.MAX_CARDS_AMOUNT_IN_A_ROW) {
+  const showMoreSavedNews = useCallback(() => {
+    if (savedArticles.length > CONSTS.MAX_CARDS_AMOUNT_IN_A_ROW) {
       setShowMoreButtonNeeded(true);
-      const articlesToShow = savedNews.splice(0, CONSTS.MAX_CARDS_AMOUNT_IN_A_ROW);
-      setSavedArticlesToDisplay([...articlesForDisplaying, ...articlesToShow]);
+      const articlesToShow = savedArticles.splice(0, CONSTS.MAX_CARDS_AMOUNT_IN_A_ROW);
+      setArticlesToDisplay([...savedArticlesToDisplay, ...articlesToShow]);
     }
-    else if (savedNews.length <= CONSTS.MAX_CARDS_AMOUNT_IN_A_ROW) {
+    else if (savedArticles.length <= CONSTS.MAX_CARDS_AMOUNT_IN_A_ROW) {
       setShowMoreButtonNeeded(false);
-      setSavedArticlesToDisplay([...articlesForDisplaying, ...savedNews]);
+      setArticlesToDisplay([...savedArticlesToDisplay, ...savedArticles]);
     }
-  }, [savedArticles, savedArticlesToDisplay]);
+  }, [savedArticlesToDisplay, savedArticles]);
+
+  const setInitialStateForResults = useCallback((articles) => {
+    if (articles.length > CONSTS.MAX_CARDS_AMOUNT_IN_A_ROW) {
+      setShowMoreButtonNeeded(true);
+      const articlesToShow = articles.splice(0, CONSTS.MAX_CARDS_AMOUNT_IN_A_ROW);
+      setArticlesToDisplay(articlesToShow);
+    }
+    else if (articles.length <= CONSTS.MAX_CARDS_AMOUNT_IN_A_ROW) {
+      setShowMoreButtonNeeded(false);
+      setArticlesToDisplay(articles);
+    }
+  }, []);
 
   const toggleMenu = useCallback(() => {
     setMenuOpen(!isMenuOpen);
@@ -81,26 +92,24 @@ function App() {
       if (receivedArticles.length !== 0) {
         localStorage.setItem('articles', JSON.stringify(receivedArticles));
         setArticles(receivedArticles);
-        displayResults(receivedArticles, []);
+        setInitialStateForResults(receivedArticles);
         setNewsLoading(false);
         setNotFoundOpen(false);
         setSearchError(false);
       }
       else {
-        displayResults([], []);
         setNewsLoading(false);
         setNotFoundOpen(true);
         setSearchError(false);
       }
     }
     catch(err) {
-      displayResults([], []);
       setNotFoundOpen(false);
       setNewsLoading(false);
       setSearchError(true);
       console.log(err);
     }
-  }, [displayResults]);
+  }, []);
 
   const closeAllPopups = useCallback(() => {
     setRegPopupOpen(false);
@@ -128,7 +137,6 @@ const prepareAppForLogin = useCallback((jwt) => {
           if (res) {
             setUser(res);
             const savedNews = await getSavedNews(jwt);
-            console.log(savedNews);
             setSavedArticles(savedNews);
             closeAllPopups();
           }
@@ -149,7 +157,6 @@ const prepareAppForLogin = useCallback((jwt) => {
         prepareAppForLogin(res.token);
         localStorage.removeItem('articles');
         setArticles([]);
-        displayResults([], []);
         setRegPopupOpen(false);
       }
     })
@@ -157,7 +164,7 @@ const prepareAppForLogin = useCallback((jwt) => {
       setAuthSubmissionError(err.message);
       console.log(err);
     })
-  }, [prepareAppForLogin, displayResults]);
+  }, [prepareAppForLogin]);
 
   const handleOpenAuth = useCallback(() => {
     setAuthSubmissionError(null);
@@ -196,15 +203,19 @@ const prepareAppForLogin = useCallback((jwt) => {
       saveNews(keyword, title, text, date, source, link, image);
   }, [articlesToDisplay, savedArticles]);
 
-  const handleUnsaveClick = useCallback(async(e) => {
+  const handleUnsaveClick = useCallback((e) => {
     const target = e.target;
     const articleUrl = target.closest("li").dataset.link;
     const articleToUnsave = savedArticles.find((article) => article.link === articleUrl);
-    unsaveNews(articleToUnsave._id);
-    const updatedSavedArticles = await getSavedNews();
-    setSavedArticles(updatedSavedArticles);
-    displaySavedNews(updatedSavedArticles, []);
-}, [savedArticles, displaySavedNews]);
+    unsaveNews(articleToUnsave._id)
+      .then(() => {
+        const updatedSavedNews = savedArticles.filter((news) => news._id !== articleToUnsave._id);
+        setSavedArticles(updatedSavedNews);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+}, [savedArticles]);
 
   const handleEscClose = useCallback(() => {
     window.addEventListener('keyup', (e) => {
@@ -217,17 +228,13 @@ const prepareAppForLogin = useCallback((jwt) => {
   const handleSignOut = useCallback(() => {
     localStorage.removeItem('articles');
     setArticles([]);
-    displayResults([], []);
     setSavedArticles([]);
-    displaySavedNews([], []);
+    setArticlesToDisplay([]);
+    setSavedArticlesToDisplay([]);
     removeToken();
     setIsLoggedIn(false);
     setMenuOpen(false);
-  }, [displayResults, displaySavedNews]);
-
-  const handleSavedNewsClick = useCallback(() => {
-    displaySavedNews();
-  }, [displaySavedNews]);
+  }, []);
 
   const checkToken = useCallback(() => {
     const jwt = getToken();
@@ -247,6 +254,7 @@ const prepareAppForLogin = useCallback((jwt) => {
     const articlesFromStorage = JSON.parse(localStorage.getItem('articles'));
     if (articlesFromStorage && articlesFromStorage.length > 0) {
       setArticles(articlesFromStorage);
+      setInitialStateForResults(articlesFromStorage);
     }
     handleEscClose();
 
@@ -271,7 +279,7 @@ const prepareAppForLogin = useCallback((jwt) => {
                       userName={isLoggedIn ? currentUser.name : ""}
                       amountofSavedNews={savedArticles.length}
                       newsToDisplay={savedArticlesToDisplay}
-                      displayNews={displaySavedNews} 
+                      displayNews={showMoreSavedNews} 
                       isMoreButtonNeedToBeSwown={isShowMoreButtonNeeded} 
                       savedNews={savedArticles}
                       onSave={handleSaveClick} 
@@ -288,16 +296,15 @@ const prepareAppForLogin = useCallback((jwt) => {
                           onAuthClick={handleOpenAuth}
                           closeMenuOnclick={closeMenu}
                           onSignOut={handleSignOut}
-                          name={isLoggedIn ? currentUser.name : ""}
-                          onSavedNewsClick={handleSavedNewsClick}    
+                          name={isLoggedIn ? currentUser.name : ""}    
                 />
               <SearchForm receiveResults={getNewsFromApi} />
           </div>
-          <Main searchResultsErr={isSearchError} 
+          <Main searchResultsErr={isSearchError}
                 isPreloaderShown={isNewsLoading}
                 isNotFoundShown={isNotFoundOpen}
                 newsToDisplay={articlesToDisplay}
-                displayNews={displayResults}
+                displayNews={showMoreResults}
                 isMoreButtonDisplayed={isShowMoreButtonNeeded}
                 savedNews={savedArticles}
                 isUserLoggedIn={isLoggedIn} 

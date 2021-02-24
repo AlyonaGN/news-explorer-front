@@ -9,8 +9,7 @@ function AppHeader({ onMenuClick,
                         onAuthClick, 
                         closeMenuOnclick, 
                         onSignOut, 
-                        name,
-                        onSavedNewsClick }) {
+                        name }) {
 
     return (
         <div className={isFontDark ? "app-header__container app-header__container_dark": "app-header__container"}>
@@ -23,8 +22,7 @@ function AppHeader({ onMenuClick,
                                     onAuth={onAuthClick} 
                                     closeMenu={closeMenuOnclick} 
                                     signOut={onSignOut} 
-                                    userName={name} 
-                                    onSavedNews={onSavedNewsClick}/>
+                                    userName={name}/>
                     </div>
                 { isMenuShown ? 
                     <button className="app-header__close-menu-button" onClick={onMenuClick}></button>

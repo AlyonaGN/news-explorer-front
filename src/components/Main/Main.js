@@ -8,7 +8,7 @@ import NewsCardList from '../NewsCardList/NewsCardList.js';
 
 function Main ({ searchResultsErr, 
                     isPreloaderShown, 
-                    isNotFoundShown, 
+                    isNotFoundShown,
                     newsToDisplay,
                     displayNews,
                     isMoreButtonDisplayed,
@@ -17,15 +17,17 @@ function Main ({ searchResultsErr,
                     onSave, 
                     onUnsave }) {
 
+    const [resultsToDisplay, setResultsToDisplay] = React.useState(newsToDisplay);
+
     React.useEffect(() => {
-        displayNews();
-    }, [savedNews]);
+        setResultsToDisplay(newsToDisplay);
+    }, [newsToDisplay, savedNews]);
 
     return (
         <main className="content-container">
-            <section className={newsToDisplay.length !== 0 ? "content-container__results" : "content-container__results content-container__results_invisible"}>
+            <section className={resultsToDisplay.length !== 0 ? "content-container__results" : "content-container__results content-container__results_invisible"}>
                 <h1 className="news-list__title">Результаты поиска</h1>
-                {newsToDisplay.length !== 0 && <NewsCardList articlesToDisplay={newsToDisplay}
+                {resultsToDisplay.length !== 0 && <NewsCardList articlesToDisplay={resultsToDisplay}
                     displayCards={displayNews}
                     isMoreButtonNeeded={isMoreButtonDisplayed}
                     savedArticles={savedNews}
