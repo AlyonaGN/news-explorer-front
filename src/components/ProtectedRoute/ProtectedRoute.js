@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React from 'react';
 import { Route, Redirect } from "react-router-dom";
 import { ROUTES_MAP } from '../../utils/routesMap';
 
@@ -8,7 +8,7 @@ const ProtectedRoute = ({ component: Component, ...props }) => {
         <Route>
             {
                 () => props.isUserLoggedIn ? 
-                    <Component {...props} /> : 
+                    <Component {...props}/> : 
                     <Redirect to={{pathname: ROUTES_MAP.MAIN, 
                             state: { noAuthRedirected: true }}} />
             }

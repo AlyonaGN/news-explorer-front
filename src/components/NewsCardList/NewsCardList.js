@@ -22,10 +22,6 @@ function NewsCardList({ articlesToDisplay, displayCards, isMoreButtonNeeded, sav
     const handleShowMoreClick = useCallback(() => {
         displayCards();
     }, [displayCards]);
-
-    React.useEffect(() => {
-        console.log('news card list re render');
-    });
     
     return (
         <>

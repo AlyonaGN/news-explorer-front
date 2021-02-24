@@ -50,14 +50,15 @@ function App() {
   }, [articlesToDisplay, articles]);
 
   const showMoreSavedNews = useCallback(() => {
-    if (savedArticles.length > CONSTS.MAX_CARDS_AMOUNT_IN_A_ROW) {
+    if (savedArticles.length - savedArticlesToDisplay.length > CONSTS.MAX_CARDS_AMOUNT_IN_A_ROW) {
       setShowMoreButtonNeeded(true);
-      const articlesToShow = savedArticles.splice(0, CONSTS.MAX_CARDS_AMOUNT_IN_A_ROW);
-      setArticlesToDisplay([...savedArticlesToDisplay, ...articlesToShow]);
+      const indexForBeginingOfTheSlice = savedArticlesToDisplay.length;
+      const articlesToShow = savedArticles.slice(indexForBeginingOfTheSlice, indexForBeginingOfTheSlice + CONSTS.MAX_CARDS_AMOUNT_IN_A_ROW);
+      setSavedArticlesToDisplay([...savedArticlesToDisplay, ...articlesToShow]);
     }
-    else if (savedArticles.length <= CONSTS.MAX_CARDS_AMOUNT_IN_A_ROW) {
+    else if (savedArticles.length - savedArticlesToDisplay.length <= CONSTS.MAX_CARDS_AMOUNT_IN_A_ROW) {
       setShowMoreButtonNeeded(false);
-      setArticlesToDisplay([...savedArticlesToDisplay, ...savedArticles]);
+      setSavedArticlesToDisplay([...savedArticlesToDisplay, ...savedArticles.slice(savedArticlesToDisplay.length)]);
     }
   }, [savedArticlesToDisplay, savedArticles]);
 
@@ -70,6 +71,18 @@ function App() {
     else if (articles.length <= CONSTS.MAX_CARDS_AMOUNT_IN_A_ROW) {
       setShowMoreButtonNeeded(false);
       setArticlesToDisplay(articles);
+    }
+  }, []);
+
+  const setInitialStateForSavedNews = useCallback((articles) => {
+    if (articles.length > CONSTS.MAX_CARDS_AMOUNT_IN_A_ROW) {
+      setShowMoreButtonNeeded(true);
+      const articlesToShow = articles.slice(0, CONSTS.MAX_CARDS_AMOUNT_IN_A_ROW);
+      setSavedArticlesToDisplay(articlesToShow);
+    }
+    else if (articles.length <= CONSTS.MAX_CARDS_AMOUNT_IN_A_ROW) {
+      setShowMoreButtonNeeded(false);
+      setSavedArticlesToDisplay(articles);
     }
   }, []);
 
@@ -101,6 +114,8 @@ function App() {
         setNewsLoading(false);
         setNotFoundOpen(true);
         setSearchError(false);
+        setArticles([]);
+        setArticlesToDisplay([]);
       }
     }
     catch(err) {
@@ -109,7 +124,7 @@ function App() {
       setSearchError(true);
       console.log(err);
     }
-  }, []);
+  }, [setInitialStateForResults]);
 
   const closeAllPopups = useCallback(() => {
     setRegPopupOpen(false);
@@ -138,6 +153,7 @@ const prepareAppForLogin = useCallback((jwt) => {
             setUser(res);
             const savedNews = await getSavedNews(jwt);
             setSavedArticles(savedNews);
+            setInitialStateForSavedNews(savedNews);
             closeAllPopups();
           }
         })
@@ -148,7 +164,7 @@ const prepareAppForLogin = useCallback((jwt) => {
           setAuthSubmissionError(err.message);
           console.log(err);
         });
-  }, [closeAllPopups]);
+  }, [closeAllPopups, setInitialStateForSavedNews]);
 
   const handleLoginSubmission = useCallback((email, password) => {
     login(email, password)
@@ -203,19 +219,22 @@ const prepareAppForLogin = useCallback((jwt) => {
       saveNews(keyword, title, text, date, source, link, image);
   }, [articlesToDisplay, savedArticles]);
 
-  const handleUnsaveClick = useCallback((e) => {
+  const handleUnsaveClick = useCallback(async(e) => {
     const target = e.target;
     const articleUrl = target.closest("li").dataset.link;
-    const articleToUnsave = savedArticles.find((article) => article.link === articleUrl);
+    const savedNews = await getSavedNews();
+    const articleToUnsave = savedNews.find((article) => article.link === articleUrl);
     unsaveNews(articleToUnsave._id)
       .then(() => {
         const updatedSavedNews = savedArticles.filter((news) => news._id !== articleToUnsave._id);
         setSavedArticles(updatedSavedNews);
+        const updatedDisplayedSavedNews = savedArticlesToDisplay.filter((news) => news._id !== articleToUnsave._id);
+        setSavedArticlesToDisplay(updatedDisplayedSavedNews);
       })
       .catch((error) => {
         console.log(error);
       });
-}, [savedArticles]);
+}, [savedArticles, savedArticlesToDisplay]);
 
   const handleEscClose = useCallback(() => {
     window.addEventListener('keyup', (e) => {

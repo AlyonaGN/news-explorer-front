@@ -13,11 +13,22 @@ function SavedNews({ isUserLoggedIn,
     userName,
     amountofSavedNews,
     newsToDisplay,
-    displayNews, 
+    displayNews,
     isMoreButtonNeedToBeSwown,
     savedNews,
     onSave,
-    onUnsave, }) {
+    onUnsave }) {
+
+    const [savedNewsToDisplay, setSavedNewsToDisplay] = React.useState(newsToDisplay);
+    const keyWords = {};
+    savedNews.forEach((news) => {
+        keyWords[news.keyword] ? ++keyWords[news.keyword] : keyWords[news.keyword] = 1;
+    })
+
+    React.useEffect(() => {
+        setSavedNewsToDisplay(newsToDisplay);
+        console.log(keyWords);
+    }, [newsToDisplay, savedNews, keyWords]);
 
     return (
         <>
@@ -33,10 +44,11 @@ function SavedNews({ isUserLoggedIn,
                     onSavedNewsClick={onSave} 
         />
         <SavedNewsHeader name={userName}
-                          amountofSavedNews={amountofSavedNews}/>
+                          amountOfArticles={amountofSavedNews}
+                          keyWordsAndRepetitions={keyWords}/>
         </div>
         <div className="saved-news">
-            <NewsCardList articlesToDisplay={newsToDisplay}
+            <NewsCardList articlesToDisplay={savedNewsToDisplay}
                             displayCards={displayNews} 
                             isMoreButtonNeeded={isMoreButtonNeedToBeSwown} 
                             savedArticles={[]} 
