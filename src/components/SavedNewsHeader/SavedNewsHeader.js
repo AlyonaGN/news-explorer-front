@@ -13,9 +13,12 @@ function SavedNewsHeader({ name, amountOfArticles, keyWordsAndRepetitions }) {
         case 2:
             keyWordsToDisplay = `${keyWords[0]} и ${keyWords[1]}`;
             break;
+        case 3:
+            keyWordsToDisplay = `${keyWords[0]}, ${keyWords[1]} и ${keyWords[2]}`;
+            break;
         default:
-            const sortedKeys = Object.keys(keyWordsAndRepetitions).sort((a,b) => keyWordsToDisplay[a] - keyWordsToDisplay[b]);
-            console.log(sortedKeys);
+            const sortedKeys = Object.keys(keyWordsAndRepetitions).sort((a,b) => keyWordsAndRepetitions[b] - keyWordsAndRepetitions[a]);
+            keyWordsToDisplay = `${sortedKeys[0]}, ${sortedKeys[1]} и ${sortedKeys.length - 2} другим`;
     }
 
     switch (amountOfArticles) {
