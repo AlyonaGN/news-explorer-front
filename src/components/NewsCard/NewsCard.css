@@ -47,100 +47,7 @@
     position: relative;
     filter: drop-shadow(0px 2px 2px rgba(8, 29, 45, 0.1));
     cursor: pointer;
-}
-
-.news-card__save-button {
-    position: absolute;
-    top: 24px;
-    right: 24px;
-    width: 40px;
-    height: 40px;
-    background-image: url(../../images/save-inactive.png);
-    border: none;
-    border-radius: 10px;
-    padding: 0;
-    box-shadow: none;
-    cursor: pointer;
-}
-
-.news-card__save-button:hover {
-    background-image: url(../../images/save-active.png);
-}
-
-.news-card__save-button_blue {
-    background-image: url(../../images/save-blue.png);
-}
-
-.news-card__save-button_blue:hover {
-    background-image: url(../../images/save-blue.png);
-}
-
-.news-card__save-button:after {
-    content: "Войдите, чтобы сохранять статьи";
-    background-color: #FFF;
-    position: absolute;
-    width: 182px;
-    top: 0;
-    right: 45px;
-    border-radius: 10px;
-    color: #000;
-    font-family: 'Roboto', sans-serif;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 10px;
-    line-height: 1.172;
-    padding-bottom: 13px;
-    padding-top: 15px;
-    visibility: hidden;
-}
-
-.news-card__save-button_loggedin:after {
-    content: none;
-}
-
-.news-card__save-button:hover:after {
-    visibility: visible;
-}
-
-.news-card__delete-button {
-    position: absolute;
-    top: 24px;
-    right: 24px;
-    width: 40px;
-    height: 40px;
-    background-image: url(../../images/bin.png);
-    border: none;
-    border-radius: 10px;
-    padding: 0;
-    box-shadow: none;
-    cursor: pointer;
-}
-
-.news-card__delete-button:hover {
-    background-image: url(../../images/bin-dark.png);
-}
-
-.news-card__delete-button:after {
-    content: "Убрать из сохранённых";
-    background-color: #FFF;
-    position: absolute;
-    width: 182px;
-    top: 0;
-    right: 45px;
-    border-radius: 10px;
-    color: #000;
-    font-family: 'Roboto', sans-serif;
-    font-style: normal;
-    font-weight: 500;
-    font-size: 12px;
-    line-height: 1.16;
-    padding-bottom: 13px;
-    padding-top: 15px;
-    visibility: hidden;
-}
-
-.news-card__delete-button:hover:after {
-    visibility: visible;
+    max-height: 576px;
 }
 
 .news-card__key-word {
@@ -197,6 +104,8 @@
     font-size: 26px;
     line-height: 1.153;
     color: #1A1B22;
+    overflow: hidden;
+    max-height: 3.459em;
 }
 
 .news-card__abstract {
@@ -208,6 +117,8 @@
     font-size: 16px;
     line-height: 1.375;
     color: #1A1B22;
+    overflow: hidden;
+    max-height: 4.125em;
 }
 
 .news-card__source {
@@ -239,25 +150,16 @@
         margin-bottom: 10px;
         font-size: 22px;
         line-height: 1.09;
+        max-height: 3.27em;
     }
 
     .news-card__abstract {
         margin-bottom: 12px;
         height: 88px;
-        overflow: hidden;
     }
 
     .news-card__save-button:after {
         width: 165px;
-    }
-
-    .news-card__delete-button {
-        top: 8px;
-        right: 8px;
-    }
-
-    .news-card__delete-button:after {
-        display: none;
     }
 
     .news-card__key-word {
@@ -268,6 +170,11 @@
 }
 
 @media screen and (max-width: 500px) {
+    .news-card {
+        max-height: 440px;
+        min-height: 440px;
+    }
+
     .news-card__save-button {
         top: 16px;
         right: 16px;
@@ -288,11 +195,6 @@
 
     .news-card__abstract {
         margin-bottom: 8px;
-    }
-
-    .news-card__delete-button {
-        top: 16px;
-        right: 16px;
     }
 
     .news-card__key-word {

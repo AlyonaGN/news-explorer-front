@@ -1,0 +1,52 @@
+.news-card__save-button {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    width: 40px;
+    height: 40px;
+    background-image: url(../../images/save-inactive.png);
+    border: none;
+    border-radius: 10px;
+    padding: 0;
+    box-shadow: none;
+    cursor: pointer;
+}
+
+.news-card__save-button:hover {
+    background-image: url(../../images/save-active.png);
+}
+
+.news-card__save-button_blue {
+    background-image: url(../../images/save-blue.png);
+}
+
+.news-card__save-button_blue:hover {
+    background-image: url(../../images/save-blue.png);
+}
+
+.news-card__save-button:after {
+    content: "Войдите, чтобы сохранять статьи";
+    background-color: #FFF;
+    position: absolute;
+    width: 182px;
+    top: 0;
+    right: 45px;
+    border-radius: 10px;
+    color: #000;
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 10px;
+    line-height: 1.172;
+    padding-bottom: 13px;
+    padding-top: 15px;
+    visibility: hidden;
+}
+
+.news-card__save-button_loggedin:after {
+    content: none;
+}
+
+.news-card__save-button:hover:after {
+    visibility: visible;
+}

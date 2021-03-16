@@ -22,6 +22,14 @@
     src: url('../../fonts/roboto-medium.woff') format('woff');
 }
 
+@font-face {
+    font-family: 'Inter';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('../../fonts/inter-regular.woff') format('woff');
+}
+
 .search-form {
     padding-top: 80px;
     width: 42.222%;
@@ -70,6 +78,20 @@
     line-height: 1.375;
     color: #1A1B22;
     box-sizing: border-box;
+}
+
+.search-form__input-error {
+    font-family: 'Inter', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 1.25;
+    width: 100%;
+    color: #FFF;
+    margin-top: 5px;
+    padding-left: 15px;
+    margin-bottom: 13px;
+    display: block;
 }
 
 .search-form__submit-button {
