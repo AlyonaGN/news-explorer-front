@@ -1,7 +1,7 @@
 import { ROUTES_MAP } from "./routesMap";
 import { getToken, setToken } from "./token";
 
-export const BASE_URL = 'http://api.news.explorer.by.alyona.students.nomoredomains.icu';
+export const BASE_URL = 'https://api.news.explorer.by.alyona.students.nomoredomains.icu';
 
 export const register = (name, email, password) => {
     return fetch(`${BASE_URL}${ROUTES_MAP.SIGNUP}`, {
