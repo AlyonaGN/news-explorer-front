@@ -1,0 +1,102 @@
+@font-face {
+    font-family: 'Roboto Slab';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('../../fonts/robotoslab-regular.woff') format('woff');
+}
+
+@font-face {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+    src: url('../../fonts/roboto-medium.woff') format('woff');
+}
+.news-list {
+    display: grid;
+    list-style-type: none;
+    grid-gap: 16px 16px;
+    grid-template-columns: repeat(auto-fit, 400px);
+    justify-content: center;
+    margin: 0 auto;
+    padding: 0;
+    width: 98%;
+    max-width: 1235px;
+}
+
+.news-list__title {
+    margin-top: 0;
+    margin-bottom: 64px;
+    font-family: 'Roboto Slab', sans-serif;
+    font-style: normal;
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 1.15;
+    color: #1A1B22;
+    padding-left: 7.1%;
+}
+
+.news-list__more-button {
+    margin-top: 64px;
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 1.33;
+    color: #1A1B22;
+    background-color: #FFF;
+    border: none;
+    border-radius: 80px;
+    box-sizing: border-box;
+    padding: 18.14px 84px 21.86px;
+    box-shadow: none;
+    cursor: pointer;
+    width: 288px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.news-list__more-button:hover {
+    opacity: 0.9;
+}
+
+@media screen and (max-width: 970px) {
+    .news-list {
+        grid-gap: 8px 8px;
+        grid-template-columns: repeat(auto-fit, 224px);
+        width: 91.5%;
+    }
+
+    .news-list__title {
+        margin-bottom: 32px;
+        font-size: 30px;
+        line-height: 1.133;
+        padding-left: 5.2%;
+    }
+
+    .news-list__more-button {
+        margin-top: 22px;
+        padding: 15px 60px 17px;
+        width: 240px;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .news-list {
+        grid-gap: 10px 10px;
+        grid-template-columns: repeat(auto-fit, 288px);
+        width: 90%;
+    }
+
+    .news-list__title {
+        margin-bottom: 24px;
+        padding-left: 5%;
+    }
+
+    .news-list__more-button {
+        margin-top: 16px;
+        padding: 15px 84px 17px;
+        width: 288px;
+    }
+}

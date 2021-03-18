@@ -1,0 +1,58 @@
+.news-card__delete-button {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    width: 40px;
+    height: 40px;
+    background-image: url(../../images/bin.png);
+    border: none;
+    border-radius: 10px;
+    padding: 0;
+    box-shadow: none;
+    cursor: pointer;
+}
+
+.news-card__delete-button:hover {
+    background-image: url(../../images/bin-dark.png);
+}
+
+.news-card__delete-button:after {
+    content: "Убрать из сохранённых";
+    background-color: #FFF;
+    position: absolute;
+    width: 182px;
+    top: 0;
+    right: 45px;
+    border-radius: 10px;
+    color: #000;
+    font-family: 'Roboto', sans-serif;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 1.16;
+    padding-bottom: 13px;
+    padding-top: 15px;
+    visibility: hidden;
+}
+
+.news-card__delete-button:hover:after {
+    visibility: visible;
+}
+
+@media screen and (max-width: 970px) {
+    .news-card__delete-button {
+        top: 8px;
+        right: 8px;
+    }
+
+    .news-card__delete-button:after {
+        display: none;
+    }
+}
+
+@media screen and (max-width: 500px) {
+    .news-card__delete-button {
+        top: 16px;
+        right: 16px;
+    }
+}
