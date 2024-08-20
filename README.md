@@ -1,28 +1,34 @@
-# News-Explorer - Этап 2
-## Сайт для поиска новостей
+## News-Explorer - Frontend
 
-"News-Explorer" - приложение, позволяющее пользователям искать новости по ключевым словам, используя строку поиска, в то время как поиск осуществляется сразу по нескольким СМИ с помощью [newsapi](https://newsapi.org/).
+A website for searching news  
+"News-Explorer" is an application that allows users to search for news by keywords using a search bar, while the search is performed across multiple media outlets simultaneously through newsapi.
 
-[Здесь](http://news.explorer.by.alyona.students.nomoredomains.icu/) можно посмотреть готовое приложение.
+### Technologies Used
 
-**В проекте используется, среди прочего:** 
+The project includes, among other things:
 
-1. JS;
-2. React;
-3. асинхронные запросы;
-4. ООП;
-5. валидация на React;
-6. запросы к внешнему api;
-7. адаптивная вёрстка.
+- **JavaScript**
+- **React**
+- Asynchronous requests
+- **OOP** (Object-Oriented Programming)
+- Validation in React
+- Requests to external APIs
+- Responsive design
 
+### Implemented Functionality
 
-**Реализован следующий функционал:**
+- User authentication
+- Dropdown menu
+- Pop-up registration and login forms
 
-1. авторизация пользователей;
-2. выпадающее меню;
-3. всплывающие попапы регистрации и логина.
- 
-Приложение разбито на модули.
-В проекте соблюдены правила БЭМ, в том числе, применительно к структуре хранения файлов.
-Настроена сборка с помощью webpack.
+The application is modularized. The project adheres to BEM (Block Element Modifier) principles, including file structure organization. Webpack is configured for project bundling.
+
+### Project Setup
+
+To run the project locally, you need to:
+1. Download the repository.
+2. Navigate to the root folder of the repository using the terminal.
+3. Install the necessary modules with the command `npm install`.
+4. Start the project with the command `npm start`.
+5. Tests can be run using the command `npm test`.
 
